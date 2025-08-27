@@ -11,11 +11,11 @@ To get the stream working, make sure both the RPi and Laptop are on the same net
 
 When running this script a window would appear with the live camera feed. If no window appear then the gstream is not connecting. 
 Common causes: 
-    - The PORT inside gs_reciever.py is not allowed through the     firewall on the laptop. There is a command line you can copy and paste into Windows Powershell, just ask chat.
+- The PORT inside gs_reciever.py is not allowed through the     firewall on the laptop. There is a command line you can copy and paste into Windows Powershell, just ask chat.
 
-    - The LAPTOP_IP and PORT inside gs_stream.py on the RPi does not match the laptops IP and PORT. To check your laptop IP type in 'ipconfig' into cmd and look for 'Wireless LAN adapter Local Area Connection* 2: IPv4 Address : 192.168.137.1'
+- The LAPTOP_IP and PORT inside gs_stream.py on the RPi does not match the laptops IP and PORT. To check your laptop IP type in 'ipconfig' into cmd and look for 'Wireless LAN adapter Local Area Connection* 2: IPv4 Address : 192.168.137.1'
 
-    - The RPi and Laptop are not in the same local network (not using mobile hotspot).
+- The RPi and Laptop are not in the same local network (not using mobile hotspot).
 
 How the video is displayed: 
 d3d11videosink is GStreamer’s Direct3D 11 video sink on Windows. When the pipeline goes to PLAYING, this element creates a native Win32 window and renders frames to it via Direct3D. If you removed d3d11videosink (e.g., replaced it with fakesink or appsink), no window would appear.
@@ -38,9 +38,9 @@ First to get the communications working, make sure both the RPi and Laptop are o
 
 If not then these are common causes of the error:
 
-    - Make sure both the udp_comms_server.py and udp_comms.py both have matching information. Making sure PEER_IP is of the other device and PEER_PORT is set to the other's LOCAL_PORT. This should already be done. 
+- Make sure both the udp_comms_server.py and udp_comms.py both have matching information. Making sure PEER_IP is of the other device and PEER_PORT is set to the other's LOCAL_PORT. This should already be done. 
 
-    - The LOCAL_PORT inside udp_comms_server.py is not allowed through the firewall on the laptop. There is a command line you can copy and paste into Windows Powershell, just ask chat.
+- The LOCAL_PORT inside udp_comms_server.py is not allowed through the firewall on the laptop. There is a command line you can copy and paste into Windows Powershell, just ask chat.
 
 This is the main function that needs to be edited:
 ```py 
@@ -63,3 +63,7 @@ This is how its sent:
 ```py 
 sock.sendto(msg.encode("utf-8"), (PEER_IP, PEER_PORT))
 ``` 
+
+The receive_loop inside udp_comms.py on the RPi needs to be edited to convert the message to motor commands.
+
+# For controlls all we need to run are the two udp_comms.py files on the RPi and Laptop, no stream needed.
