@@ -74,8 +74,9 @@ The receive_loop inside udp_comms.py on the RPi needs to be edited to convert th
 
 Steps to use the GUI: 
 1. Both RPi and Laptop connected to Laptops Mobile Hotspot
-2. RPi needs to be running the gs_stream.py 
-3. Laptop needs to be running the gs_relay_stream.py 
-4. Run the gui.py script in a seperate terminal 
+2. RPi needs to be running the gs_stream.py
+3. Check webrtcsink-webui/index.html path and check WEB_DIR variable inside gs_relay_stream.py.
+4. Laptop needs to be running the gs_relay_stream.py 
+5. Run the gui.py script in a seperate terminal 
 
 For now try pressing w a s d and it should print in the terminal where gui.py is ran. This is just to confirm that the video and commands can be done simultaneously.  
