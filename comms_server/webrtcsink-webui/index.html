@@ -1,0 +1,128 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Pi-Cam Viewer</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <style>
+    body { margin:0; background:#111; color:#eee; font-family:sans-serif; }
+    video { width:100%; height:100vh; background:#000; object-fit:contain; }
+    #status { position:fixed; top:6px; left:8px; background:#222; padding:6px 10px; border-radius:6px }
+    #log { position:fixed; right:0; top:0; width:48vw; max-width:560px; height:56vh; overflow:auto; background:#000c; font:12px ui-monospace,monospace; padding:8px }
+    #log pre{margin:0; white-space:pre-wrap; word-break:break-word;}
+  </style>
+</head>
+<body>
+<video id="video" autoplay playsinline muted></video>
+<div id="status">Connecting…</div>
+<div id="log"><pre id="pre"></pre></div>
+<script>
+const STREAM = "pi-cam";
+const WS_URL = "ws://" + location.hostname + ":8443"; // use ws://127.0.0.1:8443 if testing on same laptop
+
+const statusEl = document.getElementById("status");
+const videoEl  = document.getElementById("video");
+const pre      = document.getElementById("pre");
+
+let ws, pc, myId = null, producerId = null, started = false, pollIv = null, sessionId = null;
+
+function ui(s){ statusEl.textContent = s; console.log(s); }
+function dbg(o){ try{ pre.textContent += (typeof o==="string"?o:JSON.stringify(o))+"\n"; pre.scrollTop = pre.scrollHeight; }catch{} }
+function send(o){ if (ws && ws.readyState === 1) ws.send(JSON.stringify(o)); }
+
+function startVariants(){
+  if (started || !producerId) return;
+  started = true;
+  if (pollIv) { clearInterval(pollIv); pollIv = null; }
+  ui("Starting session with " + producerId + " …");
+  // these variants are accepted by different rswebrtc builds:
+  send({ type:"startSession", peerId: producerId });
+  send({ type:"startSession", peer:  producerId });
+  send({ type:"startSession", otherPeerId: producerId });
+  send({ type:"startSession", meta:{ name: STREAM } }); // name-only fallback
+}
+
+function init(){
+  ui("WS connecting…");
+  ws = new WebSocket(WS_URL);
+
+  ws.onopen = () => {
+    ui("WS open → newPeer …");
+    send({ type:"newPeer" });
+
+    pc = new RTCPeerConnection({ sdpSemantics:"unified-plan" });
+    pc.addTransceiver("video", { direction:"recvonly" });
+    pc.ontrack = e => { videoEl.srcObject = e.streams[0]; };
+
+    pc.onicecandidate = e => {
+      // IMPORTANT: wrap ICE in {type:"peer", sessionId, ice:{...}}
+      if (!sessionId) return;
+      if (e.candidate) {
+        send({ type:"peer", sessionId, ice: e.candidate });
+      } else {
+        // end-of-candidates
+        send({ type:"peer", sessionId, ice: { candidate:"", sdpMLineIndex:0 } });
+      }
+    };
+
+    pc.oniceconnectionstatechange = () => ui("ICE: " + pc.iceConnectionState);
+  };
+
+  ws.onmessage = async ev => {
+    let msg; try { msg = JSON.parse(ev.data); } catch { return; }
+    dbg(msg);
+
+    // we get our own id
+    if (msg.type === "welcome" && msg.peerId) {
+      myId = msg.peerId;
+      ui("Registered consumer: " + myId);
+      send({ type:"setPeerStatus", roles:["consumer"], meta:{ name: STREAM } });
+      pollIv = setInterval(() => { if (!started) send({ type:"list" }); }, 500);
+      return;
+    }
+
+    // session created
+    if (msg.type === "sessionStarted" && msg.sessionId) {
+      sessionId = msg.sessionId; // remember for answer/ICE
+      dbg("sessionId=" + sessionId);
+      return;
+    }
+
+    // discover producer
+    if (msg.type === "list" && Array.isArray(msg.producers)) {
+      const p = msg.producers.find(x => x?.meta?.name === STREAM) || msg.producers[0];
+      if (p && p.id && !producerId) { producerId = p.id; dbg("producerId="+producerId); startVariants(); }
+      return;
+    }
+
+    // SDP offer & ICE from server arrive wrapped in {type:"peer", sessionId, ...}
+    if (msg.type === "peer" && msg.sessionId) {
+      if (!sessionId) sessionId = msg.sessionId;
+
+      if (msg.sdp && msg.sdp.type === "offer" && msg.sdp.sdp) {
+        ui("Offer received; answering …");
+        await pc.setRemoteDescription({ type:"offer", sdp: msg.sdp.sdp });
+        const ans = await pc.createAnswer();
+        await pc.setLocalDescription(ans);
+
+        // CRITICAL: answer must be wrapped the same way:
+        send({ type:"peer", sessionId, sdp: { type:"answer", sdp: ans.sdp } });
+        ui("Answer sent.");
+        return;
+      }
+
+      if (msg.ice) {
+        try { await pc.addIceCandidate(msg.ice); } catch(e){ console.warn("addIceCandidate failed", e); }
+        return;
+      }
+    }
+  };
+
+  ws.onerror = () => ui("WS error");
+  ws.onclose = () => ui("WS closed");
+}
+
+window.onload = init;
+</script>
+</body>
+</html>
