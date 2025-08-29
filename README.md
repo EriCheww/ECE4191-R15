@@ -67,3 +67,15 @@ sock.sendto(msg.encode("utf-8"), (PEER_IP, PEER_PORT))
 The receive_loop inside udp_comms.py on the RPi needs to be edited to convert the message to motor commands.
 
 # For controlls all we need to run are the two udp_comms.py files on the RPi and Laptop, no stream needed.
+
+---
+
+# GUI
+
+Steps to use the GUI: 
+1. Both RPi and Laptop connected to Laptops Mobile Hotspot
+2. RPi needs to be running the gs_stream.py 
+3. Laptop needs to be running the gs_relay_stream.py 
+4. Run the gui.py script in a seperate terminal 
+
+For now try pressing w a s d and it should print in the terminal where gui.py is ran. This is just to confirm that the video and commands can be done simultaneously.  
