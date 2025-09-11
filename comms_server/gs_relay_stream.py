@@ -15,16 +15,20 @@ STREAM_NAME = "pi-cam"
 
 # === Paths ===
 GST = shutil.which("gst-launch-1.0") or r"C:\Program Files\gstreamer\1.0\msvc_x86_64\bin\gst-launch-1.0.exe"
-WEB_DIR = "C:\\ECE4191\\gstreamer\\webrtcsink-webui"
+WEB_DIR = "C:\\ECE4191\\main_version\\webrtcsink-webui"
 # WEB_DIR = os.path.join(os.getcwd(), "webrtcsink-webui")
 os.makedirs(WEB_DIR, exist_ok=True)
 INDEX = os.path.join(WEB_DIR, "index.html")
 
 # Simple HTTP server
-import socket
 class Handler(http.server.SimpleHTTPRequestHandler):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, directory=WEB_DIR, **kwargs)
+    def end_headers(self):
+        self.send_header("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0")
+        self.send_header("Pragma", "no-cache")
+        self.send_header("Expires", "0")
+        super().end_headers()
 
 def start_http_server():
     with socketserver.TCPServer(("0.0.0.0", WEB_PORT), Handler) as httpd:
