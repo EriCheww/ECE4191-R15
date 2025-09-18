@@ -9,6 +9,7 @@ from tkwebview import TkWebview
 from gui_utils.screenshot import take_screenshot
 from gui_utils.console_window import init as console_init, open_console, add_to_console, clear_console, is_console_open
 from gui_utils.settings_window import init as settings_init, open_settings, open_settings_page, is_settings_open, close_settings
+from gui_utils.advanced_screenshot import advanced_screenshot_from_widget
 import gui_utils.app_settings as cfg     
 
 ##########################################################
@@ -63,7 +64,23 @@ def on_take_screenshot():
         add_to_console(f"Screenshot saved: {result}")
     else:
         add_to_console(f"Failed: {result}")
-    
+
+def on_take_advanced_screenshot():
+    """Capture the web area and open the annotation window."""
+    try:
+        # Option A: let the helper read save_dir & prefix from your settings
+        target_widget = web_frame  # or `web` if TkWebview is a real Tk widget
+        ok, info = advanced_screenshot_from_widget(target_widget)
+
+        # Option B (explicit): choose dir/prefix yourself
+        # save_dir = cfg.settings.get("ss_save_directory") or fd.askdirectory(title="Pick save folder")
+        # prefix   = cfg.settings.get("ss_user_prefix") or "user"
+        # ok, info = take_advanced_screenshot(target_widget, save_dir, prefix)
+
+        add_to_console(f"Annotation {'saved:' if ok else 'canceled:'} {info}")
+    except Exception as e:
+        add_to_console(f"Annotation failed: {e!r}")
+
 def sanitize_prefix(s: str) -> str:
     # Remove illegal filename chars and trim spaces
     return re.sub(r'[<>:"/\\|?*\x00-\x1F]+', "_", s).strip()
@@ -143,6 +160,9 @@ status_frame.grid(row=2, column=0, sticky="nsew", padx=(10,10), pady=(10,10))
 
 screenshot_button = ctk.CTkButton(status_frame, text="Take Screenshot", command=on_take_screenshot)
 screenshot_button.grid(row=0, column=0, sticky="nsew", padx=(10,0), pady=(0,10))
+
+advanced_screenshot_button = ctk.CTkButton(status_frame, text="Take Advanced Screenshot", command=on_take_advanced_screenshot)
+advanced_screenshot_button.grid(row=1, column=0, sticky="nsew", padx=(10,0), pady=(0,10))
 
 root.after(50, lambda: (add_to_console("Navigating…"), safe_navigate()))
 
