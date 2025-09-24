@@ -27,8 +27,8 @@ console_text = None
 # ------------------- SETTINGS ---------------------------
 ##########################################################
 
-# HOME_URL = "http://192.168.137.1:8080/"
-HOME_URL = "https://www.youtube.com/watch?v=dQw4w9WgXcQ/"
+HOME_URL = "http://192.168.137.1:8080/"
+# HOME_URL = "https://www.youtube.com/watch?v=dQw4w9WgXcQ/"
 
 SS_SAVE_DIRECTORY = "C:\\ECE4191\\test_photos"
 SS_USER_PREFIX = 'test'
