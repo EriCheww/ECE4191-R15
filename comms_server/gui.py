@@ -32,12 +32,12 @@ _view_WH   = (1, 1)
 # ------------------- SETTINGS ---------------------------
 ##########################################################
 
-# HOME_URL = "http://192.168.137.1:8080/"
-HOME_URL = "https://www.youtube.com/watch?v=dQw4w9WgXcQ/"
+HOME_URL = "http://192.168.137.1:8080/"
+# HOME_URL = "https://www.youtube.com/watch?v=dQw4w9WgXcQ/"
 
 SS_SAVE_DIRECTORY = "C:\\ECE4191\\test_photos"
 SS_USER_PREFIX = 'test'
-YOLO_MODEL_PATH = "C:\\Users\\Eric\\Desktop\\ECE4191\\ECE4191-R15\\comms_server\\yolo\\best.pt"
+YOLO_MODEL_PATH = r"C:\Users\ericl\OneDrive\Documents\GitHub\ECE4191-R15\comms_server\yolo\best.pt"
 
 MAX_LOG_LINES = 2000  # keep last N lines; adjust as you like
 LOG_BUFFER = deque(maxlen=MAX_LOG_LINES)
@@ -163,6 +163,7 @@ def _sync_overlay_to_web():
         overlay_win.geometry(f"{W}x{H}+{L}+{T}")  # geometry expects LOGICAL units
         _last_geo = geo
         _view_WH = (W, H)                         # <-- cache for drawing
+    overlay_win.lift(root)
     root.after(66, _sync_overlay_to_web)
 
 def enable_overlay_clickthrough():
@@ -183,7 +184,6 @@ def enable_overlay_clickthrough():
         add_to_console("Click Through Enabled")
     except Exception:
         add_to_console(f"Click Through Failed: {Exception}")
-
 
 def target_bbox_px():
     """Screen coords (left, top, right, bottom) of the *exact* widget we target."""
@@ -245,7 +245,6 @@ try:
     add_to_console(f"Console init OK")
 except Exception as e:
     add_to_console(f"Console init FAILED: {e!r}")
-    # You can return or continue depending on your tolerance.
 
 # Settings init
 try:
@@ -253,7 +252,6 @@ try:
     add_to_console("Settings init OK")
 except Exception as e:
     add_to_console(f"Settings init FAILED: {e!r}")
-    
 
 top_bar_frame = ctk.CTkFrame(root, fg_color="transparent")
 top_bar_frame.grid(row=0, column=0, sticky="nsew", padx=(10,10), pady=(10,0))
@@ -280,55 +278,11 @@ try:
 except Exception as e:
     add_to_console(f"WebView init failed: {e}")
 
-
-
-
-# ### TESTING:
-# from PIL import Image, ImageTk
-# TEST_IMG_PATH = r"C:\Users\Eric\Desktop\ECE4191\ECE4191-R15\comms_server\yolo\test.jpg"
-# _original_img = Image.open(TEST_IMG_PATH).convert("RGB")
-# image_label = ctk.CTkLabel(web_frame)
-# image_label.place(relx=0, rely=0, relwidth=1, relheight=1)
-# _image_ref = {"tk": None}
-
-# def _resize_and_show_image(event=None):
-#     """Scale the test image to the current web_frame size (letterbox, keep aspect)."""
-#     w = max(1, web_frame.winfo_width())
-#     h = max(1, web_frame.winfo_height())
-#     if w < 2 or h < 2:
-#         return
-
-#     # Fit image to frame while preserving aspect
-#     img_w, img_h = _original_img.size
-#     scale = min(w / img_w, h / img_h)
-#     new_w = max(1, int(img_w * scale))
-#     new_h = max(1, int(img_h * scale))
-#     img = _original_img.resize((new_w, new_h), Image.Resampling.LANCZOS)
-
-#     # Paste into a blank canvas so the label area is fully covered
-#     canvas_img = Image.new("RGB", (w, h), (0, 0, 0))
-#     x0 = (w - new_w) // 2
-#     y0 = (h - new_h) // 2
-#     canvas_img.paste(img, (x0, y0))
-
-#     _image_ref["tk"] = ImageTk.PhotoImage(canvas_img)
-#     image_label.configure(image=_image_ref["tk"])
-
-# web_frame.bind("<Configure>", _resize_and_show_image)
-# root.after(100, _resize_and_show_image)
-# web = image_label 
-
-
-
-
-
-
-
-
-
 overlay_win = ctk.CTkToplevel(root)
 overlay_win.overrideredirect(True)      # no title bar
-overlay_win.attributes("-topmost", True)
+overlay_win.wm_attributes("-toolwindow", True)
+overlay_win.transient(root)              
+overlay_win.attributes("-topmost", False) 
 overlay_win.configure(bg=TRANSPARENT)
 # Windows color-key transparency:
 overlay_win.wm_attributes("-transparentcolor", TRANSPARENT)
