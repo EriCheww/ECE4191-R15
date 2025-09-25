@@ -5,33 +5,39 @@ import time
 import re
 from collections import deque
 from tkwebview import TkWebview
+from PIL import ImageGrab
 
 from gui_utils.screenshot import take_screenshot
 from gui_utils.console_window import init as console_init, open_console, add_to_console, clear_console, is_console_open
 from gui_utils.settings_window import init as settings_init, open_settings, open_settings_page, is_settings_open, close_settings
 from gui_utils.advanced_screenshot import advanced_screenshot_from_widget
+from gui_utils.yolo_frame_detector import YOLOFrameDetector, RateLimiter
 import gui_utils.app_settings as cfg     
 
 ##########################################################
 # ---------------------- STYLE ---------------------------
 ##########################################################
 HEADER_FONT = ("Arial", 14)
+TRANSPARENT = "magenta"  
 
 ##########################################################
 # ---------------- Global Variables ----------------------
 ##########################################################
 console_win = None
 console_text = None
-
+yolo_toggle = False
+_last_geo = None
+_view_WH   = (1, 1)  
 ##########################################################
 # ------------------- SETTINGS ---------------------------
 ##########################################################
 
-HOME_URL = "http://192.168.137.1:8080/"
-# HOME_URL = "https://www.youtube.com/watch?v=dQw4w9WgXcQ/"
+# HOME_URL = "http://192.168.137.1:8080/"
+HOME_URL = "https://www.youtube.com/watch?v=dQw4w9WgXcQ/"
 
 SS_SAVE_DIRECTORY = "C:\\ECE4191\\test_photos"
 SS_USER_PREFIX = 'test'
+YOLO_MODEL_PATH = "C:\\Users\\Eric\\Desktop\\ECE4191\\ECE4191-R15\\comms_server\\yolo\\best.pt"
 
 MAX_LOG_LINES = 2000  # keep last N lines; adjust as you like
 LOG_BUFFER = deque(maxlen=MAX_LOG_LINES)
@@ -68,14 +74,8 @@ def on_take_screenshot():
 def on_take_advanced_screenshot():
     """Capture the web area and open the annotation window."""
     try:
-        # Option A: let the helper read save_dir & prefix from your settings
-        target_widget = web_frame  # or `web` if TkWebview is a real Tk widget
+        target_widget = web_frame  
         ok, info = advanced_screenshot_from_widget(target_widget)
-
-        # Option B (explicit): choose dir/prefix yourself
-        # save_dir = cfg.settings.get("ss_save_directory") or fd.askdirectory(title="Pick save folder")
-        # prefix   = cfg.settings.get("ss_user_prefix") or "user"
-        # ok, info = take_advanced_screenshot(target_widget, save_dir, prefix)
 
         add_to_console(f"Annotation {'saved:' if ok else 'canceled:'} {info}")
     except Exception as e:
@@ -84,6 +84,130 @@ def on_take_advanced_screenshot():
 def sanitize_prefix(s: str) -> str:
     # Remove illegal filename chars and trim spaces
     return re.sub(r'[<>:"/\\|?*\x00-\x1F]+', "_", s).strip()
+
+def yolo_detection():
+    if not yolo_toggle or not root.winfo_exists():
+        return
+    try:
+        if not limiter.ok():
+            return
+
+        # 1) Live bbox of the web frame (logical coords)
+        bbox, _ = target_bbox_px()
+        L, T, R, B = bbox
+        ow, oh = (R - L), (B - T)
+
+        # 2) Try a logical-coords grab first
+        test_img = ImageGrab.grab(bbox=(L, T, R, B))
+
+        # If PIL returned the expected logical size, use it.
+        # Otherwise, fall back to a DPR-scaled (physical) grab.
+        if test_img.size == (ow, oh):
+            frame_img = test_img
+        else:
+            dpr = _dpi_scale_for_window(web.winfo_id())
+            phys_bbox = (int(L*dpr), int(T*dpr), int(R*dpr), int(B*dpr))
+            frame_img = ImageGrab.grab(bbox=phys_bbox)
+
+        add_to_console(f"grab={frame_img.size} expect={(ow,oh)}")
+
+        # 3) Detect normalized to the grabbed image itself
+        dets = detector.detect_image(frame_img)
+
+        # 4) Hard-sync overlay geometry to the bbox for THIS frame
+        overlay_win.geometry(f"{ow}x{oh}+{L}+{T}")
+        overlay.config(width=ow, height=oh)
+        overlay.delete("all")
+
+        # Optional always-visible border to verify alignment
+        overlay.create_rectangle(1, 1, ow-2, oh-2, outline="lime")
+
+        # 5) Draw using the live ow/oh (not a cached _view_WH)
+        for d in dets:
+            x1 = int(d.x1n * ow); y1 = int(d.y1n * oh)
+            x2 = int(d.x2n * ow); y2 = int(d.y2n * oh)
+            overlay.create_rectangle(x1, y1, x2, y2, width=2, outline="yellow")
+            overlay.create_text(x1+4, y1+12, anchor="w",
+                                text=f"{d.label} {d.conf:.2f}", fill="white")
+    finally:
+        if yolo_toggle and root.winfo_exists():
+            root.after(100, yolo_detection)
+
+
+
+def toggle_yolo():
+    """Start/stop YOLO detection + overlay drawing."""
+    global yolo_toggle
+    if yolo_toggle:
+        yolo_toggle = False
+        toggle_btn.configure(text="Start Detection")
+        overlay.delete("all")
+    else:
+        yolo_toggle = True
+        toggle_btn.configure(text="Stop Detection")
+        # Ensure overlay is visible/topmost when starting
+        overlay_win.deiconify()
+        overlay_win.lift()
+        root.after(1, yolo_detection)
+
+def _widget_screen_bbox(w):
+    w.update_idletasks()
+    return (w.winfo_rootx(), w.winfo_rooty(), w.winfo_width(), w.winfo_height())
+
+def _sync_overlay_to_web():
+    global _last_geo, _view_WH
+    if not root.winfo_exists(): return
+    L, T, W, H = _widget_screen_bbox(web)   # LOGICAL coords/sizes
+    geo = (L, T, W, H)
+    if geo != _last_geo:
+        overlay_win.geometry(f"{W}x{H}+{L}+{T}")  # geometry expects LOGICAL units
+        _last_geo = geo
+        _view_WH = (W, H)                         # <-- cache for drawing
+    root.after(66, _sync_overlay_to_web)
+
+def enable_overlay_clickthrough():
+    try:
+        import ctypes
+        GWL_EXSTYLE = -20
+        WS_EX_TRANSPARENT = 0x00000020
+        WS_EX_LAYERED = 0x00080000
+
+        hwnd = overlay_win.winfo_id()
+        user32 = ctypes.windll.user32
+        get_window_long = user32.GetWindowLongW
+        set_window_long = user32.SetWindowLongW
+
+        exstyle = get_window_long(hwnd, GWL_EXSTYLE)
+        exstyle |= (WS_EX_LAYERED | WS_EX_TRANSPARENT)
+        set_window_long(hwnd, GWL_EXSTYLE, exstyle)
+        add_to_console("Click Through Enabled")
+    except Exception:
+        add_to_console(f"Click Through Failed: {Exception}")
+
+
+def target_bbox_px():
+    """Screen coords (left, top, right, bottom) of the *exact* widget we target."""
+    web.update_idletasks()
+    L = web.winfo_rootx()
+    T = web.winfo_rooty()
+    W = web.winfo_width()
+    H = web.winfo_height()
+    return (L, T, L + W, T + H), (W, H)
+
+def _dpi_scale_for_window(hwnd: int) -> float:
+    try:
+        import ctypes
+        MONITOR_DEFAULTTONEAREST = 2
+        user32 = ctypes.windll.user32
+        shcore = ctypes.windll.shcore
+        monitor = user32.MonitorFromWindow(hwnd, MONITOR_DEFAULTTONEAREST)
+        dpiX = ctypes.c_uint()
+        dpiY = ctypes.c_uint()
+        # GetDpiForMonitor returns DPI (96 == 100%)
+        shcore.GetDpiForMonitor(monitor, 0, ctypes.byref(dpiX), ctypes.byref(dpiY))
+        return dpiX.value / 96.0
+    except Exception:
+        return 1.0
 
 
 keyboard.on_press_key("w", lambda e: print_key("w"))
@@ -114,6 +238,7 @@ SS_USER_PREFIX_VAR = ctk.StringVar(value=SS_USER_PREFIX)
 
 # Initialize the console manager
 add_to_console("App starting…")
+enable_overlay_clickthrough()
 
 try:
     console_init(root, max_lines=2000, auto_open=False)
@@ -155,6 +280,65 @@ try:
 except Exception as e:
     add_to_console(f"WebView init failed: {e}")
 
+
+
+
+# ### TESTING:
+# from PIL import Image, ImageTk
+# TEST_IMG_PATH = r"C:\Users\Eric\Desktop\ECE4191\ECE4191-R15\comms_server\yolo\test.jpg"
+# _original_img = Image.open(TEST_IMG_PATH).convert("RGB")
+# image_label = ctk.CTkLabel(web_frame)
+# image_label.place(relx=0, rely=0, relwidth=1, relheight=1)
+# _image_ref = {"tk": None}
+
+# def _resize_and_show_image(event=None):
+#     """Scale the test image to the current web_frame size (letterbox, keep aspect)."""
+#     w = max(1, web_frame.winfo_width())
+#     h = max(1, web_frame.winfo_height())
+#     if w < 2 or h < 2:
+#         return
+
+#     # Fit image to frame while preserving aspect
+#     img_w, img_h = _original_img.size
+#     scale = min(w / img_w, h / img_h)
+#     new_w = max(1, int(img_w * scale))
+#     new_h = max(1, int(img_h * scale))
+#     img = _original_img.resize((new_w, new_h), Image.Resampling.LANCZOS)
+
+#     # Paste into a blank canvas so the label area is fully covered
+#     canvas_img = Image.new("RGB", (w, h), (0, 0, 0))
+#     x0 = (w - new_w) // 2
+#     y0 = (h - new_h) // 2
+#     canvas_img.paste(img, (x0, y0))
+
+#     _image_ref["tk"] = ImageTk.PhotoImage(canvas_img)
+#     image_label.configure(image=_image_ref["tk"])
+
+# web_frame.bind("<Configure>", _resize_and_show_image)
+# root.after(100, _resize_and_show_image)
+# web = image_label 
+
+
+
+
+
+
+
+
+
+overlay_win = ctk.CTkToplevel(root)
+overlay_win.overrideredirect(True)      # no title bar
+overlay_win.attributes("-topmost", True)
+overlay_win.configure(bg=TRANSPARENT)
+# Windows color-key transparency:
+overlay_win.wm_attributes("-transparentcolor", TRANSPARENT)
+
+overlay = ctk.CTkCanvas(overlay_win, highlightthickness=0, bd=0, bg=TRANSPARENT)
+overlay.place(relx=0, rely=0, relwidth=1, relheight=1)
+
+detector = YOLOFrameDetector(model_path=YOLO_MODEL_PATH, conf=0.25, iou=0.45)
+limiter = RateLimiter(fps=10)
+
 status_frame = ctk.CTkFrame(root)
 status_frame.grid(row=2, column=0, sticky="nsew", padx=(10,10), pady=(10,10))
 
@@ -164,6 +348,10 @@ screenshot_button.grid(row=0, column=0, sticky="nsew", padx=(10,0), pady=(0,10))
 advanced_screenshot_button = ctk.CTkButton(status_frame, text="Take Advanced Screenshot", command=on_take_advanced_screenshot)
 advanced_screenshot_button.grid(row=1, column=0, sticky="nsew", padx=(10,0), pady=(0,10))
 
+toggle_btn = ctk.CTkButton(status_frame, text="Start Detection", command=toggle_yolo)
+toggle_btn.grid(row=2, column=0, sticky="nsew", padx=(10,0), pady=(0,10)) 
+
+root.after(200, _sync_overlay_to_web)
 root.after(50, lambda: (add_to_console("Navigating…"), safe_navigate()))
 
 def _on_close():
