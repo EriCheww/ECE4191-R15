@@ -73,6 +73,21 @@ class SettingsWindowManager:
         self._current_page: Optional[str] = None
         self._default_page = "Screenshots"
 
+    def _raise_and_focus(self):
+        w = self._win
+        if not w or not w.winfo_exists():
+            return
+        try:
+            w.deiconify()
+            w.lift()
+            w.focus_force()
+            # Brief topmost toggle (same trick Console uses)
+            w.attributes("-topmost", True)
+            w.after(200, lambda: w.attributes("-topmost", False))
+            w.after_idle(lambda: (w.lift(), w.focus_force()))
+        except Exception:
+            pass
+
     def attach(self, parent: ctk.CTk):
         self.parent = parent
 
@@ -90,11 +105,9 @@ class SettingsWindowManager:
         self._win.geometry("860x520")
         self._win.resizable(True, True)
         self._win.protocol("WM_DELETE_WINDOW", self.close)
-
-        self._win.transient(self.parent)
-        self._win.grab_set()               
+             
         self._win.lift()
-        self._win.focus_force()
+        self._raise_and_focus()
 
         # Layout: sidebar | content
         self._win.grid_columnconfigure(0, weight=0)

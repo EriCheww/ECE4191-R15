@@ -32,12 +32,12 @@ _view_WH   = (1, 1)
 # ------------------- SETTINGS ---------------------------
 ##########################################################
 
-HOME_URL = "http://192.168.137.1:8080/"
-# HOME_URL = "https://www.youtube.com/watch?v=dQw4w9WgXcQ/"
+# HOME_URL = "http://192.168.137.1:8080/"
+HOME_URL = "https://www.youtube.com/watch?v=dQw4w9WgXcQ/"
 
 SS_SAVE_DIRECTORY = "C:\\ECE4191\\test_photos"
 SS_USER_PREFIX = 'test'
-YOLO_MODEL_PATH = r"C:\Users\ericl\OneDrive\Documents\GitHub\ECE4191-R15\comms_server\yolo\best.pt"
+YOLO_MODEL_PATH = r"C:\Users\Eric\Desktop\ECE4191\ECE4191-R15\comms_server\yolo\best.pt"
 
 MAX_LOG_LINES = 2000  # keep last N lines; adjust as you like
 LOG_BUFFER = deque(maxlen=MAX_LOG_LINES)
@@ -108,8 +108,6 @@ def yolo_detection():
             dpr = _dpi_scale_for_window(web.winfo_id())
             phys_bbox = (int(L*dpr), int(T*dpr), int(R*dpr), int(B*dpr))
             frame_img = ImageGrab.grab(bbox=phys_bbox)
-
-        add_to_console(f"grab={frame_img.size} expect={(ow,oh)}")
 
         # 3) Detect normalized to the grabbed image itself
         dets = detector.detect_image(frame_img)
