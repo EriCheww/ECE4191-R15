@@ -131,8 +131,6 @@ def yolo_detection():
         if yolo_toggle and root.winfo_exists():
             root.after(100, yolo_detection)
 
-
-
 def toggle_yolo():
     """Start/stop YOLO detection + overlay drawing."""
     global yolo_toggle
@@ -162,7 +160,7 @@ def _sync_overlay_to_web():
         _last_geo = geo
         _view_WH = (W, H)                         # <-- cache for drawing
     overlay_win.lift(root)
-    root.after(66, _sync_overlay_to_web)
+    root.after(10, _sync_overlay_to_web)
 
 def enable_overlay_clickthrough():
     try:
@@ -277,12 +275,11 @@ except Exception as e:
     add_to_console(f"WebView init failed: {e}")
 
 overlay_win = ctk.CTkToplevel(root)
-overlay_win.overrideredirect(True)      # no title bar
+overlay_win.overrideredirect(True)
 overlay_win.wm_attributes("-toolwindow", True)
 overlay_win.transient(root)              
 overlay_win.attributes("-topmost", False) 
 overlay_win.configure(bg=TRANSPARENT)
-# Windows color-key transparency:
 overlay_win.wm_attributes("-transparentcolor", TRANSPARENT)
 
 overlay = ctk.CTkCanvas(overlay_win, highlightthickness=0, bd=0, bg=TRANSPARENT)
