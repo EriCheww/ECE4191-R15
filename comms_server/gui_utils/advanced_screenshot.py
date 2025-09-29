@@ -3,13 +3,14 @@ from dataclasses import dataclass
 from typing import Tuple, List, Optional, Dict, Any
 from pathlib import Path
 import customtkinter as ctk
-from tkinter import filedialog, messagebox
+from tkinter import filedialog
 from PIL import Image, ImageTk
 import json
 from datetime import datetime
 from pathlib import Path
 from PIL import ImageGrab, Image
 
+from gui_utils.alert import show_alert
 # -----------------------------
 # Data model
 # -----------------------------
@@ -503,7 +504,8 @@ class AnnotatorApp(ctk.CTk):
 
     def _save_crop_and_labels(self):
         if not self.img_orig:
-            messagebox.showwarning("No image", "Open an image first.")
+            # messagebox.showwarning("No image", "Open an image first.")
+            show_alert(self, "No image.", "Error")
             return
 
         cx1, cy1, cx2, cy2 = [int(round(v)) for v in self.crop.normalized_xyxy()]
@@ -512,7 +514,8 @@ class AnnotatorApp(ctk.CTk):
         cx2 = max(0, min(self.W, cx2))
         cy2 = max(0, min(self.H, cy2))
         if cx2 <= cx1 or cy2 <= cy1:
-            messagebox.showwarning("Invalid crop", "Crop area is empty.")
+            # messagebox.showwarning("Invalid crop", "Crop area is empty.")
+            show_alert(self, "Crop area is empty.", "Error")
             return
 
         default_name = "Crop" if not self.img_path else self.img_path.stem + "_crop"
@@ -532,7 +535,8 @@ class AnnotatorApp(ctk.CTk):
         try:
             cropped.save(img_out_path)
         except Exception as e:
-            messagebox.showerror("Save failed", f"Could not save image:\n{e}")
+            # messagebox.showerror("Save failed", f"Could not save image:\n{e}")
+            show_alert(self, f"Save failed, Could not save image:\n{e}", "Error")
             return
 
         newW, newH = cropped.width, cropped.height
@@ -578,10 +582,12 @@ class AnnotatorApp(ctk.CTk):
             with open(labels_out_path, "w", encoding="utf-8") as f:
                 json.dump(payload, f, indent=2)
         except Exception as e:
-            messagebox.showerror("Save failed", f"Could not save labels JSON:\n{e}")
+            # messagebox.showerror("Save failed", f"Could not save labels JSON:\n{e}")
+            show_alert(self, f"Could not save labels JSON:\n{e}", "Save failed")
             return
 
-        messagebox.showinfo("Saved", f"Image: {img_out_path.name}\nLabels: {labels_out_path.name}")
+        # messagebox.showinfo("Saved", f"Image: {img_out_path.name}\nLabels: {labels_out_path.name}")
+        show_alert(self, f"Image: {img_out_path.name}\nLabels: {labels_out_path.name}", "Saved")
 
     # ------------- Helpers -------------
 

@@ -1,10 +1,11 @@
-# settings_window.py
 from __future__ import annotations
 import customtkinter as ctk
 from tkinter import filedialog as fd
 from typing import Callable, Dict, Optional, List
+
 import gui_utils.app_settings as cfg
 from gui_utils.console_window import add_to_console, init as console_init
+from gui_utils.alert import show_alert
 
 def digits_only(s: str) -> str:
     s = "" if s is None else str(s)
@@ -233,6 +234,9 @@ class SettingsWindowManager:
                 f" - ss_user_prefix      = {self._prefix_var.get() or '(empty)'}\n"
                 f" - console_log_length  = {self._console_len_var.get() or '(empty)'}"
             )
+
+            show_alert(self._win, "Settings Saved!", "Success!")
+            
             if self._win and self._win.winfo_exists():
                 self._win.lift()
                 self._win.focus_force()

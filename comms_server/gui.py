@@ -12,6 +12,7 @@ from gui_utils.console_window import init as console_init, open_console, add_to_
 from gui_utils.settings_window import init as settings_init, open_settings, open_settings_page, is_settings_open, close_settings
 from gui_utils.advanced_screenshot import advanced_screenshot_from_widget
 from gui_utils.yolo_frame_detector import YOLOFrameDetector, RateLimiter
+from gui_utils.alert import show_alert
 import gui_utils.app_settings as cfg     
 
 ##########################################################
@@ -68,6 +69,7 @@ def on_take_screenshot():
     success, result = take_screenshot(web, save_dir, prefix)
     if success:
         add_to_console(f"Screenshot saved: {result}")
+        show_alert(root, f"Screenshot saved: {result}", "Success!")
     else:
         add_to_console(f"Failed: {result}")
 
