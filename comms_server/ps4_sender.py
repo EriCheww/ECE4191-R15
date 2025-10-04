@@ -1,6 +1,6 @@
 import json, socket, time, pygame, math
 
-PI_IP   = "192.168.137.94"   # e.g. "192.168.1.50"
+PI_IP   = "192.168.137.144"   # e.g. "192.168.1.50"
 PI_PORT = 5005
 
 # mapping and limits
