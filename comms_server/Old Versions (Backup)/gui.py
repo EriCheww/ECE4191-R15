@@ -1,4 +1,6 @@
+import atexit
 import customtkinter as ctk
+import keyboard
 import time
 import re
 from collections import deque
@@ -6,14 +8,12 @@ from tkwebview import TkWebview
 from PIL import ImageGrab
 
 from gui_utils.screenshot import take_screenshot
-from gui_utils.console_window import init as console_init, open_console, add_to_console
-from gui_utils.settings_window import init as settings_init, open_settings
+from gui_utils.console_window import init as console_init, open_console, add_to_console, clear_console, is_console_open
+from gui_utils.settings_window import init as settings_init, open_settings, open_settings_page, is_settings_open, close_settings
 from gui_utils.advanced_screenshot import advanced_screenshot_from_widget
 from gui_utils.yolo_frame_detector import YOLOFrameDetector, RateLimiter
 from gui_utils.alert import show_alert
 from gui_utils.status import start_udp_listener, create_gpio_panel, update_gpio_colors
-from gui_utils.controlls_sender import start_controller_thread
-
 import gui_utils.app_settings as cfg     
 
 ##########################################################
@@ -53,9 +53,6 @@ LOG_BUFFER = deque(maxlen=MAX_LOG_LINES)
 
 STATUS_PORT = 5051
 PINS = list(range(2,28))
-
-PI_IP   = "192.168.137.144"   # move to settings if you prefer
-PI_PORT = 5005
 
 ##########################################################
 # ------------------ FUNCTIONS ---------------------------
@@ -328,35 +325,6 @@ gpio_frame, LAMPS = create_gpio_panel(status_frame)
 gpio_frame.grid(row=0, column=1, sticky="n", padx=(10,0), pady=(0,10))
 STOP_EVENT = start_udp_listener(STATUS_PORT, _on_udp_message)
 
-controller_frame = ctk.CTkFrame(status_frame)
-controller_frame.grid(row=0, column=2, rowspan=3, sticky="n", padx=(10,10), pady=(0,10))
-
-ctk.CTkLabel(controller_frame, text="Controller").grid(row=0, column=0, columnspan=2, pady=(0,6))
-
-left_var  = ctk.StringVar(value="L: 0")
-right_var = ctk.StringVar(value="R: 0")
-
-ctk.CTkLabel(controller_frame, textvariable=left_var).grid(row=1, column=0, sticky="w")
-pb_left = ctk.CTkProgressBar(controller_frame); pb_left.grid(row=2, column=0, sticky="ew", padx=(0,8)); pb_left.set(0.5)
-ctk.CTkLabel(controller_frame, textvariable=right_var).grid(row=1, column=1, sticky="w")
-pb_right = ctk.CTkProgressBar(controller_frame); pb_right.grid(row=2, column=1, sticky="ew"); pb_right.set(0.5)
-
-def _on_controller_state(L, R, fwd, turn, raw):
-    # This runs on the controller thread — hop to GUI thread
-    root.after(0, lambda: (
-        pb_left.set((L + 100) / 200.0),
-        pb_right.set((R + 100) / 200.0),
-        left_var.set(f"L: {L:+d}"),
-        right_var.set(f"R: {R:+d}")
-    ))
-
-CONTROLLER_STOP = start_controller_thread(
-    PI_IP, PI_PORT,
-    on_state=_on_controller_state,
-    send_hz=20.0, deadzone=0.10, max_speed=100,
-    fwd_axis=1, turn_axis=2, invert_fwd=True
-)
-
 root.after(200, _sync_overlay_to_web)
 root.after(50, lambda: (add_to_console("Navigating…"), safe_navigate()))
 
@@ -364,9 +332,6 @@ def _on_close():
     try:
         if STOP_EVENT:
             STOP_EVENT.set()
-        if CONTROLLER_STOP:
-            CONTROLLER_STOP.set()
-
     finally:
         root.destroy()
 
