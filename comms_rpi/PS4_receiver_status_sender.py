@@ -18,61 +18,48 @@ BIG_STEP = 25     # % speed step for arrows
 START = 0         # start stopped
 
 # --- status config ---
-STATUS_INTERVAL = 1.0        # seconds
+STATUS_INTERVAL = 1        # seconds
 STATUS_UDP_PORT = 5051       # laptop port to receive status
 last_host = {"ip": None}     # learned from joystick sender
+FIRST_TIME_MESSAGE = False
+FIRST_TIME_MESSAGE_1 = False
 
-def _mode_name(m):
-    return {
-        pigpio.INPUT: "INPUT",
-        pigpio.OUTPUT: "OUTPUT",
-        pigpio.ALT0: "ALT0",
-        pigpio.ALT1: "ALT1",
-        pigpio.ALT2: "ALT2",
-        pigpio.ALT3: "ALT3",
-        pigpio.ALT4: "ALT4",
-        pigpio.ALT5: "ALT5"
-    }.get(m, str(m))
+def stable_gpio_snapshot(pi, pins=range(2,28), exclude=()):
+    """Return dict {pin: 0/1} where 1 means the pin reads high even with pull-down applied (for INPUTs).
+       OUTPUT pins are reported as whatever they are currently driven to. Does not change OUTPUTs.
+    """
+    out = {}
+    for p in pins:
+        if p in exclude:  # e.g., keep 2/3 alone if I2C is in use
+            out[p] = int(pi.read(p))
+            continue
 
+        mode = pi.get_mode(p)
+        if mode == pigpio.INPUT:
+            # Apply pull-down briefly so floating inputs bias low
+            pi.set_pull_up_down(p, pigpio.PUD_DOWN)
+            time.sleep(0.005)
+            out[p] = int(pi.read(p))
+            # Optional: clear pull afterwards
+            pi.set_pull_up_down(p, pigpio.PUD_OFF)
+        else:
+            # For OUTPUT/ALT, just report current level
+            out[p] = int(pi.read(p))
+    return out
 
-def list_devices():
-    """Enumerate useful device nodes and USBs to see what's present."""
-    def _ls(pattern):
-        return sorted(glob.glob(pattern))
-
-    info = {
-        "gpiochips": _ls("/dev/gpiochip*"),
-        "i2c_buses": _ls("/dev/i2c-*"),
-        "spi_devices": _ls("/dev/spidev*"),
-        "serial_ttys": [p for p in _ls("/dev/tty*") if any(k in p for k in ("AMA", "S", "USB", "ACM"))],
-        "video": _ls("/dev/video*"),
-        "usb_lsusb": []
-    }
-    try:
-        out = subprocess.run(["lsusb"], capture_output=True, text=True, check=False)
-        if out.stdout:
-            info["usb_lsusb"] = [line.strip() for line in out.stdout.splitlines() if line.strip()]
-    except Exception as e:
-        info["usb_lsusb"] = [f"(lsusb unavailable: {e})"]
-
-    return info
 
 def status_payload(pi):
+    pins = stable_gpio_snapshot(pi, exclude=(2,3))
+    gpio_dict = {str(p): {"level": pins[p]} for p in pins}
     return {
         "ts": time.time(),
-        "pigpio_connected": bool(pi.connected),
-        "gpio": {
-            str(p): {
-                "mode": _mode_name(pi.get_mode(p)),
-                "level": int(pi.read(p)),
-                "duty": (pi.get_PWM_dutycycle(p) if p in (ENA, ENB) else None)
-            }
-            for p in (ENA, IN1, IN2, ENB, IN3, IN4)
-        },
-        "devices": list_devices()
+        "pi_connected": bool(pi.connected),
+        "gpio": gpio_dict
     }
 
+
 def status_thread(pi):
+    global FIRST_TIME_MESSAGE_1
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     while True:
         try:
@@ -80,8 +67,11 @@ def status_thread(pi):
             if ip:
                 payload = json.dumps(status_payload(pi)).encode("utf-8")
                 sock.sendto(payload, (ip, STATUS_UDP_PORT))
+                if not FIRST_TIME_MESSAGE_1:
+                    print(f"System ready. Status packets sending to {ip}:{STATUS_UDP_PORT}, size {len(payload)} bytes, every {STATUS_INTERVAL}s")
+                    FIRST_TIME_MESSAGE_1 = True
         except Exception:
-            pass
+            print("status_thread send error:", Exception)
         time.sleep(STATUS_INTERVAL)
 
 
@@ -137,6 +127,8 @@ class HBridge:
 
 
 def main():
+    global FIRST_TIME_MESSAGE
+    
     # Connect to pigpio
     pi = pigpio.pi()
     if not pi.connected:
@@ -167,6 +159,7 @@ def main():
                 # Receive joystick JSON: {"L":-100..100,"R":-100..100} or {"stop":1}
                 data, addr = sock.recvfrom(256)
                 last_host["ip"] = addr[0]   # learn laptop IP for status push
+                # print("Learned host:", last_host["ip"])
                 msg = json.loads(data.decode("utf-8"))
 
                 if "stop" in msg:
@@ -178,8 +171,10 @@ def main():
                     A.set_speed(L)
                     B.set_speed(R)
 
-                print(f"\rHost:{last_host['ip']}  A:{A.speed:+4d}%  B:{B.speed:+4d}% ",
-                      end="", flush=True)
+                if not FIRST_TIME_MESSAGE:
+                    print(f"Controll packets recieved!")
+                    FIRST_TIME_MESSAGE = True
+                # print(f"\rHost:{last_host['ip']}  A:{A.speed:+4d}%  B:{B.speed:+4d}% ",end="", flush=True)
 
             except socket.timeout:
                 # No packet this tick; just loop
