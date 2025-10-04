@@ -13,6 +13,7 @@ from gui_utils.settings_window import init as settings_init, open_settings, open
 from gui_utils.advanced_screenshot import advanced_screenshot_from_widget
 from gui_utils.yolo_frame_detector import YOLOFrameDetector, RateLimiter
 from gui_utils.alert import show_alert
+from gui_utils.status import start_udp_listener, create_gpio_panel, update_gpio_colors
 import gui_utils.app_settings as cfg     
 
 ##########################################################
@@ -20,6 +21,9 @@ import gui_utils.app_settings as cfg
 ##########################################################
 HEADER_FONT = ("Arial", 14)
 TRANSPARENT = "magenta"  
+
+GREEN = "#2ecc71"
+RED   = "#e74c3c"
 
 ##########################################################
 # ---------------- Global Variables ----------------------
@@ -29,6 +33,9 @@ console_text = None
 yolo_toggle = False
 _last_geo = None
 _view_WH   = (1, 1)  
+
+GPIO_LAMPS = {} 
+STOP_EVENT = None
 ##########################################################
 # ------------------- SETTINGS ---------------------------
 ##########################################################
@@ -39,11 +46,13 @@ HOME_URL = "https://www.youtube.com/watch?v=dQw4w9WgXcQ/"
 SS_SAVE_DIRECTORY = "C:\\ECE4191\\test_photos"
 SS_USER_PREFIX = 'test'
 YOLO_MODEL_PATH = r"C:\Users\Eric\Desktop\ECE4191\ECE4191-R15\comms_server\yolo\best.pt"
+YOLO_FPS_LIMITER = 10
 
 MAX_LOG_LINES = 2000  # keep last N lines; adjust as you like
 LOG_BUFFER = deque(maxlen=MAX_LOG_LINES)
 
-
+STATUS_PORT = 5051
+PINS = list(range(2,28))
 
 ##########################################################
 # ------------------ FUNCTIONS ---------------------------
@@ -208,12 +217,21 @@ def _dpi_scale_for_window(hwnd: int) -> float:
         return 1.0
 
 
-keyboard.on_press_key("w", lambda e: print_key("w"))
-keyboard.on_press_key("a", lambda e: print_key("a"))
-keyboard.on_press_key("s", lambda e: print_key("s"))
-keyboard.on_press_key("d", lambda e: print_key("d"))
-atexit.register(keyboard.unhook_all)
+# === ADD: UDP listener callback ===
+def _on_udp_message(arr, pigpio_ok, addr):
+    # Called from the background thread — hop to GUI thread:
+    root.after(0, _apply_gpio_update, arr, pigpio_ok, addr)
 
+def _apply_gpio_update(arr, pigpio_ok, addr):
+    try:
+        add_to_console(f"UDP {addr[0]} pigpio={'OK' if pigpio_ok else 'DISCONNECTED'}")
+    except Exception:
+        pass
+
+    # Convert 26-length array (BCM 2..27) to a dict {bcm:0|1}
+    states = {bcm: arr[bcm - 2] for bcm in range(2, 28) if 0 <= (bcm - 2) < len(arr)}
+    # Update all lamps by BCM (uses the helper from status.py)
+    update_gpio_colors(LAMPS, states)
 
 
 ##########################################################
@@ -236,7 +254,6 @@ SS_USER_PREFIX_VAR = ctk.StringVar(value=SS_USER_PREFIX)
 
 # Initialize the console manager
 add_to_console("App starting…")
-enable_overlay_clickthrough()
 
 try:
     console_init(root, max_lines=2000, auto_open=False)
@@ -286,12 +303,14 @@ overlay_win.wm_attributes("-transparentcolor", TRANSPARENT)
 
 overlay = ctk.CTkCanvas(overlay_win, highlightthickness=0, bd=0, bg=TRANSPARENT)
 overlay.place(relx=0, rely=0, relwidth=1, relheight=1)
+enable_overlay_clickthrough()
 
 detector = YOLOFrameDetector(model_path=YOLO_MODEL_PATH, conf=0.25, iou=0.45)
-limiter = RateLimiter(fps=10)
+limiter = RateLimiter(fps=YOLO_FPS_LIMITER) 
 
 status_frame = ctk.CTkFrame(root)
 status_frame.grid(row=2, column=0, sticky="nsew", padx=(10,10), pady=(10,10))
+status_frame.grid_columnconfigure(1, weight=0)
 
 screenshot_button = ctk.CTkButton(status_frame, text="Take Screenshot", command=on_take_screenshot)
 screenshot_button.grid(row=0, column=0, sticky="nsew", padx=(10,0), pady=(0,10))
@@ -302,12 +321,17 @@ advanced_screenshot_button.grid(row=1, column=0, sticky="nsew", padx=(10,0), pad
 toggle_btn = ctk.CTkButton(status_frame, text="Start Detection", command=toggle_yolo)
 toggle_btn.grid(row=2, column=0, sticky="nsew", padx=(10,0), pady=(0,10)) 
 
+gpio_frame, LAMPS = create_gpio_panel(status_frame)
+gpio_frame.grid(row=0, column=1, sticky="n", padx=(10,0), pady=(0,10))
+STOP_EVENT = start_udp_listener(STATUS_PORT, _on_udp_message)
+
 root.after(200, _sync_overlay_to_web)
 root.after(50, lambda: (add_to_console("Navigating…"), safe_navigate()))
 
 def _on_close():
     try:
-        keyboard.unhook_all()
+        if STOP_EVENT:
+            STOP_EVENT.set()
     finally:
         root.destroy()
 
