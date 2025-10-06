@@ -34,11 +34,11 @@ Common Troubleshooting Methods:
 2. Make sure variables inside gui.py settings section are correct and pointing to existing folders. Arrows point to most common error casuing hardcoded variables.
 ```py 
 HOME_URL = "http://192.168.137.1:8080/"
-# HOME_URL = "https://www.youtube.com/watch?v=dQw4w9WgXcQ/"            <------- Comment this out for testing with camera -----------
+# HOME_URL = "https://www.youtube.com/watch?v=dQw4w9WgXcQ/"           # <------- Comment this out for testing with camera -----------
 
-SS_SAVE_DIRECTORY = "C:\\ECE4191\\test_photos"                                                             <------------ set random folder is fine ------------
+SS_SAVE_DIRECTORY = "C:\\ECE4191\\test_photos"                                                            # <------------ set random folder is fine ------------
 SS_USER_PREFIX = 'test'
-YOLO_MODEL_PATH = r"C:\Users\ericl\OneDrive\Documents\GitHub\ECE4191-R15\comms_server\yolo\best.pt"        <------------ set correct path to the yolo model ------------
+YOLO_MODEL_PATH = r"C:\Users\ericl\OneDrive\Documents\GitHub\ECE4191-R15\comms_server\yolo\best.pt"       # <------------ set correct path to the yolo model ------------
 
 YOLO_FPS_LIMITER = 10
 
@@ -48,15 +48,15 @@ LOG_BUFFER = deque(maxlen=MAX_LOG_LINES)
 STATUS_PORT = 5051
 PINS = list(range(2,28))
 
-PI_IP   = "192.168.137.144"     <------------- check pi ip from mobile hotspot window-----------
-PI_PORT = 5005                  <------------- check to make sure same port as code in RPI -----------
+PI_IP   = "192.168.137.144"    # <------------- check pi ip from mobile hotspot window-----------
+PI_PORT = 5005                 # <------------- check to make sure same port as code in RPI -----------
 ```
 
 3. Make sure variables inside gs_relay_stream.py are correct and pointing to existing folders. Arrows point to most common error casuing hardcoded variables.
 ```py 
 # === Paths ===
 GST = shutil.which("gst-launch-1.0") or r"C:\Program Files\gstreamer\1.0\msvc_x86_64\bin\gst-launch-1.0.exe"
-WEB_DIR = "C:\\ECE4191\\main_version\\webrtcsink-webui"        <----------- needs to point to the webrtcsink-webui included in the branch
+WEB_DIR = "C:\\ECE4191\\main_version\\webrtcsink-webui"       # <----------- needs to point to the webrtcsink-webui included in the branch
 # WEB_DIR = os.path.join(os.getcwd(), "webrtcsink-webui")
 os.makedirs(WEB_DIR, exist_ok=True)
 INDEX = os.path.join(WEB_DIR, "index.html")
