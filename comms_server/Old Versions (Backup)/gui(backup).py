@@ -1,6 +1,4 @@
-import atexit
 import customtkinter as ctk
-import keyboard
 import time
 import re
 from collections import deque

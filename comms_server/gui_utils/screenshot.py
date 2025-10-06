@@ -1,7 +1,7 @@
 from pathlib import Path
 from datetime import datetime
 from typing import Tuple, Union
-from PIL import ImageGrab  # pip install pillow
+from PIL import ImageGrab 
 
 
 def take_screenshot(widget, save_dir: str | Path, name: str) -> Tuple[bool, Union[Path, str]]:
