@@ -40,8 +40,8 @@ STOP_EVENT = None
 # ------------------- SETTINGS ---------------------------
 ##########################################################
 
-# HOME_URL = "http://192.168.137.1:8080/"
-HOME_URL = "https://www.youtube.com/watch?v=dQw4w9WgXcQ/"
+HOME_URL = "http://192.168.137.1:8080/"
+# HOME_URL = "https://www.youtube.com/watch?v=dQw4w9WgXcQ/"
 
 SS_SAVE_DIRECTORY = "C:\\ECE4191\\test_photos"
 SS_USER_PREFIX = 'test'
@@ -55,7 +55,7 @@ LOG_BUFFER = deque(maxlen=MAX_LOG_LINES)
 STATUS_PORT = 5051
 PINS = list(range(2,28))
 
-PI_IP   = "192.168.137.144"   # move to settings if you prefer
+PI_IP   = "192.168.137.144" 
 PI_PORT = 5005
 
 ##########################################################
