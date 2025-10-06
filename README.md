@@ -8,8 +8,8 @@ ONLY NEED TO RUN gui.py AND gs_relay_stream.py ON THE LAPTOP :D  DONT NEED THE p
 
 On the RPi side: 
 Updates were made to the PS4_receiver.py and the new copy is called PS4_receiver_status_sender.py 
-- PS4_receiver(backup).py works with gui(backup).py in Old Versions (Backups) Folder
-- PS4_receiver_status_sender.py  works with gui.py in comms_server Folder
+- PS4_receiver.py works with gui(backup).py and ps4_sender(backup).py in Old Versions (Backups) Folder
+- PS4_receiver_status_sender.py works with gui.py in comms_server Folder
 
 ---
 
