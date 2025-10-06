@@ -1,4 +1,4 @@
-import pigpio, sys, termios, tty, time
+import pigpio, sys, termios, tty
 import json, socket # for ps4
 
 # ===== PIN MAP (BCM) =====

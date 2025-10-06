@@ -1,6 +1,6 @@
 import pigpio, sys, termios, tty, time
 import json, socket # for ps4
-import glob, os, subprocess, threading # for status
+import threading # for status
 
 # ===== PIN MAP (BCM) =====
 ENA = 12   # was 18
