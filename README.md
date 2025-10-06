@@ -1,15 +1,15 @@
 # Quick Update to know for Tuesdays Testing (7/10/2025)
 On the Laptop side: 
 ONLY NEED TO RUN gui.py AND gs_relay_stream.py ON THE LAPTOP :D  DONT NEED THE ps4_sender.py ANYMORE !!!
-    The gui.py now also contains a thread for ps4_sender.py 
-    The previous varibles PI_IP and PI_PORT is now in gui.py
-    ps4_sender.py is now renamed to controlls_sender.py found in gui_utils
-    Any edits or updates eg for the servo should be done in controlls_sender.py
+- The gui.py now also contains a thread for ps4_sender.py 
+- The previous varibles PI_IP and PI_PORT is now in gui.py
+- ps4_sender.py is now renamed to controlls_sender.py found in gui_utils
+- Any edits or updates eg for the servo should be done in controlls_sender.py
 
 On the RPi side: 
 Updates were made to the PS4_receiver.py and the new copy is called PS4_receiver_status_sender.py 
-    PS4_receiver(backup).py works with gui(backup).py in Old Versions (Backups) Folder
-    PS4_receiver_status_sender.py  works with gui.py in comms_server Folder
+- PS4_receiver(backup).py works with gui(backup).py in Old Versions (Backups) Folder
+- PS4_receiver_status_sender.py  works with gui.py in comms_server Folder
 
 
 Running Process (Old Verson): 
