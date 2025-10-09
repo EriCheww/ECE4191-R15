@@ -45,7 +45,7 @@ HOME_URL = "http://192.168.137.1:8080/"
 
 SS_SAVE_DIRECTORY = "C:\\ECE4191\\test_photos"
 SS_USER_PREFIX = 'test'
-YOLO_MODEL_PATH = r"C:\Users\ericl\OneDrive\Documents\GitHub\ECE4191-R15\comms_server\yolo\best.pt"
+YOLO_MODEL_PATH = r"C:\Users\ericl\OneDrive\Documents\GitHub\ECE4191-R15\comms_server\yolo\best_new.pt"
 
 YOLO_FPS_LIMITER = 10
 
@@ -55,7 +55,7 @@ LOG_BUFFER = deque(maxlen=MAX_LOG_LINES)
 STATUS_PORT = 5051
 PINS = list(range(2,28))
 
-PI_IP   = "192.168.137.144" 
+PI_IP   = "192.168.137.184" 
 PI_PORT = 5005
 
 ##########################################################
