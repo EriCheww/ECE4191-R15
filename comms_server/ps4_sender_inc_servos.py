@@ -1,6 +1,6 @@
 import json, socket, time, pygame, math
 
-PI_IP   = "192.168.137.93"
+PI_IP   = "192.168.137.245"
 PI_PORT = 5005
 
 SEND_HZ = 20.0
@@ -52,6 +52,7 @@ def main():
                     "triangle": triangle,
                     "cross": cross
                 }
+                print(msg)
                 sock.sendto(json.dumps(msg).encode("utf-8"), (PI_IP, PI_PORT))
                 last = now
 

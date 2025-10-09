@@ -40,16 +40,33 @@ def start_controller_thread(
                 fwd  = -dz(js.get_axis(fwd_axis), deadzone) if invert_fwd else dz(js.get_axis(fwd_axis), deadzone)
                 turn =  dz(js.get_axis(turn_axis), deadzone)
 
+                pan_axis: int = 3,      # example: right stick X
+                tilt_axis: int = 4,     # example: right stick Y
+                servo_range: int = 180, # degrees
+
                 # differential drive + normalize (same as ps4_sender)
                 Lf = fwd - turn
                 Rf = fwd + turn
                 m = max(1.0, abs(Lf), abs(Rf))
                 L = int(max_speed * Lf / m)
                 R = int(max_speed * Rf / m)
+                # Servo controls (example mapping)
+
+                pan = js.get_axis(pan_axis)
+                tilt = js.get_axis(tilt_axis)
+                # Convert -1..+1 -> 0..servo_range
+                pan_deg  = int((pan + 1) * 0.5 * servo_range)
+                tilt_deg = int((1 - tilt) * 0.5 * servo_range)
 
                 now = time.time()
                 if now - last >= period:
-                    payload = json.dumps({"L": L, "R": R}).encode("utf-8")
+                    payload = json.dumps({
+                        "L": L,
+                        "R": R,
+                        "servo_pan": pan_deg,
+                        "servo_tilt": tilt_deg
+                    }).encode("utf-8")
+
                     try:
                         sock.sendto(payload, target)
                         if debug:
