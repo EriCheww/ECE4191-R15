@@ -11,7 +11,7 @@ from gui_utils.settings_window import init as settings_init, open_settings
 from gui_utils.advanced_screenshot import advanced_screenshot_from_widget
 from gui_utils.yolo_frame_detector import YOLOFrameDetector, RateLimiter
 from gui_utils.alert import show_alert
-from gui_utils.status import start_udp_listener, create_gpio_panel, update_gpio_colors
+from gui_utils.status import *
 from gui_utils.controlls_sender import start_controller_thread
 
 import gui_utils.app_settings as cfg     
@@ -142,6 +142,7 @@ def yolo_detection():
             overlay.create_rectangle(x1, y1, x2, y2, width=2, outline="yellow")
             overlay.create_text(x1+4, y1+12, anchor="w",
                                 text=f"{d.label} {d.conf:.2f}", fill="white")
+            
     finally:
         if yolo_toggle and root.winfo_exists():
             root.after(100, yolo_detection)
@@ -153,11 +154,14 @@ def toggle_yolo():
         yolo_toggle = False
         toggle_btn.configure(text="Start Detection")
         overlay.delete("all")
+        # drop topmost when stopping (optional)
+        overlay_win.attributes("-topmost", False)
     else:
         yolo_toggle = True
         toggle_btn.configure(text="Stop Detection")
-        # Ensure overlay is visible/topmost when starting
         overlay_win.deiconify()
+        # CRUCIAL: keep overlay above the WebView HWND
+        overlay_win.attributes("-topmost", True)
         overlay_win.lift()
         root.after(1, yolo_detection)
 
@@ -168,33 +172,15 @@ def _widget_screen_bbox(w):
 def _sync_overlay_to_web():
     global _last_geo, _view_WH
     if not root.winfo_exists(): return
-    L, T, W, H = _widget_screen_bbox(web)   # LOGICAL coords/sizes
+    L, T, W, H = _widget_screen_bbox(web)
     geo = (L, T, W, H)
     if geo != _last_geo:
-        overlay_win.geometry(f"{W}x{H}+{L}+{T}")  # geometry expects LOGICAL units
+        overlay_win.geometry(f"{W}x{H}+{L}+{T}")
         _last_geo = geo
-        _view_WH = (W, H)                         # <-- cache for drawing
-    overlay_win.lift(root)
+        _view_WH = (W, H)
+    # keep it above everything (important for WebView)
+    overlay_win.lift()              # <-- remove the (root) argument
     root.after(10, _sync_overlay_to_web)
-
-def enable_overlay_clickthrough():
-    try:
-        import ctypes
-        GWL_EXSTYLE = -20
-        WS_EX_TRANSPARENT = 0x00000020
-        WS_EX_LAYERED = 0x00080000
-
-        hwnd = overlay_win.winfo_id()
-        user32 = ctypes.windll.user32
-        get_window_long = user32.GetWindowLongW
-        set_window_long = user32.SetWindowLongW
-
-        exstyle = get_window_long(hwnd, GWL_EXSTYLE)
-        exstyle |= (WS_EX_LAYERED | WS_EX_TRANSPARENT)
-        set_window_long(hwnd, GWL_EXSTYLE, exstyle)
-        add_to_console("Click Through Enabled")
-    except Exception:
-        add_to_console(f"Click Through Failed: {Exception}")
 
 def target_bbox_px():
     """Screen coords (left, top, right, bottom) of the *exact* widget we target."""
@@ -232,10 +218,16 @@ def _apply_gpio_update(arr, pigpio_ok, addr):
     except Exception:
         pass
 
-    # Convert 26-length array (BCM 2..27) to a dict {bcm:0|1}
+    # Convert 26-length array (BCM 2..27) to dict {bcm:0|1}
     states = {bcm: arr[bcm - 2] for bcm in range(2, 28) if 0 <= (bcm - 2) < len(arr)}
-    # Update all lamps by BCM (uses the helper from status.py)
+
+    # Update individual GPIO lamps
     update_gpio_colors(LAMPS, states)
+
+    # Update the Motor Status lamp
+    update_connection_status(pigpio_ok, lamp=lamp_conn, label=label_conn)
+    update_motor_status(states, lamp=lamp_motor, label=label_motor)
+
 
 
 ##########################################################
@@ -307,7 +299,6 @@ overlay_win.wm_attributes("-transparentcolor", TRANSPARENT)
 
 overlay = ctk.CTkCanvas(overlay_win, highlightthickness=0, bd=0, bg=TRANSPARENT)
 overlay.place(relx=0, rely=0, relwidth=1, relheight=1)
-enable_overlay_clickthrough()
 
 detector = YOLOFrameDetector(model_path=YOLO_MODEL_PATH, conf=0.25, iou=0.45)
 limiter = RateLimiter(fps=YOLO_FPS_LIMITER) 
@@ -327,36 +318,67 @@ toggle_btn.grid(row=2, column=0, sticky="nsew", padx=(10,0), pady=(0,10))
 
 gpio_frame, LAMPS = create_gpio_panel(status_frame)
 gpio_frame.grid(row=0, column=1, sticky="n", padx=(10,0), pady=(0,10))
+
+# from gui_utils.status import create_simple_status, update_simple_status, update_connection_status
+simple_status_frame, lamp_conn, label_conn, lamp_motor, label_motor = create_simple_status(parent=status_frame)
+simple_status_frame.grid(row=0, column=3, sticky="n", padx=(10,0), pady=(0,10))
+
 STOP_EVENT = start_udp_listener(STATUS_PORT, _on_udp_message)
 
 controller_frame = ctk.CTkFrame(status_frame)
 controller_frame.grid(row=0, column=2, rowspan=3, sticky="n", padx=(10,10), pady=(0,10))
+controller_frame.grid_columnconfigure(1, weight=1)
 
-ctk.CTkLabel(controller_frame, text="Controller").grid(row=0, column=0, columnspan=2, pady=(0,6))
+controller_frame_label = ctk.CTkLabel(controller_frame, text="Controller")
+controller_frame_label.grid(row=0, column=0, columnspan=2, pady=(0,6))
 
-left_var  = ctk.StringVar(value="L: 0")
-right_var = ctk.StringVar(value="R: 0")
+# Vars for text readouts
+fwd_var  = ctk.StringVar(value="Fwd: 0.00")
+turn_var = ctk.StringVar(value="Turn: 0.00")
 
-ctk.CTkLabel(controller_frame, textvariable=left_var).grid(row=1, column=0, sticky="w")
-pb_left = ctk.CTkProgressBar(controller_frame); pb_left.grid(row=2, column=0, sticky="ew", padx=(0,8)); pb_left.set(0.5)
-ctk.CTkLabel(controller_frame, textvariable=right_var).grid(row=1, column=1, sticky="w")
-pb_right = ctk.CTkProgressBar(controller_frame); pb_right.grid(row=2, column=1, sticky="ew"); pb_right.set(0.5)
+# --- Vertical Fwd/Back (orientation='vertical') ---
+ct_fwd_label = ctk.CTkLabel(controller_frame, textvariable=fwd_var)
+ct_fwd_label.grid(row=1, column=0, sticky="w")
+ct_fwd = ctk.CTkProgressBar(controller_frame, orientation="vertical", width=14, height=90)
+ct_fwd.grid(row=2, column=0, sticky="ns", padx=(0,8))
+ct_fwd.set(0.5) 
+
+# --- Horizontal Left/Right ---
+ct_turn_label = ctk.CTkLabel(controller_frame, textvariable=turn_var).grid(row=1, column=1, sticky="w")
+ct_turn = ctk.CTkProgressBar(controller_frame)
+ct_turn.grid(row=2, column=1, sticky="ew")
+ct_turn.set(0.5)  # 0.5 = neutral
+
+# Make the right column stretch so the horizontal bar can expand nicely
+
 
 def _on_controller_state(L, R, fwd, turn, raw):
-    # This runs on the controller thread — hop to GUI thread
+    """
+    Runs on controller thread; hop to GUI thread.
+    Expecting fwd, turn in [-1.0, +1.0].
+    """
+    # Map [-1,+1] -> [0,1] where 0.5 is neutral
+    fwd_val  = (float(fwd) + 1.0) / 2.0
+    turn_val = (float(turn) + 1.0) / 2.0
+
+    # Clamp just in case
+    fwd_val  = 0.0 if fwd_val  < 0.0 else 1.0 if fwd_val  > 1.0 else fwd_val
+    turn_val = 0.0 if turn_val < 0.0 else 1.0 if turn_val > 1.0 else turn_val
+
     root.after(0, lambda: (
-        pb_left.set((L + 100) / 200.0),
-        pb_right.set((R + 100) / 200.0),
-        left_var.set(f"L: {L:+d}"),
-        right_var.set(f"R: {R:+d}")
+        ct_fwd.set(fwd_val),
+        ct_turn.set(turn_val),
+        fwd_var.set(f"Fwd: {fwd:+.2f}"),
+        turn_var.set(f"Turn: {turn:+.2f}")
     ))
 
+# Keep your existing controller thread start; on_state already passes (L, R, fwd, turn, raw)
 CONTROLLER_STOP = start_controller_thread(
     PI_IP, PI_PORT,
     on_state=_on_controller_state,
     send_hz=20.0, deadzone=0.10, max_speed=100,
-    fwd_axis=1, turn_axis=2, invert_fwd=True, debug=False)
-
+    fwd_axis=1, turn_axis=2, invert_fwd=True, debug=False
+)
 root.after(200, _sync_overlay_to_web)
 root.after(50, lambda: (add_to_console("Navigating…"), safe_navigate()))
 
