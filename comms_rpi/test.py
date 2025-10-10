@@ -176,16 +176,16 @@ def main():
 
                 # ---- Servo buttons (exact behaviour from ps4_receiver_with_servo.py) ----
                 # Square/Circle adjust SG90; Triangle/Cross adjust MG90, by STEP_DEG each press.
-                if msg.get("square"):   # SG90 decrease
+                if msg.get("left"):   # SG90 decrease
                     sg90_deg = clamp(sg90_deg - STEP_DEG, MIN_DEG, MAX_DEG)
                     pi.set_servo_pulsewidth(PIN_SG90, angle_to_us(sg90_deg))
-                if msg.get("circle"):   # SG90 increase
+                if msg.get("right"):   # SG90 increase
                     sg90_deg = clamp(sg90_deg + STEP_DEG, MIN_DEG, MAX_DEG)
                     pi.set_servo_pulsewidth(PIN_SG90, angle_to_us(sg90_deg))
-                if msg.get("triangle"): # MG90 increase
+                if msg.get("up"): # MG90 increase
                     mg90_deg = clamp(mg90_deg + STEP_DEG, MIN_DEG, MAX_DEG)
                     pi.set_servo_pulsewidth(PIN_MG90, angle_to_us(mg90_deg))
-                if msg.get("cross"):    # MG90 decrease
+                if msg.get("down"):    # MG90 decrease
                     mg90_deg = clamp(mg90_deg - STEP_DEG, MIN_DEG, MAX_DEG)
                     pi.set_servo_pulsewidth(PIN_MG90, angle_to_us(mg90_deg))
 
@@ -194,8 +194,7 @@ def main():
                     FIRST_TIME_MESSAGE = True
 
                 # Optional: live console HUD
-                # print(f"\rHost:{last_host['ip']}  A:{A.speed:+4d}%  B:{B.speed:+4d}%  SG90:{sg90_deg:3d}°  MG90:{mg90_deg:3d}°",
-                #       end="", flush=True)
+                print(f"\rHost:{last_host['ip']}  A:{A.speed:+4d}%  B:{B.speed:+4d}%  SG90:{sg90_deg:3d}°  MG90:{mg90_deg:3d}°", end="", flush=True)
 
             except socket.timeout:
                 # No packet this tick; just loop
