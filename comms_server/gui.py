@@ -4,12 +4,13 @@ import re
 from collections import deque
 from tkwebview import TkWebview
 from PIL import ImageGrab
+from typing import List
 
 from gui_utils.screenshot import take_screenshot
 from gui_utils.console_window import init as console_init, open_console, add_to_console
 from gui_utils.settings_window import init as settings_init, open_settings
 from gui_utils.advanced_screenshot import advanced_screenshot_from_widget
-from gui_utils.yolo_frame_detector import YOLOFrameDetector, RateLimiter
+from gui_utils.yolo_frame_detector import YOLOFrameDetector, RateLimiter, Det
 from gui_utils.alert import show_alert
 from gui_utils.status import *
 from gui_utils.controlls_sender import start_controller_thread
@@ -42,10 +43,11 @@ STOP_EVENT = None
 
 HOME_URL = "http://192.168.137.1:8080/"
 # HOME_URL = "https://www.youtube.com/watch?v=dQw4w9WgXcQ/"
+# HOME_URL = "https://www.google.com/search?sca_esv=44ea4fb9ad3aef3e&rlz=1C1ONGR_en-GBAU994AU994&sxsrf=AE3TifN1zh2j7D6LCpFWQvvK1aRohfxavg:1760049280810&udm=2&fbs=AIIjpHxU7SXXniUZfeShr2fp4giZ1Y6MJ25_tmWITc7uy4KIeoJTKjrFjVxydQWqI2NcOhYPURIv2wPgv_w_sE_0Sc6QJ-Br1HsjcCS2iult3qabYNSTRQw7e6gotLtdd5x8UIIgeCE6NBgQsSbPuekL9rjVZJWQEAHj1U8xULGicvCjCVz7e4mx-Cn5e84mUA7j5VECxV62zqnn0Se2QWy97yLZg6wjTg&q=kangaroo&sa=X&ved=2ahUKEwjX3K3BlpiQAxVT4zgGHYGkHfIQtKgLegQIFxAB&biw=1664&bih=983&dpr=1.5#vhid=pmU6Z0ZOXIKHzM&vssid=mosaic"
 
 SS_SAVE_DIRECTORY = "C:\\ECE4191\\test_photos"
 SS_USER_PREFIX = 'test'
-YOLO_MODEL_PATH = r"C:\Users\ericl\OneDrive\Documents\GitHub\ECE4191-R15\comms_server\yolo\best_new.pt"
+YOLO_MODEL_PATH = r"C:\Users\ericl\OneDrive\Documents\GitHub\ECE4191-R15\comms_server\yolo\best_v2.pt"
 
 YOLO_FPS_LIMITER = 10
 
@@ -100,6 +102,7 @@ def sanitize_prefix(s: str) -> str:
     # Remove illegal filename chars and trim spaces
     return re.sub(r'[<>:"/\\|?*\x00-\x1F]+', "_", s).strip()
 
+# YOLO Detection 
 def yolo_detection():
     if not yolo_toggle or not root.winfo_exists():
         return
@@ -112,11 +115,8 @@ def yolo_detection():
         L, T, R, B = bbox
         ow, oh = (R - L), (B - T)
 
-        # 2) Try a logical-coords grab first
+        # 2) Grab the frame (logical first, then HiDPI fallback)
         test_img = ImageGrab.grab(bbox=(L, T, R, B))
-
-        # If PIL returned the expected logical size, use it.
-        # Otherwise, fall back to a DPR-scaled (physical) grab.
         if test_img.size == (ow, oh):
             frame_img = test_img
         else:
@@ -124,28 +124,59 @@ def yolo_detection():
             phys_bbox = (int(L*dpr), int(T*dpr), int(R*dpr), int(B*dpr))
             frame_img = ImageGrab.grab(bbox=phys_bbox)
 
-        # 3) Detect normalized to the grabbed image itself
+        # 3) Run detection
         dets = detector.detect_image(frame_img)
 
-        # 4) Hard-sync overlay geometry to the bbox for THIS frame
+        # 4) Confidence pruning (optional)
+        MIN_CONF = 0.25
+        dets = [d for d in dets if d.conf >= MIN_CONF]
+
+        # 5) Class-agnostic NMS (keep highest-conf per overlap)
+        def _iou_xyxy(a, b) -> float:
+            ax1, ay1, ax2, ay2 = a
+            bx1, by1, bx2, by2 = b
+            ix1, iy1 = max(ax1, bx1), max(ay1, by1)
+            ix2, iy2 = min(ax2, bx2), min(ay2, by2)
+            iw, ih = max(0, ix2 - ix1), max(0, iy2 - iy1)
+            inter = iw * ih
+            if inter == 0:
+                return 0.0
+            a_area = (ax2 - ax1) * (ay2 - ay1)
+            b_area = (bx2 - bx1) * (by2 - by1)
+            return inter / float(a_area + b_area - inter)
+
+        def _greedy_nms(dets_list, iou_thr: float = 0.50):
+            if not dets_list:
+                return []
+            dets_sorted = sorted(dets_list, key=lambda d: d.conf, reverse=True)
+            keep = []
+            for d in dets_sorted:
+                bb = (d.x1, d.y1, d.x2, d.y2)
+                if all(_iou_xyxy(bb, (k.x1, k.y1, k.x2, k.y2)) < iou_thr for k in keep):
+                    keep.append(d)
+            return keep
+
+        IOU_THR = 0.50
+        dets = _greedy_nms(dets, iou_thr=IOU_THR)
+
+        # 6) Sync overlay to this frame and draw survivors
         overlay_win.geometry(f"{ow}x{oh}+{L}+{T}")
         overlay.config(width=ow, height=oh)
         overlay.delete("all")
-
-        # Optional always-visible border to verify alignment
         overlay.create_rectangle(1, 1, ow-2, oh-2, outline="lime")
 
-        # 5) Draw using the live ow/oh (not a cached _view_WH)
         for d in dets:
             x1 = int(d.x1n * ow); y1 = int(d.y1n * oh)
             x2 = int(d.x2n * ow); y2 = int(d.y2n * oh)
             overlay.create_rectangle(x1, y1, x2, y2, width=2, outline="yellow")
             overlay.create_text(x1+4, y1+12, anchor="w",
                                 text=f"{d.label} {d.conf:.2f}", fill="white")
-            
+
     finally:
         if yolo_toggle and root.winfo_exists():
             root.after(100, yolo_detection)
+
+
 
 def toggle_yolo():
     """Start/stop YOLO detection + overlay drawing."""
@@ -321,7 +352,7 @@ gpio_frame.grid(row=0, column=1, sticky="n", padx=(10,0), pady=(0,10))
 
 # from gui_utils.status import create_simple_status, update_simple_status, update_connection_status
 simple_status_frame, lamp_conn, label_conn, lamp_motor, label_motor = create_simple_status(parent=status_frame)
-simple_status_frame.grid(row=0, column=3, sticky="n", padx=(10,0), pady=(0,10))
+simple_status_frame.grid(row=0, column=4, sticky="n", padx=(10,0), pady=(0,10))
 
 STOP_EVENT = start_udp_listener(STATUS_PORT, _on_udp_message)
 
@@ -349,28 +380,89 @@ ct_turn = ctk.CTkProgressBar(controller_frame)
 ct_turn.grid(row=2, column=1, sticky="ew")
 ct_turn.set(0.5)  # 0.5 = neutral
 
-# Make the right column stretch so the horizontal bar can expand nicely
+# ===================== Camera Angle Panel =====================
+camera_frame = ctk.CTkFrame(status_frame)
+camera_frame.grid(row=0, column=3, rowspan=3, sticky="n", padx=(10,10), pady=(0,10))
+camera_frame.grid_columnconfigure(1, weight=1)
 
+ct_cam_label = ctk.CTkLabel(camera_frame, text="Camera Angle")
+ct_cam_label.grid(row=0, column=0, columnspan=2, pady=(0,6))
 
+pan_var  = ctk.StringVar(value="Pan: 90°")
+tilt_var = ctk.StringVar(value="Tilt: 90°")
+ct_pan_label  = ctk.CTkLabel(camera_frame, textvariable=pan_var);  ct_pan_label.grid(row=1, column=0, sticky="w")
+ct_tilt_label = ctk.CTkLabel(camera_frame, textvariable=tilt_var); ct_tilt_label.grid(row=1, column=1, sticky="w")
+
+# Aim pad (dot moves with pan/tilt)
+AIM_SIZE = 120
+aim = ctk.CTkCanvas(camera_frame, width=AIM_SIZE, height=AIM_SIZE, highlightthickness=0, bg="#111111")
+aim.grid(row=2, column=0, columnspan=2, sticky="n")
+aim.create_rectangle(1, 1, AIM_SIZE-2, AIM_SIZE-2, outline="#555555")
+aim.create_line(AIM_SIZE//2, 2, AIM_SIZE//2, AIM_SIZE-2, fill="#333333")
+aim.create_line(2, AIM_SIZE//2, AIM_SIZE-2, AIM_SIZE//2, fill="#333333")
+_marker_r = 5
+marker_id = aim.create_oval(
+    AIM_SIZE//2 - _marker_r, AIM_SIZE//2 - _marker_r,
+    AIM_SIZE//2 + _marker_r, AIM_SIZE//2 + _marker_r,
+    outline="", fill="#00e676"
+)
+
+def _move_marker(pan_deg: int, tilt_deg: int):
+    pan_deg  = max(0, min(180, int(pan_deg)))
+    tilt_deg = max(0, min(180, int(tilt_deg)))
+    x = int((pan_deg / 180.0) * (AIM_SIZE - 1))
+    y = int(((180 - tilt_deg) / 180.0) * (AIM_SIZE - 1))
+    aim.coords(marker_id, x - _marker_r, y - _marker_r, x + _marker_r, y + _marker_r)
+
+# D-Pad indicator (small arrows that light up)
+dpad = ctk.CTkCanvas(camera_frame, width=70, height=70, highlightthickness=0, bg="#111111")
+dpad.grid(row=3, column=0, columnspan=2, pady=(8,0))
+# draw simple arrows as triangles
+_up    = dpad.create_polygon(35, 8, 25, 22, 45, 22,  fill="#333333", outline="")
+_down  = dpad.create_polygon(35, 62, 25, 48, 45, 48, fill="#333333", outline="")
+_left  = dpad.create_polygon(8, 35, 22, 25, 22, 45,  fill="#333333", outline="")
+_right = dpad.create_polygon(62, 35, 48, 25, 48, 45, fill="#333333", outline="")
+
+def _light(widget_id, on):
+    dpad.itemconfig(widget_id, fill="#00e5ff" if on else "#333333")
+
+# ---------- Update hook: extend your existing _on_controller_state ----------
 def _on_controller_state(L, R, fwd, turn, raw):
-    """
-    Runs on controller thread; hop to GUI thread.
-    Expecting fwd, turn in [-1.0, +1.0].
-    """
-    # Map [-1,+1] -> [0,1] where 0.5 is neutral
+    # existing bars
     fwd_val  = (float(fwd) + 1.0) / 2.0
     turn_val = (float(turn) + 1.0) / 2.0
-
-    # Clamp just in case
     fwd_val  = 0.0 if fwd_val  < 0.0 else 1.0 if fwd_val  > 1.0 else fwd_val
     turn_val = 0.0 if turn_val < 0.0 else 1.0 if turn_val > 1.0 else turn_val
 
-    root.after(0, lambda: (
-        ct_fwd.set(fwd_val),
-        ct_turn.set(turn_val),
-        fwd_var.set(f"Fwd: {fwd:+.2f}"),
+    # angles from sender (already stepped to match receiver)
+    pan_deg  = int(raw.get("pan_deg", 90))
+    tilt_deg = int(raw.get("tilt_deg", 90))
+
+    # D-Pad states (require the tiny sender tweak above)
+    up    = int(raw.get("up", 0))
+    down  = int(raw.get("down", 0))
+    left  = int(raw.get("left", 0))
+    right = int(raw.get("right", 0))
+
+    def _ui():
+        # update your existing widgets
+        ct_fwd.set(fwd_val)
+        ct_turn.set(turn_val)
+        fwd_var.set(f"Fwd: {fwd:+.2f}")
         turn_var.set(f"Turn: {turn:+.2f}")
-    ))
+
+        # update angle panel
+        pan_var.set(f"Pan: {pan_deg:3d}°")
+        tilt_var.set(f"Tilt: {tilt_deg:3d}°")
+        _move_marker(pan_deg, tilt_deg)
+
+        # light up D-Pad
+        _light(_up,    up)
+        _light(_down,  down)
+        _light(_left,  left)
+        _light(_right, right)
+
+    root.after(0, _ui)
 
 # Keep your existing controller thread start; on_state already passes (L, R, fwd, turn, raw)
 CONTROLLER_STOP = start_controller_thread(

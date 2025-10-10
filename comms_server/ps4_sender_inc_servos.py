@@ -1,6 +1,6 @@
 import json, socket, time, pygame, math
 
-PI_IP   = "192.168.137.245"
+PI_IP   = "192.168.137.184"
 PI_PORT = 5005
 
 SEND_HZ = 20.0

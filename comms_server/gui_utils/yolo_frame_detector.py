@@ -1,9 +1,9 @@
 # yolo_frame_detector.py
 # Requires: pip install ultralytics pillow
 
-from typing import List, Tuple, Optional
+from typing import List, Tuple
 from dataclasses import dataclass
-from PIL import ImageGrab, Image
+from PIL import Image
 import time
 
 try:
