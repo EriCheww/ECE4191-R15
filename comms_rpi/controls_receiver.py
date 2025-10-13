@@ -192,9 +192,10 @@ def main():
                 if not FIRST_TIME_MESSAGE:
                     print("Control packets received!")
                     FIRST_TIME_MESSAGE = True
-
+                                
                 # Optional: live console HUD
-                print(f"\rHost:{last_host['ip']}  A:{A.speed:+4d}%  B:{B.speed:+4d}%  SG90:{sg90_deg:3d}°  MG90:{mg90_deg:3d}°", end="", flush=True)
+                print(f"\rHost:{last_host['ip']}  A:{A.speed:+4d}%  B:{B.speed:+4d}%  SG90:{sg90_deg:3d}°  MG90:{mg90_deg:3d}°",
+                      end="", flush=True)
 
             except socket.timeout:
                 # No packet this tick; just loop
@@ -223,3 +224,6 @@ def main():
             pass
         pi.stop()
         print("\nExiting.")
+        
+if __name__ == "__main__":
+    main()
