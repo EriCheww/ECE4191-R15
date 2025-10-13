@@ -41,6 +41,7 @@ Running Process (Old Verson, seperated scripts):
 ---
 
 Common Troubleshooting Methods:
+
 0. Dont forget to run sudo systemctl restart pigpiod on RPi when rebooting RPi.
 1. Make sure Mobile Hotspot connection is active with RPI listed.
 2. Make sure variables inside gui.py settings section are correct and pointing to existing folders. Arrows point to most common error casuing hardcoded variables.
