@@ -1,4 +1,4 @@
-# Quick Update to know for Tuesdays Testing (7/10/2025)
+# Quick Update to know for testing:
 On the Laptop side: 
 ONLY NEED TO RUN gui.py AND gs_relay_stream.py ON THE LAPTOP :D  DONT NEED THE ps4_sender.py ANYMORE !!!
 - The gui.py now also contains a thread for ps4_sender.py 
@@ -12,7 +12,7 @@ Updates were made to the PS4_receiver.py and the new copy is called PS4_receiver
 - PS4_receiver_status_sender.py works with gui.py in comms_server Folder
 
 ---
-#NEW IDENTIFIED ISSUE
+# NEW IDENTIFIED ISSUE
 Run this after a reboot on the RPi through ssh, before following below Running Process:
 ```sudo
 sudo systemctl restart pigpiod
