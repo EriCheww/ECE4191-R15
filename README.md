@@ -7,9 +7,9 @@ ONLY NEED TO RUN gui.py AND gs_relay_stream.py ON THE LAPTOP :D  DONT NEED THE p
 - Any edits or updates eg for the servo should be done in controlls_sender.py
 
 On the RPi side: 
-Updates were made to the PS4_receiver.py and the new copy is called PS4_receiver_status_sender.py 
+Updates were made to the PS4_receiver.py and the new copy is called controls_receiver.py
 - PS4_receiver.py works with gui(backup).py and ps4_sender(backup).py in Old Versions (Backups) Folder
-- PS4_receiver_status_sender.py works with gui.py in comms_server Folder
+- controls_receiver.py works with gui.py in comms_server Folder
 
 ---
 # NEW IDENTIFIED ISSUE
