@@ -12,6 +12,12 @@ Updates were made to the PS4_receiver.py and the new copy is called PS4_receiver
 - PS4_receiver_status_sender.py works with gui.py in comms_server Folder
 
 ---
+#NEW IDENTIFIED ISSUE
+Run this after a reboot on the RPi through ssh, before following below Running Process:
+```sudo
+sudo systemctl restart pigpiod
+```
+Pigpiod when power cycled bugs out and causes the pins to lock and not work or something.
 
 Running Process (Old Verson): 
 1. Make sure Mobile Hotspot is connected
