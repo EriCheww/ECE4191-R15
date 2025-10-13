@@ -57,7 +57,7 @@ LOG_BUFFER = deque(maxlen=MAX_LOG_LINES)
 STATUS_PORT = 5051
 PINS = list(range(2,28))
 
-PI_IP   = "192.168.137.184" 
+PI_IP   = "192.168.137.94" 
 PI_PORT = 5005
 
 ##########################################################
