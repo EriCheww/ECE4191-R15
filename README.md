@@ -19,7 +19,16 @@ sudo systemctl restart pigpiod
 ```
 Pigpiod when power cycled bugs out and causes the pins to lock and not work or something.
 
-Running Process (Old Verson): 
+Running Process (New Verson, integrated with gui): 
+0. sudo systemctl restart pigpiod on rpi
+1. Make sure Mobile Hotspot is connected
+2. Run gs_stream.py on RPI
+3. Run PS4_receiver_status_sender.py on RPI
+4. Run gs_relay_stream.py on Laptop
+5. Run gui.py in comms_server on Laptop
+
+Running Process (Old Verson, seperated scripts): 
+0. sudo systemctl restart pigpiod on RPi
 1. Make sure Mobile Hotspot is connected
 2. Run gs_stream.py on RPI
 3. Run PS4_receiver.py on RPI
@@ -27,17 +36,10 @@ Running Process (Old Verson):
 5. Run ps4_sender(backup).py in Old Versions (Backup) on Laptop
 6. Run gui(backup).py in Old Versions (Backup) on Laptop
 
-
-Running Process (New Verson): 
-1. Make sure Mobile Hotspot is connected
-2. Run gs_stream.py on RPI
-3. Run PS4_receiver_status_sender.py on RPI
-4. Run gs_relay_stream.py on Laptop
-5. Run gui.py in comms_server on Laptop
-
 ---
 
 Common Troubleshooting Methods:
+0. Dont forget to run sudo systemctl restart pigpiod on RPi when rebooting RPi.
 1. Make sure Mobile Hotspot connection is active with RPI listed.
 2. Make sure variables inside gui.py settings section are correct and pointing to existing folders. Arrows point to most common error casuing hardcoded variables.
 ```py 
