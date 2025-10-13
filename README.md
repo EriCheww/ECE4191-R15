@@ -20,6 +20,7 @@ sudo systemctl restart pigpiod
 Pigpiod when power cycled bugs out and causes the pins to lock and not work or something.
 
 Running Process (New Verson, integrated with gui): 
+
 0. sudo systemctl restart pigpiod on rpi
 1. Make sure Mobile Hotspot is connected
 2. Run gs_stream.py on RPI
@@ -28,6 +29,7 @@ Running Process (New Verson, integrated with gui):
 5. Run gui.py in comms_server on Laptop
 
 Running Process (Old Verson, seperated scripts): 
+
 0. sudo systemctl restart pigpiod on RPi
 1. Make sure Mobile Hotspot is connected
 2. Run gs_stream.py on RPI
