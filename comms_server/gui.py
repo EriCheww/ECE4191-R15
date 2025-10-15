@@ -7,10 +7,10 @@ from PIL import ImageGrab
 from typing import List
 
 from gui_utils.screenshot import take_screenshot
-from gui_utils.console_window import init as console_init, open_console, add_to_console
+from gui_utils.console_window import init as console_init, open_console, add_to_console, dock_console
 from gui_utils.settings_window import init as settings_init, open_settings
 from gui_utils.advanced_screenshot import advanced_screenshot_from_widget
-from gui_utils.yolo_frame_detector import YOLOFrameDetector, RateLimiter, Det
+from gui_utils.yolo_frame_detector import YOLOFrameDetector, RateLimiter
 from gui_utils.alert import show_alert
 from gui_utils.status import *
 from gui_utils.controlls_sender import start_controller_thread
@@ -47,7 +47,7 @@ HOME_URL = "http://192.168.137.1:8080/"
 
 SS_SAVE_DIRECTORY = "C:\\ECE4191\\test_photos"
 SS_USER_PREFIX = 'test'
-YOLO_MODEL_PATH = r"C:\Users\ericl\OneDrive\Documents\GitHub\ECE4191-R15\comms_server\yolo\best_v.pt"
+YOLO_MODEL_PATH = r"C:\Users\Eric\Desktop\ECE4191\ECE4191-R15\comms_server\yolo\best_v.pt"
 
 YOLO_FPS_LIMITER = 10
 
@@ -336,28 +336,33 @@ limiter = RateLimiter(fps=YOLO_FPS_LIMITER)
 
 status_frame = ctk.CTkFrame(root)
 status_frame.grid(row=2, column=0, sticky="nsew", padx=(10,10), pady=(10,10))
-status_frame.grid_columnconfigure(1, weight=0)
+status_frame.grid_rowconfigure(0, weight=1)
+status_frame.grid_rowconfigure(1, weight=1)
+status_frame.grid_rowconfigure(2, weight=1)
+status_frame.grid_columnconfigure(0, weight=5)
+status_frame.grid_columnconfigure(1, weight=5)
+status_frame.grid_columnconfigure(2, weight=1)
 
 screenshot_button = ctk.CTkButton(status_frame, text="Take Screenshot", command=on_take_screenshot)
-screenshot_button.grid(row=0, column=0, sticky="nsew", padx=(10,0), pady=(0,10))
+screenshot_button.grid(row=0, column=3, sticky="nsew", padx=(10,0), pady=(0,10))
 
 advanced_screenshot_button = ctk.CTkButton(status_frame, text="Take Advanced Screenshot", command=on_take_advanced_screenshot)
-advanced_screenshot_button.grid(row=1, column=0, sticky="nsew", padx=(10,0), pady=(0,10))
+advanced_screenshot_button.grid(row=1, column=3, sticky="nsew", padx=(10,0), pady=(0,10))
 
 toggle_btn = ctk.CTkButton(status_frame, text="Start Detection", command=toggle_yolo)
-toggle_btn.grid(row=2, column=0, sticky="nsew", padx=(10,0), pady=(0,10)) 
+toggle_btn.grid(row=2, column=3, sticky="nsew", padx=(10,0), pady=(0,10)) 
 
-gpio_frame, LAMPS = create_gpio_panel(status_frame)
-gpio_frame.grid(row=0, column=1, sticky="n", padx=(10,0), pady=(0,10))
+# gpio_frame, LAMPS = create_gpio_panel(status_frame)
+# gpio_frame.grid(row=0, column=1, sticky="n", padx=(10,0), pady=(0,10))
 
 # from gui_utils.status import create_simple_status, update_simple_status, update_connection_status
 simple_status_frame, lamp_conn, label_conn, lamp_motor, label_motor = create_simple_status(parent=status_frame)
-simple_status_frame.grid(row=0, column=4, sticky="n", padx=(10,0), pady=(0,10))
+simple_status_frame.grid(row=0, rowspan=3, column=2, sticky="nsew", padx=(10,0), pady=(0,10))
 
 STOP_EVENT = start_udp_listener(STATUS_PORT, _on_udp_message)
 
 controller_frame = ctk.CTkFrame(status_frame)
-controller_frame.grid(row=0, column=2, rowspan=3, sticky="n", padx=(10,10), pady=(0,10))
+controller_frame.grid(row=0, column=0, rowspan=3, sticky="nsew", padx=(10,10), pady=(0,10))
 controller_frame.grid_columnconfigure(1, weight=1)
 
 controller_frame_label = ctk.CTkLabel(controller_frame, text="Controller")
@@ -380,9 +385,12 @@ ct_turn = ctk.CTkProgressBar(controller_frame)
 ct_turn.grid(row=2, column=1, sticky="ew")
 ct_turn.set(0.5)  # 0.5 = neutral
 
+console_panel = console_panel = dock_console(status_frame,place=lambda f: f.grid(row=0, column=4, rowspan=3, sticky="nsew",padx=(10,10), pady=(0,10)))
+
+
 # ===================== Camera Angle Panel =====================
 camera_frame = ctk.CTkFrame(status_frame)
-camera_frame.grid(row=0, column=3, rowspan=3, sticky="n", padx=(10,10), pady=(0,10))
+camera_frame.grid(row=0, column=1, rowspan=3, sticky="nsew", padx=(10,10), pady=(0,10))
 camera_frame.grid_columnconfigure(1, weight=1)
 
 ct_cam_label = ctk.CTkLabel(camera_frame, text="Camera Angle")
