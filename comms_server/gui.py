@@ -253,7 +253,7 @@ def _apply_gpio_update(arr, pigpio_ok, addr):
     states = {bcm: arr[bcm - 2] for bcm in range(2, 28) if 0 <= (bcm - 2) < len(arr)}
 
     # Update individual GPIO lamps
-    update_gpio_colors(LAMPS, states)
+    # update_gpio_colors(LAMPS, states)
 
     # Update the Motor Status lamp
     update_connection_status(pigpio_ok, lamp=lamp_conn, label=label_conn)
@@ -273,7 +273,7 @@ root.title("Viewer")
 root.geometry("1180x740")
 root.grid_rowconfigure(0, weight=1)
 root.grid_rowconfigure(1, weight=110)
-root.grid_rowconfigure(2, weight=30)
+root.grid_rowconfigure(2, weight=0)
 root.grid_columnconfigure(0, weight=1)
 
 SS_SAVE_DIRECTORY_VAR   = ctk.StringVar(value=SS_SAVE_DIRECTORY)
@@ -337,36 +337,42 @@ limiter = RateLimiter(fps=YOLO_FPS_LIMITER)
 status_frame = ctk.CTkFrame(root)
 status_frame.grid(row=2, column=0, sticky="nsew", padx=(10,10), pady=(10,10))
 status_frame.grid_rowconfigure(0, weight=1)
-status_frame.grid_rowconfigure(1, weight=1)
-status_frame.grid_rowconfigure(2, weight=1)
-status_frame.grid_columnconfigure(0, weight=5)
-status_frame.grid_columnconfigure(1, weight=5)
+status_frame.grid_columnconfigure(0, weight=3)
+status_frame.grid_columnconfigure(1, weight=3)
 status_frame.grid_columnconfigure(2, weight=1)
 
-screenshot_button = ctk.CTkButton(status_frame, text="Take Screenshot", command=on_take_screenshot)
-screenshot_button.grid(row=0, column=3, sticky="nsew", padx=(10,0), pady=(0,10))
+buttons_frame = ctk.CTkFrame(status_frame)
+buttons_frame.grid(row=0, column=3, sticky="nsew", padx=(10,0), pady=(10,10))
+buttons_frame_label = ctk.CTkLabel(buttons_frame, text="Quick Actions:", font=ctk.CTkFont(size=13, weight="bold"))
+buttons_frame_label.grid(row=0, column=0, sticky="nsew", padx=(10,10), pady=(10,10))
 
-advanced_screenshot_button = ctk.CTkButton(status_frame, text="Take Advanced Screenshot", command=on_take_advanced_screenshot)
-advanced_screenshot_button.grid(row=1, column=3, sticky="nsew", padx=(10,0), pady=(0,10))
+screenshot_button = ctk.CTkButton(buttons_frame, text="Take Screenshot", command=on_take_screenshot)
+screenshot_button.grid(row=1, column=0, sticky="nsew", padx=(10,10), pady=(10,10))
 
-toggle_btn = ctk.CTkButton(status_frame, text="Start Detection", command=toggle_yolo)
-toggle_btn.grid(row=2, column=3, sticky="nsew", padx=(10,0), pady=(0,10)) 
+advanced_screenshot_button = ctk.CTkButton(buttons_frame, text="Take Advanced Screenshot", command=on_take_advanced_screenshot)
+advanced_screenshot_button.grid(row=2, column=0, sticky="nsew", padx=(10,10), pady=(0,10))
+
+toggle_btn = ctk.CTkButton(buttons_frame, text="Start Detection", command=toggle_yolo)
+toggle_btn.grid(row=3, column=0, sticky="nsew", padx=(10,10), pady=(0,10)) 
 
 # gpio_frame, LAMPS = create_gpio_panel(status_frame)
 # gpio_frame.grid(row=0, column=1, sticky="n", padx=(10,0), pady=(0,10))
 
 # from gui_utils.status import create_simple_status, update_simple_status, update_connection_status
 simple_status_frame, lamp_conn, label_conn, lamp_motor, label_motor = create_simple_status(parent=status_frame)
-simple_status_frame.grid(row=0, rowspan=3, column=2, sticky="nsew", padx=(10,0), pady=(0,10))
+simple_status_frame.grid(row=0, column=2, sticky="nsew", padx=(0,0), pady=(10,10))
 
 STOP_EVENT = start_udp_listener(STATUS_PORT, _on_udp_message)
 
 controller_frame = ctk.CTkFrame(status_frame)
-controller_frame.grid(row=0, column=0, rowspan=3, sticky="nsew", padx=(10,10), pady=(0,10))
-controller_frame.grid_columnconfigure(1, weight=1)
+controller_frame.grid(row=0, column=0, sticky="nsew", padx=(10,10), pady=(10,10))
+controller_frame.grid_rowconfigure(1, weight=1)
+controller_frame.grid_rowconfigure(2, weight=1)
+controller_frame.grid_columnconfigure(0, weight=1)
+controller_frame.grid_columnconfigure(1, weight=2)
 
-controller_frame_label = ctk.CTkLabel(controller_frame, text="Controller")
-controller_frame_label.grid(row=0, column=0, columnspan=2, pady=(0,6))
+controller_frame_label = ctk.CTkLabel(controller_frame, text="Controller:", font=ctk.CTkFont(size=13, weight="bold"))
+controller_frame_label.grid(row=0, column=0, columnspan=2, padx=(10,10), pady=(10,0))
 
 # Vars for text readouts
 fwd_var  = ctk.StringVar(value="Fwd: 0.00")
@@ -374,40 +380,52 @@ turn_var = ctk.StringVar(value="Turn: 0.00")
 
 # --- Vertical Fwd/Back (orientation='vertical') ---
 ct_fwd_label = ctk.CTkLabel(controller_frame, textvariable=fwd_var)
-ct_fwd_label.grid(row=1, column=0, sticky="w")
-ct_fwd = ctk.CTkProgressBar(controller_frame, orientation="vertical", width=14, height=90)
-ct_fwd.grid(row=2, column=0, sticky="ns", padx=(0,8))
+ct_fwd_label.grid(row=1, column=0, sticky="nsew")
+ct_fwd = ctk.CTkProgressBar(controller_frame, orientation="vertical")
+ct_fwd.grid(row=2, column=0, padx=(0,8), pady=(10,10))
 ct_fwd.set(0.5) 
 
 # --- Horizontal Left/Right ---
-ct_turn_label = ctk.CTkLabel(controller_frame, textvariable=turn_var).grid(row=1, column=1, sticky="w")
+ct_turn_label = ctk.CTkLabel(controller_frame, textvariable=turn_var)
+ct_turn_label.grid(row=1, column=1, sticky="nsew")
 ct_turn = ctk.CTkProgressBar(controller_frame)
-ct_turn.grid(row=2, column=1, sticky="ew")
+ct_turn.grid(row=2, column=1)
 ct_turn.set(0.5)  # 0.5 = neutral
 
-console_panel = console_panel = dock_console(status_frame,place=lambda f: f.grid(row=0, column=4, rowspan=3, sticky="nsew",padx=(10,10), pady=(0,10)))
+console_panel = console_panel = dock_console(status_frame,place=lambda f: f.grid(row=0, column=4, sticky="nsew",padx=(10,10), pady=(10,10)))
 
 
 # ===================== Camera Angle Panel =====================
 camera_frame = ctk.CTkFrame(status_frame)
-camera_frame.grid(row=0, column=1, rowspan=3, sticky="nsew", padx=(10,10), pady=(0,10))
+camera_frame.grid(row=0, column=1, sticky="nsew", padx=(0,10), pady=(10,10))
+
+# Grid: left column = aim (flex), right column = controls (fixed-ish)
+camera_frame.grid_columnconfigure(0, weight=2)
 camera_frame.grid_columnconfigure(1, weight=1)
+# Rows: let row 0 stretch so the aim can grow; rows 1–3 are for right-side controls
+camera_frame.grid_rowconfigure(0, weight=0)   # aim grows vertically
+camera_frame.grid_rowconfigure(1, weight=0)
+camera_frame.grid_rowconfigure(2, weight=0)
+camera_frame.grid_rowconfigure(3, weight=0)
 
-ct_cam_label = ctk.CTkLabel(camera_frame, text="Camera Angle")
-ct_cam_label.grid(row=0, column=0, columnspan=2, pady=(0,6))
+ct_cam_label = ctk.CTkLabel(camera_frame, text="Camera Angle:", font=ctk.CTkFont(size=13, weight="bold"))
+ct_cam_label.grid(row=0, column=0, columnspan=2, sticky="nsew", padx=(0,0), pady=(10,0))  # title above right stack
 
-pan_var  = ctk.StringVar(value="Pan: 90°")
-tilt_var = ctk.StringVar(value="Tilt: 90°")
-ct_pan_label  = ctk.CTkLabel(camera_frame, textvariable=pan_var);  ct_pan_label.grid(row=1, column=0, sticky="w")
-ct_tilt_label = ctk.CTkLabel(camera_frame, textvariable=tilt_var); ct_tilt_label.grid(row=1, column=1, sticky="w")
+# ---------- Left: Aim canvas ----------
+AIM_SIZE = 280  # fixed baseline size (won't force other frames to resize)
+aim_wrap = ctk.CTkFrame(camera_frame, fg_color="transparent")
+aim_wrap.grid(row=1, column=0, rowspan=3, sticky="nsew", padx=(0,0), pady=(10,10))
+aim_wrap.grid_rowconfigure(0, weight=1)
+aim_wrap.grid_columnconfigure(0, weight=1)
 
-# Aim pad (dot moves with pan/tilt)
-AIM_SIZE = 120
-aim = ctk.CTkCanvas(camera_frame, width=AIM_SIZE, height=AIM_SIZE, highlightthickness=0, bg="#111111")
-aim.grid(row=2, column=0, columnspan=2, sticky="n")
+aim = ctk.CTkCanvas(aim_wrap, width=AIM_SIZE, height=AIM_SIZE, highlightthickness=0, bg="#111111")
+aim.place(relx=0.5, rely=0.5, anchor="center")  # center within the left cell
+
+# draw border + crosshair for the fixed baseline size
 aim.create_rectangle(1, 1, AIM_SIZE-2, AIM_SIZE-2, outline="#555555")
 aim.create_line(AIM_SIZE//2, 2, AIM_SIZE//2, AIM_SIZE-2, fill="#333333")
 aim.create_line(2, AIM_SIZE//2, AIM_SIZE-2, AIM_SIZE//2, fill="#333333")
+
 _marker_r = 5
 marker_id = aim.create_oval(
     AIM_SIZE//2 - _marker_r, AIM_SIZE//2 - _marker_r,
@@ -415,17 +433,21 @@ marker_id = aim.create_oval(
     outline="", fill="#00e676"
 )
 
-def _move_marker(pan_deg: int, tilt_deg: int):
-    pan_deg  = max(0, min(180, int(pan_deg)))
-    tilt_deg = max(0, min(180, int(tilt_deg)))
-    x = int((pan_deg / 180.0) * (AIM_SIZE - 1))
-    y = int(((180 - tilt_deg) / 180.0) * (AIM_SIZE - 1))
-    aim.coords(marker_id, x - _marker_r, y - _marker_r, x + _marker_r, y + _marker_r)
+# ---------- Right: stacked controls (Pan, Tilt, D-pad) ----------
+# Pan/Tilt readouts (centered, fixed width so text changes don't jiggle layout)
+LABEL_W = 120
+pan_var  = ctk.StringVar(value="Pan: 90°")
+tilt_var = ctk.StringVar(value="Tilt: 90°")
 
-# D-Pad indicator (small arrows that light up)
+ct_pan_label  = ctk.CTkLabel(camera_frame, textvariable=pan_var, anchor="center", width=LABEL_W)
+ct_pan_label.grid(row=1, column=1, sticky="n", pady=(6,2))
+
+ct_tilt_label = ctk.CTkLabel(camera_frame, textvariable=tilt_var, anchor="center", width=LABEL_W)
+ct_tilt_label.grid(row=2, column=1, sticky="n", pady=(2,8))
+
+# D-Pad indicator
 dpad = ctk.CTkCanvas(camera_frame, width=70, height=70, highlightthickness=0, bg="#111111")
-dpad.grid(row=3, column=0, columnspan=2, pady=(8,0))
-# draw simple arrows as triangles
+dpad.grid(row=3, column=1, sticky="n")
 _up    = dpad.create_polygon(35, 8, 25, 22, 45, 22,  fill="#333333", outline="")
 _down  = dpad.create_polygon(35, 62, 25, 48, 45, 48, fill="#333333", outline="")
 _left  = dpad.create_polygon(8, 35, 22, 25, 22, 45,  fill="#333333", outline="")
@@ -433,6 +455,28 @@ _right = dpad.create_polygon(62, 35, 48, 25, 48, 45, fill="#333333", outline="")
 
 def _light(widget_id, on):
     dpad.itemconfig(widget_id, fill="#00e5ff" if on else "#333333")
+
+# ---- Marker mapping (keeps your current inversion flags) ----
+PAN_RIGHT_INCREASES = True
+TILT_DOWN_INCREASES = True
+
+def _clamp_deg(v: int) -> int:
+    return max(0, min(180, int(v)))
+
+def _move_marker(pan_deg: int, tilt_deg: int):
+    pan  = _clamp_deg(pan_deg)
+    tilt = _clamp_deg(tilt_deg)
+
+    # X from tilt (reversed so right=right), Y from pan
+    x = int((1.0 - (tilt / 180.0)) * (AIM_SIZE - 1))
+    y = int((pan / 180.0) * (AIM_SIZE - 1))
+
+    if not PAN_RIGHT_INCREASES:
+        x = (AIM_SIZE - 1) - x
+    if not TILT_DOWN_INCREASES:
+        y = (AIM_SIZE - 1) - y
+
+    aim.coords(marker_id, x - _marker_r, y - _marker_r, x + _marker_r, y + _marker_r)
 
 # ---------- Update hook: extend your existing _on_controller_state ----------
 def _on_controller_state(L, R, fwd, turn, raw):

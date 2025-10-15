@@ -95,7 +95,10 @@ def update_gpio_colors(lamps_by_bcm, states):
 def create_simple_status(parent):
 
     frame = ctk.CTkFrame(parent)
-    title = ctk.CTkLabel(frame, text="Status:")
+    frame.grid_columnconfigure(0, weight=1)
+    frame.grid_columnconfigure(1, weight=1)
+    frame.grid_columnconfigure(2, weight=1)
+    title = ctk.CTkLabel(frame, text="Status:", font=ctk.CTkFont(size=13, weight="bold"))
     title.grid(row=0, column=0, columnspan=3, sticky="n", padx=(10,10), pady=(10,0))
 
     label_connection_title = ctk.CTkLabel(frame, text="Connection")
