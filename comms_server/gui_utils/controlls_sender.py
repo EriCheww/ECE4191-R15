@@ -15,10 +15,10 @@ def start_controller_thread(
     turn_axis: int = 2,        # right stick X
     invert_fwd: bool = True,   # Y up is negative on many controllers
     # PS4 default button indices (DS4 over pygame):
-    square_btn: int = 2,
-    cross_btn: int = 0,
-    circle_btn: int = 1,
-    triangle_btn: int = 3,
+    square_btn: int = 3,
+    cross_btn: int = 1,
+    circle_btn: int = 0,
+    triangle_btn: int = 2,
     # Servo stepping (mirror receiver)
     MIN_DEG: int = 0,
     MAX_DEG: int = 180,
