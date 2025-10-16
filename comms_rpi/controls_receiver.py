@@ -5,9 +5,9 @@ import threading
 # ===== DC Motor PIN MAP (BCM) =====
 ENA = 12   # was 18
 IN1 = 16
-IN2 = 20
+IN2 = 20   # now 5
 ENB = 13   # was 19
-IN3 = 21
+IN3 = 21   # now 6
 IN4 = 26
 
 PWM_FREQ = 1000   # Hz (1 kHz is safe for L298N)
