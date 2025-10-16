@@ -47,7 +47,7 @@ HOME_URL = "http://192.168.137.1:8080/"
 
 SS_SAVE_DIRECTORY = "C:\\ECE4191\\test_photos"
 SS_USER_PREFIX = 'test'
-YOLO_MODEL_PATH = r"C:\Users\Eric\Desktop\ECE4191\ECE4191-R15\comms_server\yolo\best_v3.pt"
+YOLO_MODEL_PATH = r"C:\Users\ericl\OneDrive\Documents\GitHub\ECE4191-R15\comms_server\yolo\best_v3.pt"
 
 YOLO_FPS_LIMITER = 10
 
