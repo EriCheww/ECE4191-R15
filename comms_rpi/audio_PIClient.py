@@ -8,14 +8,14 @@ import socket, struct, queue, signal, sys
 
 
 # ===== Config =====
-HOST = "192.168.159.160" # enter im laptop ip address
+HOST = "192.168.137.1" # enter im laptop ip address
 PORT = 50007 # pick any free port >= 1024
 
 
 SAMPLE_RATE = 48000
 CHANNELS = 1
 BLOCKSIZE = 2048 # if issues make like 320 same as laptop's script
-INPUT_DEVICE = 2 # set to whatever index of Google voiceHAT mic gets printed at start of script
+INPUT_DEVICE = 0 # set to whatever index of Google voiceHAT mic gets printed at start of script
 # ==================
 audio_q = queue.Queue(maxsize=100)
 
