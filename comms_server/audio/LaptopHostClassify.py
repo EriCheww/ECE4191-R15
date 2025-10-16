@@ -1,3 +1,4 @@
+
 import socket, struct
 import sounddevice as sd
 import threading
@@ -5,7 +6,6 @@ import time
 import numpy as np
 from scipy.signal import resample_poly
 import numpy as np
-import matplotlib.pyplot as plt
 import pickle
 from scipy import fft, signal
 from scipy.io.wavfile import read
@@ -15,6 +15,8 @@ import librosa
 import time
 import keyboard
 import cv2
+import matplotlib.pyplot as plt
+
 # from scipy.signal import get_window
 
 
@@ -48,6 +50,7 @@ HANGOVER_SEC = 0.3            # stay in vad this long after it drops quiet
 HANGOVER = int(round(HANGOVER_SEC / PRINT_EVERY))
 hang = 0
 # ====================================
+
 
 # def band_rms(x, fs, f_low=1000, f_high=8000):
 #     """Return RMS energy in [f_low, f_high] Hz band."""
@@ -95,28 +98,75 @@ def score_songs(hashes,database):
 
 def display_Image(lock):
     global displayImg
-    cv2.namedWindow("Classifier result",cv2.WINDOW_NORMAL)
-    cv2.resizeWindow("Classifier result", 1000, 1000)  # width x height
+    global audioVolume
+    global recordingGlobal
+
+    volumeScale = 1000
+
     while True:
         with lock:
             img = displayImg
+            volume = audioVolume
         if img is not None:
-            cv2.imshow("Classifier Results",img)
+            imgSize = cv2.resize(img, (400, 400))
+            # Overlay text on image
+            if (recordingGlobal == True):
+                text = f"Currently Recording..."
+                colour = (0, 0, 255) #red
+                cv2.putText(imgSize, text, (5, 15),cv2.FONT_HERSHEY_SIMPLEX, 0.5, colour, 1, cv2.LINE_AA)
+            else:
+                text = f"Waiting on Recording..."
+                colour = (0, 255, 0) #green
+                cv2.putText(imgSize, text, (5, 15),cv2.FONT_HERSHEY_SIMPLEX, 0.5, colour, 1, cv2.LINE_AA)
+                volume = np.minimum(volume*volumeScale,100)
+                textVolume = f"Average Volume:{volume:.2f}"
+                cv2.putText(imgSize, textVolume, (5, 45),cv2.FONT_HERSHEY_SIMPLEX, 0.5, colour, 1, cv2.LINE_AA)
+
+            cv2.imshow("Classifier Results",imgSize)
         if cv2.waitKey(30)==27:
             break
-        time.sleep(0.1)
+        time.sleep(0.2)
     cv2.destroyAllWindows()
 
 
+
+def classify_audio(audio_data_copy, lock, sound_index_lookup, database, images):
+    # This function takes in the recorded audio array, prepares it to then compute the hashes and volume. 
+    # Then it updates the image to display and volume based on the result 
+    global displayImg, recordingGlobal, audioVolume
+
+    audioInput = audio_data_copy.astype(np.float32) / 32768.0
+
+    audioInput = librosa.resample(audioInput, orig_sr=SAMPLE_RATE, target_sr=TARGET_SR)
+    constellation = create_constellation(audioInput, TARGET_SR)
+    hashes = create_hashes(constellation, None)
+    scores = score_songs(hashes, database)
+    bestScoreID, bestScore = scores[0]
+    bestAnimal = sound_index_lookup[bestScoreID][5:-5]
+    volume = librosa.feature.rms(y=audioInput, S=TARGET_SR).mean()
+
+    with lock:
+        displayImg = images[bestAnimal]
+        recordingGlobal = False # Tells the display script if to display blank image or animal
+        audioVolume = volume
+
+
 def main():
-    global start_time
     global displayImg
+    global audioVolume
+    global recordingGlobal
 
     displayImg = None
-    lock = threading.Lock()
+    recordingGlobal = False
+    audioVolume = 0.0
+    recording = False
+    audioBuffer = []
+    showPlot = 0 # Change to 1 to display a spectrogram plot of the recorded audio
 
+    lock = threading.Lock()
     threading.Thread(target=display_Image, args=(lock,), daemon=True).start()
 
+    # TCP Connection Setup
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     s.bind((HOST, PORT))
@@ -124,9 +174,8 @@ def main():
     print(f"[Server] Listening on {HOST}:{PORT} ...")
     conn, addr = s.accept()
     print(f"[Server] Client connected from {addr}")
-    start_time = time.time()
     
-    images = {
+    images = { #dictionary of image titles and locations
         "Bat": cv2.imread("images/bat.jpg"),
         "FrogmouthTawny": cv2.imread("images/frogmouthtawny.jpg"),
         "Snake": cv2.imread("images/snake.jpg"),
@@ -140,21 +189,18 @@ def main():
         "Magpie": cv2.imread("images/magpie.jpg"),
         "Platypus": cv2.imread("images/platypus.jpg"),
         "Possum": cv2.imread("images/possum.jpg"),
-        "Wombat": cv2.imread("images/wombat.jpg")
+        "Wombat": cv2.imread("images/wombat.jpg"),
+        "Black": cv2.imread("images/Black.jpg")
     }
 
     #load database
     database = pickle.load(open('database.pickle', 'rb'))
-    song_index_lookup = pickle.load(open("song_index.pickle", "rb"))
-
-    recording = False
-    audioBuffer = []
+    sound_index_lookup = pickle.load(open("song_index.pickle", "rb"))
 
     with sd.OutputStream(samplerate=SAMPLE_RATE,
                             channels=CHANNELS,
                             dtype='int16',
                             blocksize=PLAYBACK_BLOCKSIZE) as stream:
-        last_cls = 0
         
         try:
             print('Press "p" to start/stop recording:')
@@ -162,44 +208,28 @@ def main():
                 if keyboard.is_pressed('p'):
                     recording = not recording
                     if recording:
-                        print("Recording has started")
+                        print("Recording has started.")
                         audioBuffer = []
-                    else:
-                        print("Recording stopped, playing back")
+                        with lock:
+                            displayImg = images["Black"]
+                            recordingGlobal = True
+                    elif (recording == False):
+                        print("Recording stopped.")
                         if len(audioBuffer) > 0:
                             playbackData = np.concatenate(audioBuffer)
-                            #stream.write(playbackData)
-                            #print("Audio playback finished")
+                            if (showPlot == 1):
+                                # Compute Short-Time Fourier Transform (STFT)
+                                audioInput = playbackData.astype(np.float32) / 32768.0
+                                D = librosa.stft(audioInput)
+                                # Convert amplitude to decibels
+                                S_db = librosa.amplitude_to_db(abs(D), ref=np.max)
+                                plt.figure(figsize=(12, 4))
+                                librosa.display.specshow(S_db, sr=48000, x_axis='time', y_axis='log')
+                                plt.colorbar(format='%+2.0f dB')
+                                plt.title("Spectrogram (dB)")
+                                plt.show()
 
-                            print("Classification has started")
-                            audioInput = playbackData.astype(np.float32)/32768.0
-
-                            #downsample to 12000hz to save processing power
-                            audioInput = librosa.resample(audioInput, orig_sr=SAMPLE_RATE, target_sr=TARGET_SR)
-
-                            #convert to mono (it should alr be in mono so maybe can remove)
-                            if audioInput.ndim > 1:
-                                audioInput = np.mean(audioInput, axis=1)
-                            
-                            startTime = time.time()
-                            constellation = create_constellation(audioInput, TARGET_SR)
-                            hashes = create_hashes(constellation, None)
-
-                            scores = score_songs(hashes,database)
-                            for song_index, score in scores:
-                                print(f"{song_index_lookup[song_index]=}: Score of {score[1]} at offset {score[0]}")
-
-                            bestScoreID, bestScore = scores[0]
-                            bestScorePath = song_index_lookup[bestScoreID]
-                            bestAnimal = bestScorePath[5:-5]
-                            #cv2.imshow("classifier result for",images[bestAnimal])
-                            #cv2.waitKey(1)
-                            with lock:
-                                displayImg = images[bestAnimal]
-
-                            #print(f"Best match: {bestScorePath} (Score={bestScore[1]}, Offset={bestScore[0]})")
-
-
+                            threading.Thread(target=classify_audio, args=(playbackData.copy(), lock, sound_index_lookup, database, images),daemon=True).start()
                         else:
                             print("No audio was recorded... sad!")
 
@@ -231,6 +261,7 @@ def main():
                 # Play audio
                 stream.write(pcm)
 
+                # Generate recording array
                 if recording:
                     audioBuffer.append(pcm)
                     
