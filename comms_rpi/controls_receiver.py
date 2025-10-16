@@ -35,6 +35,27 @@ STATUS_UDP_PORT = 5051       # laptop port to receive status
 last_host = {"ip": None}     # learned from joystick sender
 FIRST_TIME_MESSAGE = False
 FIRST_TIME_MESSAGE_1 = False
+MOTOR_BCMS = (26, 21, 5, 6)
+
+def status_payload(pi):
+    pins = stable_gpio_snapshot(pi, exclude=(2, 3))
+    gpio_dict = {str(p): {"level": pins[p]} for p in pins}
+
+    # Add specific motor pins (if not already in snapshot)
+    for p in MOTOR_BCMS:
+        if p not in gpio_dict:
+            gpio_dict[str(p)] = {"level": pi.read(p)}
+
+    return {
+        "ts": time.time(),
+        "pi_connected": bool(pi.connected),
+        "gpio": gpio_dict,
+        "servo": {
+            "sg90_deg": sg90_deg,
+            "mg90_deg": mg90_deg,
+        }
+    }
+
 
 def stable_gpio_snapshot(pi, pins=range(2,28), exclude=()):
     """Return dict {pin: 0/1} with gentle biasing for floating inputs."""
@@ -53,10 +74,16 @@ def stable_gpio_snapshot(pi, pins=range(2,28), exclude=()):
             out[p] = int(pi.read(p))
     return out
 
+
 def status_payload(pi):
-    # Add servo angles to your existing GPIO + connectivity status
-    pins = stable_gpio_snapshot(pi, exclude=(2,3))
+    pins = stable_gpio_snapshot(pi, exclude=(2, 3))
     gpio_dict = {str(p): {"level": pins[p]} for p in pins}
+
+    # Add specific motor pins (if not already in snapshot)
+    for p in MOTOR_BCMS:
+        if p not in gpio_dict:
+            gpio_dict[str(p)] = {"level": pi.read(p)}
+
     return {
         "ts": time.time(),
         "pi_connected": bool(pi.connected),
