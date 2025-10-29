@@ -19,8 +19,6 @@ Following this section prepares the R15 Rover for first-time initialization and 
 
 This guide is divided into three sections:
 
-1. **Onboard Computer (Raspberry Pi Zero 2 W) Setup** – Installing the operating system, enabling SSH, and preparing software dependencies.  
-2. **Control Laptop Setup** – Installing required tools, configuring the GUI interface, and verifying communication with the rover.  
+1. **Control Laptop Setup** – Installing required tools, configuring the GUI interface, and verifying communication with the rover.  
+2. **Onboard Computer (Raspberry Pi Zero 2 W) Setup** – Installing the operating system, enabling SSH, and preparing software dependencies.  
 3. **Optional Server Setup** – Setting up a relay or remote access server for extended-range or multi-client operation.
-
-
