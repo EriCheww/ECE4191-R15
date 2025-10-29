@@ -22,6 +22,12 @@ nav:
   - Introduction: index.md
   - Getting Started:
       - What You’ll Need: getting_started/requirements.md
+      - First Time Setup:
+        - Overview: getting_started/first_time_setup/overview.md
+        - Control Laptop: getting_started/first_time_setup/control_laptop.md
+        - Onboard: getting_started/first_time_setup/onboard.md
+        - Server: getting_started/first_time_setup/server.md
+        - Hardware: getting_started/first_time_setup/hardware_setup.md
       - First Run: getting_started/first_run.md
   - Operation: operation.md
   - Safety: safety.md
