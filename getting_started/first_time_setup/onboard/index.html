@@ -1,0 +1,1108 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="User & Safety Manual for the R15 Wildlife Monitoring Rover">
+      
+      
+      
+      
+        <link rel="prev" href="../control_laptop/">
+      
+      
+        <link rel="next" href="../server/">
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.22">
+    
+    
+      
+        <title>Onboard - R15 Rover Docs</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.84d31ad4.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#onboard-computer-setup" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="R15 Rover Docs" class="md-header__button md-logo" aria-label="R15 Rover Docs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            R15 Rover Docs
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Onboard
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="R15 Rover Docs" class="md-nav__button md-logo" aria-label="R15 Rover Docs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    R15 Rover Docs
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Introduction
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Getting Started
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Getting Started
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../requirements/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    What You’ll Need
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    First Time Setup
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            First Time Setup
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../control_laptop/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Control Laptop
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Onboard
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Onboard
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#step-0-using-the-pre-configured-rpi-and-microsd-card" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 0 — Using the Pre-Configured RPi and MicroSD Card
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-1-prepare-the-microsd-card" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 1 — Prepare the MicroSD Card
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-2-first-boot-and-network-check" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 2 — First Boot and Network Check
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-3-fetching-code-from-github-for-onboard-computer" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 3 — Fetching Code from GitHub for Onboard Computer
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-4-downloading-dependcies-and-libaries" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 4 — Downloading Dependcies and Libaries
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-5-editable-code-parameters-optional" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 5 — Editable Code Parameters (Optional)
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../server/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Server
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hardware_setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Hardware
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../first_run/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    First Run
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../operation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Operation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../safety/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Safety
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Troubleshooting
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#step-0-using-the-pre-configured-rpi-and-microsd-card" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 0 — Using the Pre-Configured RPi and MicroSD Card
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-1-prepare-the-microsd-card" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 1 — Prepare the MicroSD Card
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-2-first-boot-and-network-check" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 2 — First Boot and Network Check
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-3-fetching-code-from-github-for-onboard-computer" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 3 — Fetching Code from GitHub for Onboard Computer
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-4-downloading-dependcies-and-libaries" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 4 — Downloading Dependcies and Libaries
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-5-editable-code-parameters-optional" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 5 — Editable Code Parameters (Optional)
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="onboard-computer-setup">Onboard Computer Setup<a class="headerlink" href="#onboard-computer-setup" title="Permanent link">&para;</a></h1>
+<p>This section covers preparing the onboard Raspberry Pi Zero 2 W before integration with the control system. </p>
+<p>It includes OS installation, SSH configuration, dependency setup (Python, GStreamer), and enabling Wi-Fi connectivity for initial pairing.</p>
+<h2 id="step-0-using-the-pre-configured-rpi-and-microsd-card">Step 0 — Using the Pre-Configured RPi and MicroSD Card<a class="headerlink" href="#step-0-using-the-pre-configured-rpi-and-microsd-card" title="Permanent link">&para;</a></h2>
+<p>If you are using the <strong>pre-configured Raspberry Pi Zero 2 W</strong> and <strong>microSD card</strong> provided with your setup, follow the instructions below to connect it to your network.<br />
+These steps allow you to verify the existing installation without reinstalling the operating system.</p>
+<p><strong>Required Accessories</strong></p>
+<ul>
+<li>Monitor  </li>
+<li>Mini HDMI → HDMI cable  </li>
+<li>Micro USB → USB adapter  </li>
+<li>Mouse  </li>
+<li>Keyboard  </li>
+</ul>
+<p><strong>Procedure</strong></p>
+<ol>
+<li>Connect the monitor, mouse, and keyboard to the Raspberry Pi.  </li>
+<li>Power on the Raspberry Pi and wait until the desktop screen appears.  </li>
+<li>From the top-right network icon, select <strong>your mobile hotspot</strong> (hosted by the control laptop) or another available Wi-Fi network.  </li>
+<li>Enter the Wi-Fi password and verify that the Pi connects successfully.  </li>
+<li>Once connected, note the device’s <strong>hostname or IP address</strong> — you will need it later when establishing the SSH connection from the control laptop.</li>
+</ol>
+<p><strong>Note:</strong> These steps are only required for the <strong>first-time configuration</strong> of a pre-installed unit.<br />
+After confirming network connectivity, you can disconnect the peripherals and operate the system headlessly via SSH.</p>
+<div class="admonition note">
+<p class="admonition-title">Using a Pre-Configured Raspberry Pi</p>
+<p>If you are using the <strong>Raspberry Pi Zero 2 W</strong> that came pre-configured with your setup, you can <strong>skip the remaining steps</strong>.<br />
+The operating system and required dependencies are already installed.<br />
+Only continue below if you are setting up a <strong>new or replacement</strong> Raspberry Pi.</p>
+</div>
+<h2 id="step-1-prepare-the-microsd-card">Step 1 — Prepare the MicroSD Card<a class="headerlink" href="#step-1-prepare-the-microsd-card" title="Permanent link">&para;</a></h2>
+<p>Use a microSD card (8 GB minimum, 16 GB recommended).<br />
+Back up any existing data, as the following process will erase all contents.</p>
+<ol>
+<li>Download and install <strong>Raspberry Pi Imager</strong> from the official website:<br />
+<a href="https://www.raspberrypi.com/software/">https://www.raspberrypi.com/software/</a></li>
+<li>Insert the microSD card into your computer’s card reader.</li>
+<li>
+<p>Open Raspberry Pi Imager and choose:</p>
+<ul>
+<li><strong>Device:</strong> <em>Raspberry Pi Zero 2 W</em>  </li>
+<li><strong>Operating System:</strong> <em>Raspberry Pi OS (64-bit)</em>  </li>
+<li><strong>Storage:</strong> select your microSD card</li>
+</ul>
+</li>
+</ol>
+<p><img alt="Raspberry Pi Imager" src="../../../assets/images/RPi_Imager_1.png" /></p>
+<ol>
+<li>
+<p>Click the <strong>settings</strong> icon (before pressing “Write”) to pre-configure:</p>
+<ul>
+<li><strong>Set hostname:</strong> Any Host Name <strong>(need to remember)</strong></li>
+<li><strong>Enable SSH</strong></li>
+<li><strong>Set username/password:</strong> Any Username and Password <strong>(need to remember)</strong></li>
+<li><strong>Configure Wi-Fi:</strong> your network SSID + password (Your Mobile Hotspot or other Access Point) </li>
+</ul>
+</li>
+<li>
+<p>Save the settings and click <strong>Write</strong>.<br />
+   Wait until the imager confirms completion.</p>
+</li>
+</ol>
+<h2 id="step-2-first-boot-and-network-check">Step 2 — First Boot and Network Check<a class="headerlink" href="#step-2-first-boot-and-network-check" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Insert the prepared microSD card into the Raspberry Pi Zero 2 W.  </li>
+<li>Make sure to start your Mobile Hotspot or other Access Point.</li>
+<li>Connect the power cable; the green activity LED should blink.  </li>
+<li>Give the Pi ≈ 1–2 minutes to boot and automatically join the Wi-Fi network.  </li>
+<li>On your control laptop or server, verify that the Raspberry Pi is connected to the network by locating the device with the hostname you set in Step 1.</li>
+</ol>
+<h2 id="step-3-fetching-code-from-github-for-onboard-computer">Step 3 — Fetching Code from GitHub for Onboard Computer<a class="headerlink" href="#step-3-fetching-code-from-github-for-onboard-computer" title="Permanent link">&para;</a></h2>
+<p>In this step, you will retrieve the project code from GitHub and load it onto the onboard Raspberry Pi.  </p>
+<p>There are <strong>two recommended methods</strong>, depending on your setup and network configuration:</p>
+<ol>
+<li>
+<p><strong>Direct Cloning (Recommended)</strong> – Clone the repository directly from GitHub onto the Raspberry Pi via SSH.<br />
+   This method keeps the onboard code version-controlled and makes future updates simple using <code>git pull</code>.</p>
+</li>
+<li>
+<p><strong>Indirect Cloning (Manual Transfer)</strong> – Clone the repository on your control laptop first, then upload (inject) the code into the Raspberry Pi using the <code>scp</code> command.<br />
+   This option is useful if the Pi has no internet access or restricted network permissions.</p>
+</li>
+</ol>
+<p><strong>Option 1 — Direct Cloning on the Raspberry Pi</strong>  <em>(Recommended)</em></p>
+<p>This is the most efficient method if your Raspberry Pi has an internet connection.</p>
+<ol>
+<li>SSH into the Raspberry Pi using your host laptop's CMD.
+    <div class="highlight"><pre><span></span><code>ssh<span class="w"> </span>&lt;USER&gt;@&lt;HOST_NAME&gt;
+</code></pre></div></li>
+<li>Install Git (if not already installed)
+    <div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>update
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>git<span class="w"> </span>-y
+</code></pre></div></li>
+<li>Navigate to the working directory
+    <div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>/home/&lt;USER&gt;/
+</code></pre></div></li>
+<li>
+<p>Clone the repository from GitHub
+    <div class="highlight"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/EriCheww/ECE4191-R15.git
+</code></pre></div>
+This will create a new folder /home/pi/ECE4191-R15.</p>
+</li>
+<li>
+<p>Verify the clone
+    <div class="highlight"><pre><span></span><code>ls
+</code></pre></div>
+You should see the project folder listed.
+To pull future updates:
+    <div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>~/ECE4191-R15
+git<span class="w"> </span>pull
+</code></pre></div></p>
+</li>
+</ol>
+<p><strong>Option 2 — Indirect Cloning, Manual Transfer via SCP</strong> 
+Use this method if the Raspberry Pi has no internet access or restricted network permissions.</p>
+<ol>
+<li>On your control laptop, clone the repository locally, using git or GitHub Desktop.</li>
+<li>Naviagte to the cloned directory.</li>
+<li>
+<p>Transfer the folder to the Raspberry Pi using SCP
+<div class="highlight"><pre><span></span><code>scp<span class="w"> </span>-r<span class="w"> </span>.<span class="w"> </span>&lt;USER&gt;@&lt;HOST_NAME<span class="w"> </span>or<span class="w"> </span>IP&gt;:&lt;FILE<span class="w"> </span>PATH<span class="w"> </span>TO<span class="w"> </span>WORKING<span class="w"> </span>DIRECTORY<span class="w"> </span>ON<span class="w"> </span>THE<span class="w"> </span>RPI&gt;
+<span class="c1"># Example: </span>
+scp<span class="w"> </span>-r<span class="w"> </span>.<span class="w"> </span>user@RaspberryPi:/home/pi/ECE4191-R15
+</code></pre></div>
+The -r flag copies everything inside your current folder recursively.</p>
+</li>
+<li>
+<p>Verify the transfer
+SSH into the Raspberry Pi and check the folder:
+<div class="highlight"><pre><span></span><code>ssh<span class="w"> </span>user@RaspberryPi
+ls<span class="w"> </span>/home/pi/ECE4191-R15
+</code></pre></div></p>
+</li>
+</ol>
+<h2 id="step-4-downloading-dependcies-and-libaries">Step 4 — Downloading Dependcies and Libaries<a class="headerlink" href="#step-4-downloading-dependcies-and-libaries" title="Permanent link">&para;</a></h2>
+<p>Once the project code has been cloned onto the Raspberry Pi, the next step is to install all required dependencies and libraries needed for the onboard software to run correctly.<br />
+This includes both <strong>system packages</strong> (such as GStreamer for video streaming) and <strong>Python libraries</strong> (for processing, communication, and control).</p>
+<table>
+<thead>
+<tr>
+<th>Script</th>
+<th>Purpose</th>
+<th>System Dependencies</th>
+<th>Python Libraries (Require Install)</th>
+<th>Python Libraries (Built-in)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>gs_stream.py</strong></td>
+<td>Streams live H.264 video from the Pi camera over UDP using GStreamer.</td>
+<td><code>gstreamer1.0-tools</code>, <code>gstreamer1.0-plugins-base</code>, <code>gstreamer1.0-plugins-good</code>, <code>gstreamer1.0-plugins-bad</code>, <code>gstreamer1.0-plugins-ugly</code>, <code>gstreamer1.0-libav</code>, <code>rpicam-apps</code></td>
+<td><em>(None required)</em></td>
+<td><code>subprocess</code>, <code>sys</code>, <code>signal</code>, <code>shutil</code></td>
+</tr>
+<tr>
+<td><strong>controls_receiver.py</strong></td>
+<td>Receives control packets from the laptop and drives DC/servo motors through GPIO.</td>
+<td><code>pigpio</code>, <code>python3-pigpio</code>, <code>pigpiod</code> daemon (must be running)</td>
+<td><code>pigpio</code></td>
+<td><code>socket</code>, <code>json</code>, <code>threading</code>, <code>time</code>, <code>sys</code>, <code>termios</code>, <code>tty</code></td>
+</tr>
+<tr>
+<td><strong>audio_PIClient.py</strong></td>
+<td>Captures microphone audio and streams it to the control laptop via TCP.</td>
+<td><code>portaudio19-dev</code></td>
+<td><code>sounddevice</code>, <code>numpy</code></td>
+<td><code>socket</code>, <code>queue</code>, <code>struct</code>, <code>signal</code>, <code>sys</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>gs_stream.py</strong> — Video Streaming Dependencies
+<div class="highlight"><pre><span></span><code><span class="c1"># Update and upgrade system packages</span>
+sudo<span class="w"> </span>apt<span class="w"> </span>update<span class="w"> </span>
+sudo<span class="w"> </span>apt<span class="w"> </span>upgrade<span class="w"> </span>-y
+
+<span class="c1"># Install GStreamer and camera utilities</span>
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>gstreamer1.0-tools<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>gstreamer1.0-plugins-base<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>gstreamer1.0-plugins-good<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>gstreamer1.0-plugins-bad<span class="w"> </span><span class="se">\ </span>
+<span class="w">    </span>gstreamer1.0-plugins-ugly<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>gstreamer1.0-libav<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>rpicam-apps
+</code></pre></div></p>
+<p><strong>controls_receiver.py</strong> — Motor and Control Dependencies
+<div class="highlight"><pre><span></span><code><span class="c1"># Update package lists</span>
+sudo<span class="w"> </span>apt<span class="w"> </span>update
+
+<span class="c1"># Install pigpio and Python bindings</span>
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>pigpio<span class="w"> </span>python3-pigpio<span class="w"> </span>python3-pip
+
+<span class="c1"># Enable and start the pigpiod service (required for GPIO control)</span>
+sudo<span class="w"> </span>systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>pigpiod
+sudo<span class="w"> </span>systemctl<span class="w"> </span>start<span class="w"> </span>pigpiod
+
+<span class="c1"># Verify pigpio daemon is active</span>
+sudo<span class="w"> </span>systemctl<span class="w"> </span>status<span class="w"> </span>pigpiod
+</code></pre></div></p>
+<p><strong>audio_PIClient.py</strong> — Audio Streaming Dependencies
+<div class="highlight"><pre><span></span><code><span class="c1"># Update package lists</span>
+sudo<span class="w"> </span>apt<span class="w"> </span>update
+
+<span class="c1"># Install Python bindings</span>
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>portaudio19-dev<span class="w"> </span>python3-pip
+
+<span class="c1"># Install Python audio libraries</span>
+pip<span class="w"> </span>install<span class="w"> </span>sounddevice<span class="w"> </span>numpy
+</code></pre></div></p>
+<h2 id="step-5-editable-code-parameters-optional">Step 5 — Editable Code Parameters (Optional)<a class="headerlink" href="#step-5-editable-code-parameters-optional" title="Permanent link">&para;</a></h2>
+<div class="admonition note">
+<p class="admonition-title">Optional Step — Editing Code Parameters</p>
+<p>This step is <strong>optional</strong> and provided for reference only.<br />
+The onboard scripts are pre-configured with default parameters that should work for most setups.<br />
+You do <strong>not</strong> need to modify these values unless your hardware wiring, network configuration, or streaming requirements differ from the standard setup.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Script</th>
+<th>Parameter</th>
+<th>Description</th>
+<th>Example / Default Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>gs_stream.py</strong></td>
+<td><code>UDP_IP</code></td>
+<td>IP address of the target (receiver) device — usually your control laptop or server that receives the video stream.</td>
+<td><code>"192.168.1.10"</code></td>
+</tr>
+<tr>
+<td><strong>gs_stream.py</strong></td>
+<td><code>UDP_PORT</code></td>
+<td>Port number used for the UDP video stream. Must match the receiver’s GStreamer or GUI configuration.</td>
+<td><code>5000</code></td>
+</tr>
+<tr>
+<td><strong>gs_stream.py</strong></td>
+<td><code>WIDTH</code></td>
+<td>Width of the video frame (in pixels). Adjust for resolution vs. performance.</td>
+<td><code>640</code></td>
+</tr>
+<tr>
+<td><strong>gs_stream.py</strong></td>
+<td><code>HEIGHT</code></td>
+<td>Height of the video frame (in pixels).</td>
+<td><code>480</code></td>
+</tr>
+<tr>
+<td><strong>gs_stream.py</strong></td>
+<td><code>FPS</code></td>
+<td>Frame rate of the video stream. Higher FPS increases bandwidth usage.</td>
+<td><code>30</code></td>
+</tr>
+<tr>
+<td><strong>controls_receiver.py</strong></td>
+<td><code>UDP_IP</code></td>
+<td>IP address to bind the UDP socket for receiving control data. Usually set to the Pi’s local IP or <code>"0.0.0.0"</code>.</td>
+<td><code>"0.0.0.0"</code></td>
+</tr>
+<tr>
+<td><strong>controls_receiver.py</strong></td>
+<td><code>UDP_PORT</code></td>
+<td>Port number for incoming control signals from the control laptop or GUI. Must match sender’s configuration.</td>
+<td><code>5052</code></td>
+</tr>
+<tr>
+<td><strong>controls_receiver.py</strong></td>
+<td><code>PWM_PIN_LEFT</code> / <code>PWM_PIN_RIGHT</code></td>
+<td>GPIO pins controlling motor driver PWM signals. Change if your wiring differs.</td>
+<td><code>12</code>, <code>13</code></td>
+</tr>
+<tr>
+<td><strong>controls_receiver.py</strong></td>
+<td><code>SERVO_PIN</code></td>
+<td>GPIO pin for camera servo tilt control.</td>
+<td><code>18</code></td>
+</tr>
+<tr>
+<td><strong>controls_receiver.py</strong></td>
+<td><code>PWM_FREQ</code></td>
+<td>Frequency (Hz) for motor PWM output — higher frequency reduces audible noise.</td>
+<td><code>100</code></td>
+</tr>
+<tr>
+<td><strong>audio_PIClient.py</strong></td>
+<td><code>SERVER_IP</code></td>
+<td>IP address of the audio receiver (usually the control laptop or server).</td>
+<td><code>"192.168.1.10"</code></td>
+</tr>
+<tr>
+<td><strong>audio_PIClient.py</strong></td>
+<td><code>SERVER_PORT</code></td>
+<td>TCP port for audio streaming. Must match receiver settings.</td>
+<td><code>5051</code></td>
+</tr>
+<tr>
+<td><strong>audio_PIClient.py</strong></td>
+<td><code>SAMPLE_RATE</code></td>
+<td>Audio sampling rate in Hz. Common values: <code>44100</code> or <code>48000</code>.</td>
+<td><code>44100</code></td>
+</tr>
+<tr>
+<td><strong>audio_PIClient.py</strong></td>
+<td><code>CHUNK_SIZE</code></td>
+<td>Number of audio samples per packet — affects latency and CPU load.</td>
+<td><code>1024</code></td>
+</tr>
+<tr>
+<td><strong>audio_PIClient.py</strong></td>
+<td><code>CHANNELS</code></td>
+<td>Number of audio channels (1 = mono, 2 = stereo).</td>
+<td><code>1</code></td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.instant", "navigation.sections", "navigation.expand", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+    
+  </body>
+</html>
