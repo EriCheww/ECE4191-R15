@@ -360,6 +360,19 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Control Laptop
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -371,6 +384,49 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#step-1-install-gstreamer" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 1 — Install GStreamer
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 1 — Install GStreamer">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#windows" class="md-nav__link">
+    <span class="md-ellipsis">
+      🪟 Windows
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -570,6 +626,38 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#step-1-install-gstreamer" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 1 — Install GStreamer
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 1 — Install GStreamer">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#windows" class="md-nav__link">
+    <span class="md-ellipsis">
+      🪟 Windows
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -585,8 +673,22 @@
 
 
 <h1 id="control-laptop-setup">Control Laptop Setup<a class="headerlink" href="#control-laptop-setup" title="Permanent link">&para;</a></h1>
-<p>This section describes configuring the control computer used for teleoperation and system management.<br />
-It includes installing the GUI interface, verifying network connectivity with the rover, and preparing optional gamepad input.</p>
+<p>This section describes configuring the control computer used for teleoperation and system management. </p>
+<p>It includes installing the GUI interface, verifying network connectivity with the rover, and preparing optional gamepad input.</p>
+<h2 id="step-1-install-gstreamer">Step 1 — Install GStreamer<a class="headerlink" href="#step-1-install-gstreamer" title="Permanent link">&para;</a></h2>
+<p>GStreamer is required for decoding and displaying the live video stream received from the onboard Raspberry Pi.<br />
+Ensure it is installed before running any control or GUI software.</p>
+<hr />
+<h3 id="windows">🪟 Windows<a class="headerlink" href="#windows" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Download the official <strong>GStreamer MSI installer</strong> (Complete edition) from:<br />
+<a href="https://gstreamer.freedesktop.org/download/">https://gstreamer.freedesktop.org/download/</a></li>
+<li>Run the installer and select <strong>Complete</strong> when prompted.</li>
+<li>During installation, check <strong>“Add GStreamer to PATH for all users”</strong>.</li>
+<li>Once finished, verify installation:
+   <div class="highlight"><pre><span></span><code>gst-launch-1.0<span class="w"> </span>--version
+</code></pre></div></li>
+</ol>
 
 
 
