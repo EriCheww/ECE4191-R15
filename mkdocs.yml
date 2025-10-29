@@ -1,0 +1,30 @@
+site_name: R15 Rover Docs
+site_description: User & Safety Manual for the R15 Wildlife Monitoring Rover
+theme:
+  name: material
+  features:
+    - navigation.instant
+    - navigation.sections
+    - navigation.expand
+    - content.code.copy
+markdown_extensions:
+  - admonition
+  - toc:
+      permalink: true
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.tabbed
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - attr_list
+
+nav:
+  - Introduction: index.md
+  - Getting Started:
+      - What You’ll Need: getting_started/requirements.md
+      - First Run: getting_started/first_run.md
+  - Operation:
+      - Connection & Teleop: operation/teleop.md
+      - Video & Streaming: operation/video.md
+  - Safety: safety/index.md
+  - Troubleshooting: troubleshooting/index.md
