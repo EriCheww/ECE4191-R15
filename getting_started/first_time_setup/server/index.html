@@ -14,7 +14,7 @@
         <link rel="prev" href="../onboard/">
       
       
-        <link rel="next" href="../hardware_setup/">
+        <link rel="next" href="../extend/">
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
@@ -22,7 +22,7 @@
     
     
       
-        <title>Server - R15 Rover Docs</title>
+        <title>Optional Server - R15 Rover Docs</title>
       
     
     
@@ -64,7 +64,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#server-setup" class="md-skip">
+        <a href="#server-setup-optional" class="md-skip">
           Skip to content
         </a>
       
@@ -100,7 +100,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Server
+              Optional Server
             
           </span>
         </div>
@@ -379,7 +379,7 @@
   
   
   <span class="md-ellipsis">
-    Onboard
+    Onboard Computer
     
   </span>
   
@@ -406,18 +406,91 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Optional Server
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
   <span class="md-ellipsis">
-    Server
+    Optional Server
     
   </span>
   
 
       </a>
       
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#dedicated-server-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dedicated Server Integration
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameters-to-update" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameters to Update
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../extend/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Optional WiFi Extender
+    
+  </span>
+  
+
+      </a>
     </li>
   
 
@@ -570,6 +643,32 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#dedicated-server-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dedicated Server Integration
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameters-to-update" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameters to Update
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -584,9 +683,182 @@
 
 
 
-<h1 id="server-setup">Server Setup<a class="headerlink" href="#server-setup" title="Permanent link">&para;</a></h1>
-<p>This optional section explains how to configure a dedicated <strong>relay server</strong> for remote or long-range communication.<br />
-The server acts as a central hub for video streaming, telemetry exchange, and future multi-user access scenarios.</p>
+<h1 id="server-setup-optional">Server Setup <em>(Optional)</em><a class="headerlink" href="#server-setup-optional" title="Permanent link">&para;</a></h1>
+<p>The <strong>Server Setup</strong> is an <strong>optional configuration</strong> used to extend the rover’s communication range and enable <strong>remote teleoperation</strong> over the internet or a wider local network.  </p>
+<p>In the standard configuration, the control laptop connects directly to the Raspberry Pi via a local Wi-Fi hotspot or shared network.  </p>
+<p>The server introduces an additional <strong>relay layer</strong> through a central communication node.</p>
+<p><strong>Purpose of the Server</strong></p>
+<ul>
+<li>Acts as a <strong>communication bridge</strong> between the Raspberry Pi and remote control laptops.  </li>
+<li>Enables <strong>multi-client access</strong> — multiple users can connect to the same live feed.  </li>
+<li>Provides <strong>network stability and scalability</strong> for longer-range operation or classroom demonstrations.  </li>
+<li>Handles <strong>WebRTC and UDP relay services</strong> to manage video and control data efficiently.</li>
+</ul>
+<p><strong>Typical Network Flow</strong></p>
+<ul>
+<li>The <strong>Raspberry Pi</strong> sends encoded video and audio streams to the server using UDP.  </li>
+<li>The <strong>server</strong> (relay node) converts the stream into a WebRTC-compatible feed.  </li>
+<li>The <strong>control laptop</strong> connects to this feed and manages user input through the GUI.</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Current Implementation</p>
+<p>In the current configuration, the <strong>control laptop also acts as the server</strong>, running both the GUI (<code>gui.py</code>) and the WebRTC relay (<code>gs_relay_stream.py</code>) locally. </p>
+<p>This means the <strong>dedicated server setup can be skipped</strong> unless you are deploying for remote or multi-client operation.  </p>
+<p>The optional server configuration remains available for <strong>future scalability</strong> — allowing multiple laptops or remote users to connect to the same live rover stream.</p>
+</div>
+<h2 id="dedicated-server-integration">Dedicated Server Integration<a class="headerlink" href="#dedicated-server-integration" title="Permanent link">&para;</a></h2>
+<p>When introducing a <strong>dedicated server</strong> into your communication network, several code parameters across both the <strong>onboard Raspberry Pi</strong> and the <strong>control laptop</strong> must be updated.  </p>
+<p>These ensure that video, control, and status data are correctly routed through the server instead of a direct peer-to-peer link.</p>
+<hr />
+<p><strong>Overview</strong></p>
+<p>In the default setup:</p>
+<p>The Pi streams video directly to the control laptop’s IP address and the control laptop redistributes it as a <strong>WebRTC stream</strong> accessible by other devices connected directly to the control laptop's Access Point within close range.</p>
+<p>With the server setup:</p>
+<p>The Pi now sends its encoded video stream to the <strong>server</strong>, which then redistributes it as a <strong>WebRTC stream</strong> accessible by any device that can access the server from any range.</p>
+<hr />
+<h2 id="parameters-to-update">Parameters to Update<a class="headerlink" href="#parameters-to-update" title="Permanent link">&para;</a></h2>
+<p>The following parameters must be configured for server operation.<br />
+You’ll find these inside the relevant Python scripts on the <strong>Raspberry Pi</strong>, <strong>Server</strong>, and <strong>Control Laptop</strong>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Additional Control Relay Script Required</p>
+<p>When using a <strong>dedicated server</strong>, an extra <strong>UDP control relay script</strong> is required to forward control packets between the <strong>control laptop</strong> and the <strong>Raspberry Pi</strong>.  </p>
+<p>In this configuration, the control laptop does not communicate directly with the Pi.</p>
+<p>Instead, all UDP packets (e.g., movement commands, servo controls, and status requests) are first received by the <strong>server</strong>, which then relays them to the Pi’s local IP address.</p>
+<p>This ensures:</p>
+<ul>
+<li>Only the <strong>server</strong> has direct network access to the Raspberry Pi.</li>
+<li>The <strong>Pi</strong> is isolated from external clients for improved security and NAT traversal.</li>
+<li>Multiple control laptops can connect through the same relay channel.</li>
+</ul>
+<p>The relay script typically:</p>
+<ul>
+<li>Listens on a <strong>control input port</strong> (e.g., <code>5005</code>) for UDP packets from clients.  </li>
+<li>Forwards those packets to the Pi’s <strong>control port</strong> on its local subnet (e.g., <code>192.168.1.20:5005</code>).  </li>
+<li>Optionally sends status or acknowledgement packets back through the same relay.</li>
+</ul>
+<p>Once configured, this allows the <strong>server</strong> to act as the sole bridge for both <strong>video</strong> and <strong>control data</strong>, enabling safe and scalable remote teleoperation.</p>
+</div>
+<hr />
+<p><strong>1. Onboard Raspberry Pi (<code>gs_stream.py</code>)</strong></p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+<th>Example Value</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SERVER_IP</code></td>
+<td>IP address of the relay server that will receive the UDP video stream.</td>
+<td><code>"192.168.1.30"</code></td>
+<td>Replace with the static IP of your server.</td>
+</tr>
+<tr>
+<td><code>UDP_PORT</code></td>
+<td>Port used to send the video stream to the server.</td>
+<td><code>5000</code></td>
+<td>Must match <code>PORT</code> in <code>gs_relay_stream.py</code>.</td>
+</tr>
+<tr>
+<td><code>BITRATE</code></td>
+<td>Video encoding bitrate.</td>
+<td><code>2000k</code></td>
+<td>Adjust depending on network speed and latency.</td>
+</tr>
+<tr>
+<td><code>WIDTH</code>, <code>HEIGHT</code>, <code>FRAMERATE</code></td>
+<td>Video resolution and frame rate.</td>
+<td><code>640x480 @ 30fps</code></td>
+<td>Lower these if streaming over slower links.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><strong>2. Server (<code>gs_relay_stream.py</code>)</strong></p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+<th>Example Value</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>HOTSPOT_IP</code></td>
+<td>IP of the server’s network interface receiving the Pi’s UDP stream.</td>
+<td><code>"192.168.1.30"</code></td>
+<td>Must match <code>SERVER_IP</code> set on the Pi.</td>
+</tr>
+<tr>
+<td><code>PORT</code></td>
+<td>UDP port the server listens on.</td>
+<td><code>5000</code></td>
+<td>Must match the Pi’s output port.</td>
+</tr>
+<tr>
+<td><code>WEB_DIR</code></td>
+<td>Directory containing <code>index.html</code> for WebRTC streaming.</td>
+<td><code>"/home/server/ECE4191-R15/webrtcsink-webui"</code></td>
+<td>Update if the repository is in a different path.</td>
+</tr>
+<tr>
+<td><code>WEB_PORT</code></td>
+<td>HTTP port for hosting the WebRTC viewer page.</td>
+<td><code>8080</code></td>
+<td>Optional — change if this port is already used.</td>
+</tr>
+<tr>
+<td><code>SIG_PORT</code></td>
+<td>WebSocket signalling port for WebRTC.</td>
+<td><code>8443</code></td>
+<td>Only change if needed.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><strong>3. Control Laptop (<code>gui.py</code>)</strong></p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+<th>Example Value</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>HOME_URL</code></td>
+<td>URL of the WebRTC stream hosted by the server.</td>
+<td><code>"http://192.168.1.30:8080"</code></td>
+<td>Must match <code>WEB_PORT</code> and server IP.</td>
+</tr>
+<tr>
+<td><code>PI_IP</code></td>
+<td>IP of the Raspberry Pi for control commands (unchanged).</td>
+<td><code>"192.168.1.20"</code></td>
+<td>Still points to the Pi, since commands are sent directly.</td>
+</tr>
+<tr>
+<td><code>STATUS_PORT</code></td>
+<td>Port for receiving rover status messages.</td>
+<td><code>5051</code></td>
+<td>Must match the onboard script configuration.</td>
+</tr>
+<tr>
+<td><code>HOTSPOT_IP</code></td>
+<td>Server IP (if GUI needs to query or ping it).</td>
+<td><code>"192.168.1.30"</code></td>
+<td>Optional — for advanced diagnostics or multi-user mode.</td>
+</tr>
+</tbody>
+</table>
+<hr />
 
 
 
