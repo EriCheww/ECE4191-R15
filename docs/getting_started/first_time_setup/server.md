@@ -54,7 +54,56 @@ The Pi now sends its encoded video stream to the **server**, which then redistri
 The following parameters must be configured for server operation.  
 You’ll find these inside the relevant Python scripts on the **Raspberry Pi**, **Server**, and **Control Laptop**.
 
-!!! warning "Additional Control Relay Script Required"
+
+**1. Onboard Raspberry Pi (`gs_stream.py`)**
+
+| Parameter | Modify Notes | Matching Script | Matching Script Variable |
+|------------|--------------|-------|-------|
+| `SERVER_IP` | Replace with the static IP of your server. | *(N/A)* | *(N/A)* |
+| `UDP_PORT` | Port used to send the video stream to the server. | `gs_relay_stream.py` | `PORT` |
+
+---
+
+**2. Onboard Raspberry Pi (`controls_receiver.py`)**
+
+| Parameter | Modify Notes | Matching Script | Matching Script Port Variable |
+|------------|--------------|-----------------|-------------------------------|
+| `STATUS_UDP_PORT` | Port used by the Pi to send status updates to the **server**. | `control_relay.py` | `STATUS_IN_PORT` |
+| `UDP_IP` | The Pi’s own local IP address (used internally). Usually `"0.0.0.0"` to listen on all interfaces — no change needed. | *(N/A)* | *(N/A)* |
+| `UDP_PORT` | Port where the Pi listens for **control packets** from the server relay. | `control_relay.py` | `PI_CONTROL_PORT` |
+
+---
+
+**3. Control Laptop (`gui.py`)**
+
+| Parameter | Modify Notes | Matching Script | Matching Script Port Variable |
+|------------|--------------|-------|-------|
+| `HOME_URL` | URL of the WebRTC stream hosted by the server. | `gs_relay_stream.py` | `http://SERVER_IP:WEB_PORT` |
+| `PI_IP` | Replace with SERVER_IP and point to static server ip. | *(N/A)* | *(N/A)* |
+| `STATUS_PORT` | Port for receiving rover status messages. | `control_relay.py` | `STATUS_OUT_PORT` |
+| `CLIENT_CONTROL_PORT` | UDP port on the server that accepts control packets from clients (GUI). | `control_relay.py` | `CLIENT_CONTROL_PORT` |
+
+---
+
+**4. Server (`gs_relay_stream.py`)**
+
+| Parameter | Modify Notes | Matching Script | Matching Script Port Variable |
+|------------|--------------|-------|-------|
+| `HOTSPOT_IP` | IP of the server’s network interface receiving the Pi’s UDP stream. | *(N/A)* | *(N/A)* | 
+| `PORT` | UDP port the server listens on. | `gs_stream.py` | `UDP_PORT` |
+| `WEB_DIR` | Directory containing `index.html` for WebRTC streaming. | *(N/A)* | *(N/A)* | 
+| `WEB_PORT` | HTTP port for hosting the WebRTC viewer page. | *(N/A)* | *(N/A)* |
+| `SIG_PORT` | WebSocket signalling port for WebRTC. | *(N/A)* | *(N/A)* |
+
+---
+
+**5. Additional Server Script (`control_relay.py`)**
+
+!!! warning "Additional control_relay Script Required"
+    The `controls_receiver.py` script is **not included by default** and must be **created manually** using the parameter information below.  
+    
+    The table provides the required configuration values and shows how they link with the server’s `control_relay.py` ports and roles.
+
     When using a **dedicated server**, an extra **UDP control relay script** is required to forward control packets between the **control laptop** and the **Raspberry Pi**.  
 
     In this configuration, the control laptop does not communicate directly with the Pi.
@@ -71,44 +120,18 @@ You’ll find these inside the relevant Python scripts on the **Raspberry Pi**, 
 
     - Listens on a **control input port** (e.g., `5005`) for UDP packets from clients.  
     - Forwards those packets to the Pi’s **control port** on its local subnet (e.g., `192.168.1.20:5005`).  
-    - Optionally sends status or acknowledgement packets back through the same relay.
+    - Sends status or acknowledgement packets back through the same relay.
 
     Once configured, this allows the **server** to act as the sole bridge for both **video** and **control data**, enabling safe and scalable remote teleoperation.
 
----
+| Parameter | Modify Notes | Matching Script | Matching Script Port Variable |
+|------------|--------------|-------|-------|
+| `CLIENT_CONTROL_PORT` | Port where the server receives control from GUI. | `gui.py` | `CLIENT_CONTROL_PORT` |
+| `PI_CONTROL_IP` | Pi’s IP on the server’s LAN/subnet. The only place that knows the Pi’s IP. | *(N/A)* | *(N/A)* |
+| `PI_CONTROL_PORT` | Port where the Pi’s control receiver listens. | `controls_receiver.py` | `UDP_PORT` |
+| `STATUS_IN_PORT` | Port where the server receives status from the Pi. | `controls_receiver.py` | `STATUS_UDP_PORT` |
+| `STATUS_OUT_PORT` | Port where server relays status to GUI. | `gui.py` | `STATUS_PORT` |
 
-**1. Onboard Raspberry Pi (`gs_stream.py`)**
 
-| Parameter | Description | Example Value | Notes |
-|------------|--------------|----------------|-------|
-| `SERVER_IP` | IP address of the relay server that will receive the UDP video stream. | `"192.168.1.30"` | Replace with the static IP of your server. |
-| `UDP_PORT` | Port used to send the video stream to the server. | `5000` | Must match `PORT` in `gs_relay_stream.py`. |
-| `BITRATE` | Video encoding bitrate. | `2000k` | Adjust depending on network speed and latency. |
-| `WIDTH`, `HEIGHT`, `FRAMERATE` | Video resolution and frame rate. | `640x480 @ 30fps` | Lower these if streaming over slower links. |
-
----
-
-**2. Server (`gs_relay_stream.py`)**
-
-| Parameter | Description | Example Value | Notes |
-|------------|--------------|----------------|-------|
-| `HOTSPOT_IP` | IP of the server’s network interface receiving the Pi’s UDP stream. | `"192.168.1.30"` | Must match `SERVER_IP` set on the Pi. |
-| `PORT` | UDP port the server listens on. | `5000` | Must match the Pi’s output port. |
-| `WEB_DIR` | Directory containing `index.html` for WebRTC streaming. | `"/home/server/ECE4191-R15/webrtcsink-webui"` | Update if the repository is in a different path. |
-| `WEB_PORT` | HTTP port for hosting the WebRTC viewer page. | `8080` | Optional — change if this port is already used. |
-| `SIG_PORT` | WebSocket signalling port for WebRTC. | `8443` | Only change if needed. |
-
----
-
-**3. Control Laptop (`gui.py`)**
-
-| Parameter | Description | Example Value | Notes |
-|------------|--------------|----------------|-------|
-| `HOME_URL` | URL of the WebRTC stream hosted by the server. | `"http://192.168.1.30:8080"` | Must match `WEB_PORT` and server IP. |
-| `PI_IP` | IP of the Raspberry Pi for control commands (unchanged). | `"192.168.1.20"` | Still points to the Pi, since commands are sent directly. |
-| `STATUS_PORT` | Port for receiving rover status messages. | `5051` | Must match the onboard script configuration. |
-| `HOTSPOT_IP` | Server IP (if GUI needs to query or ping it). | `"192.168.1.30"` | Optional — for advanced diagnostics or multi-user mode. |
-
----
 
 
