@@ -27,7 +27,7 @@ In this step, you will download the control-side software from the GitHub reposi
 The control laptop runs the GUI, network communication, and video/audio receiver code.  
 The required files are stored on the **comms_server_dev** branch of the repository.
 
-Use any methond to clone the Repository into your working directory:
+Use any method to clone the Repository into your working directory:
    ``` bash 
    git clone -b comms_server_dev https://github.com/EriCheww/ECE4191-R15.git
    ```
