@@ -3,6 +3,8 @@ This section covers preparing the onboard Raspberry Pi Zero 2 W before integrati
 
 It includes OS installation, SSH configuration, dependency setup (Python, GStreamer), and enabling Wi-Fi connectivity for initial pairing.
 
+--- 
+
 ## Step 0 — Using the Pre-Configured RPi and MicroSD Card
 
 If you are using the **pre-configured Raspberry Pi Zero 2 W** and **microSD card** provided with your setup, follow the instructions below to connect it to your network.  
@@ -33,6 +35,8 @@ After confirming network connectivity, you can disconnect the peripherals and op
     The operating system and required dependencies are already installed.  
     Only continue below if you are setting up a **new or replacement** Raspberry Pi.
 
+--- 
+
 ## Step 1 — Prepare the MicroSD Card
 
 Use a microSD card (8 GB minimum, 16 GB recommended).  
@@ -47,7 +51,7 @@ Back up any existing data, as the following process will erase all contents.
     - **Operating System:** *Raspberry Pi OS (64-bit)*  
     - **Storage:** select your microSD card
 
-![Raspberry Pi Imager](../../assets/images/RPi_Imager_1.png)
+    ![Raspberry Pi Imager](../../assets/images/RPi_Imager_1.png)
 
 4. Click the **settings** icon (before pressing “Write”) to pre-configure:
 
@@ -59,6 +63,7 @@ Back up any existing data, as the following process will erase all contents.
 5. Save the settings and click **Write**.  
    Wait until the imager confirms completion.
 
+--- 
 
 ## Step 2 — First Boot and Network Check
 
@@ -68,6 +73,7 @@ Back up any existing data, as the following process will erase all contents.
 4. Give the Pi ≈ 1–2 minutes to boot and automatically join the Wi-Fi network.  
 5. On your control laptop or server, verify that the Raspberry Pi is connected to the network by locating the device with the hostname you set in Step 1.
 
+--- 
 
 ## Step 3 — Fetching Code from GitHub for Onboard Computer
 
@@ -98,12 +104,13 @@ This is the most efficient method if your Raspberry Pi has an internet connectio
     ``` bash
     cd /home/<USER>/
     ```
-4. Clone the repository from GitHub
-    ``` bash
-    git clone https://github.com/EriCheww/ECE4191-R15.git
+4. Clone the repository from GitHub  
+   Clone the **comms_rpi_dev** branch directly, which contains the latest Raspberry Pi communication scripts:
+
+   ```bash
+   git clone -b comms_rpi_dev https://github.com/EriCheww/ECE4191-R15.git
     ```
 This will create a new folder /home/pi/ECE4191-R15.
-
 5. Verify the clone
     ``` bash
     ls
@@ -116,6 +123,7 @@ To pull future updates:
     ```
 
 **Option 2 — Indirect Cloning, Manual Transfer via SCP** 
+
 Use this method if the Raspberry Pi has no internet access or restricted network permissions.
 
 1. On your control laptop, clone the repository locally, using git or GitHub Desktop.
@@ -135,7 +143,9 @@ ssh user@RaspberryPi
 ls /home/pi/ECE4191-R15
 ```
 
-## Step 4 — Downloading Dependcies and Libaries 
+--- 
+
+## Step 4 — Downloading Dependencies and Libraries 
 Once the project code has been cloned onto the Raspberry Pi, the next step is to install all required dependencies and libraries needed for the onboard software to run correctly.  
 This includes both **system packages** (such as GStreamer for video streaming) and **Python libraries** (for processing, communication, and control).
 
@@ -189,6 +199,7 @@ sudo apt install -y portaudio19-dev python3-pip
 # Install Python audio libraries
 pip install sounddevice numpy
 ``` 
+--- 
 
 ## Step 5 — Editable Code Parameters (Optional)
 
@@ -198,19 +209,19 @@ pip install sounddevice numpy
     You do **not** need to modify these values unless your hardware wiring, network configuration, or streaming requirements differ from the standard setup.
 
 | Script | Parameter | Description | Example / Default Value |
-|---------|------------|--------------|--------------------------|
+|---------|---------|--------------|--------------------------|
 | **gs_stream.py** | `UDP_IP` | IP address of the target (receiver) device — usually your control laptop or server that receives the video stream. | `"192.168.1.10"` |
-| **gs_stream.py** | `UDP_PORT` | Port number used for the UDP video stream. Must match the receiver’s GStreamer or GUI configuration. | `5000` |
-| **gs_stream.py** | `WIDTH` | Width of the video frame (in pixels). Adjust for resolution vs. performance. | `640` |
-| **gs_stream.py** | `HEIGHT` | Height of the video frame (in pixels). | `480` |
-| **gs_stream.py** | `FPS` | Frame rate of the video stream. Higher FPS increases bandwidth usage. | `30` |
+| | `UDP_PORT` | Port number used for the UDP video stream. Must match the receiver’s GStreamer or GUI configuration. | `5000` |
+| | `WIDTH` | Width of the video frame (in pixels). Adjust for resolution vs. performance. | `640` |
+| | `HEIGHT` | Height of the video frame (in pixels). | `480` |
+| | `FPS` | Frame rate of the video stream. Higher FPS increases bandwidth usage. | `30` |
 | **controls_receiver.py** | `UDP_IP` | IP address to bind the UDP socket for receiving control data. Usually set to the Pi’s local IP or `"0.0.0.0"`. | `"0.0.0.0"` |
-| **controls_receiver.py** | `UDP_PORT` | Port number for incoming control signals from the control laptop or GUI. Must match sender’s configuration. | `5052` |
-| **controls_receiver.py** | `PWM_PIN_LEFT` / `PWM_PIN_RIGHT` | GPIO pins controlling motor driver PWM signals. Change if your wiring differs. | `12`, `13` |
-| **controls_receiver.py** | `SERVO_PIN` | GPIO pin for camera servo tilt control. | `18` |
-| **controls_receiver.py** | `PWM_FREQ` | Frequency (Hz) for motor PWM output — higher frequency reduces audible noise. | `100` |
+| | `UDP_PORT` | Port number for incoming control signals from the control laptop or GUI. Must match sender’s configuration. | `5052` |
+| | `PWM_PIN_LEFT` / `PWM_PIN_RIGHT` | GPIO pins controlling motor driver PWM signals. Change if your wiring differs. | `12`, `13` |
+| | `SERVO_PIN` | GPIO pin for camera servo tilt control. | `18` |
+| | `PWM_FREQ` | Frequency (Hz) for motor PWM output — higher frequency reduces audible noise. | `100` |
 | **audio_PIClient.py** | `SERVER_IP` | IP address of the audio receiver (usually the control laptop or server). | `"192.168.1.10"` |
-| **audio_PIClient.py** | `SERVER_PORT` | TCP port for audio streaming. Must match receiver settings. | `5051` |
-| **audio_PIClient.py** | `SAMPLE_RATE` | Audio sampling rate in Hz. Common values: `44100` or `48000`. | `44100` |
-| **audio_PIClient.py** | `CHUNK_SIZE` | Number of audio samples per packet — affects latency and CPU load. | `1024` |
-| **audio_PIClient.py** | `CHANNELS` | Number of audio channels (1 = mono, 2 = stereo). | `1` |
+| | `SERVER_PORT` | TCP port for audio streaming. Must match receiver settings. | `5051` |
+| | `SAMPLE_RATE` | Audio sampling rate in Hz. Common values: `44100` or `48000`. | `44100` |
+| | `CHUNK_SIZE` | Number of audio samples per packet — affects latency and CPU load. | `1024` |
+| | `CHANNELS` | Number of audio channels (1 = mono, 2 = stereo). | `1` |

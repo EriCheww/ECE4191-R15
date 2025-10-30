@@ -25,8 +25,9 @@ nav:
       - First Time Setup:
         - Overview: getting_started/first_time_setup/overview.md
         - Control Laptop: getting_started/first_time_setup/control_laptop.md
-        - Onboard: getting_started/first_time_setup/onboard.md
-        - Server: getting_started/first_time_setup/server.md
+        - Onboard Computer: getting_started/first_time_setup/onboard.md
+        - Optional Server: getting_started/first_time_setup/server.md
+        - Optional WiFi Extender: getting_started/first_time_setup/extend.md
         - Hardware: getting_started/first_time_setup/hardware_setup.md
       - First Run: getting_started/first_run.md
   - Operation: operation.md
