@@ -1,4 +1,4 @@
-# 🦾 R15 Safety Manual  
+# R15 Safety Manual  
 **ECE4191 – Integrated Design Robotics Project**  
 **Team R15 | Mobile Wildlife Monitoring Platform**
 
@@ -150,4 +150,5 @@ Operators must:
 
 > **Note:** This Safety Manual is version-controlled under `/docs/safety.md`.  
 > Edits must be reviewed and approved via pull request by the **Team Captain** or **Safety Officer** before merging into `main`.
+
 
