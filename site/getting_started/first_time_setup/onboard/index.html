@@ -22,7 +22,7 @@
     
     
       
-        <title>Onboard - R15 Rover Docs</title>
+        <title>Onboard Computer - R15 Rover Docs</title>
       
     
     
@@ -100,7 +100,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Onboard
+              Onboard Computer
             
           </span>
         </div>
@@ -388,7 +388,7 @@
   
   
   <span class="md-ellipsis">
-    Onboard
+    Onboard Computer
     
   </span>
   
@@ -401,7 +401,7 @@
   
   
   <span class="md-ellipsis">
-    Onboard
+    Onboard Computer
     
   </span>
   
@@ -460,9 +460,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#step-4-downloading-dependcies-and-libaries" class="md-nav__link">
+  <a href="#step-4-downloading-dependencies-and-libraries" class="md-nav__link">
     <span class="md-ellipsis">
-      Step 4 — Downloading Dependcies and Libaries
+      Step 4 — Downloading Dependencies and Libraries
     </span>
   </a>
   
@@ -498,7 +498,30 @@
   
   
   <span class="md-ellipsis">
-    Server
+    Optional Server
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../extend/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Optional WiFi Extender
     
   </span>
   
@@ -699,9 +722,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#step-4-downloading-dependcies-and-libaries" class="md-nav__link">
+  <a href="#step-4-downloading-dependencies-and-libraries" class="md-nav__link">
     <span class="md-ellipsis">
-      Step 4 — Downloading Dependcies and Libaries
+      Step 4 — Downloading Dependencies and Libraries
     </span>
   </a>
   
@@ -735,6 +758,7 @@
 <h1 id="onboard-computer-setup">Onboard Computer Setup<a class="headerlink" href="#onboard-computer-setup" title="Permanent link">&para;</a></h1>
 <p>This section covers preparing the onboard Raspberry Pi Zero 2 W before integration with the control system. </p>
 <p>It includes OS installation, SSH configuration, dependency setup (Python, GStreamer), and enabling Wi-Fi connectivity for initial pairing.</p>
+<hr />
 <h2 id="step-0-using-the-pre-configured-rpi-and-microsd-card">Step 0 — Using the Pre-Configured RPi and MicroSD Card<a class="headerlink" href="#step-0-using-the-pre-configured-rpi-and-microsd-card" title="Permanent link">&para;</a></h2>
 <p>If you are using the <strong>pre-configured Raspberry Pi Zero 2 W</strong> and <strong>microSD card</strong> provided with your setup, follow the instructions below to connect it to your network.<br />
 These steps allow you to verify the existing installation without reinstalling the operating system.</p>
@@ -762,6 +786,7 @@ After confirming network connectivity, you can disconnect the peripherals and op
 The operating system and required dependencies are already installed.<br />
 Only continue below if you are setting up a <strong>new or replacement</strong> Raspberry Pi.</p>
 </div>
+<hr />
 <h2 id="step-1-prepare-the-microsd-card">Step 1 — Prepare the MicroSD Card<a class="headerlink" href="#step-1-prepare-the-microsd-card" title="Permanent link">&para;</a></h2>
 <p>Use a microSD card (8 GB minimum, 16 GB recommended).<br />
 Back up any existing data, as the following process will erase all contents.</p>
@@ -776,10 +801,8 @@ Back up any existing data, as the following process will erase all contents.</p>
 <li><strong>Operating System:</strong> <em>Raspberry Pi OS (64-bit)</em>  </li>
 <li><strong>Storage:</strong> select your microSD card</li>
 </ul>
-</li>
-</ol>
 <p><img alt="Raspberry Pi Imager" src="../../../assets/images/RPi_Imager_1.png" /></p>
-<ol>
+</li>
 <li>
 <p>Click the <strong>settings</strong> icon (before pressing “Write”) to pre-configure:</p>
 <ul>
@@ -794,6 +817,7 @@ Back up any existing data, as the following process will erase all contents.</p>
    Wait until the imager confirms completion.</p>
 </li>
 </ol>
+<hr />
 <h2 id="step-2-first-boot-and-network-check">Step 2 — First Boot and Network Check<a class="headerlink" href="#step-2-first-boot-and-network-check" title="Permanent link">&para;</a></h2>
 <ol>
 <li>Insert the prepared microSD card into the Raspberry Pi Zero 2 W.  </li>
@@ -802,6 +826,7 @@ Back up any existing data, as the following process will erase all contents.</p>
 <li>Give the Pi ≈ 1–2 minutes to boot and automatically join the Wi-Fi network.  </li>
 <li>On your control laptop or server, verify that the Raspberry Pi is connected to the network by locating the device with the hostname you set in Step 1.</li>
 </ol>
+<hr />
 <h2 id="step-3-fetching-code-from-github-for-onboard-computer">Step 3 — Fetching Code from GitHub for Onboard Computer<a class="headerlink" href="#step-3-fetching-code-from-github-for-onboard-computer" title="Permanent link">&para;</a></h2>
 <p>In this step, you will retrieve the project code from GitHub and load it onto the onboard Raspberry Pi.  </p>
 <p>There are <strong>two recommended methods</strong>, depending on your setup and network configuration:</p>
@@ -828,14 +853,13 @@ sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> <
 <li>Navigate to the working directory
     <div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>/home/&lt;USER&gt;/
 </code></pre></div></li>
-<li>
-<p>Clone the repository from GitHub
-    <div class="highlight"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/EriCheww/ECE4191-R15.git
-</code></pre></div>
-This will create a new folder /home/pi/ECE4191-R15.</p>
-</li>
-<li>
-<p>Verify the clone
+<li>Clone the repository from GitHub<br />
+   Clone the <strong>comms_rpi_dev</strong> branch directly, which contains the latest Raspberry Pi communication scripts:</li>
+</ol>
+<p><code>bash
+   git clone -b comms_rpi_dev https://github.com/EriCheww/ECE4191-R15.git</code>
+This will create a new folder /home/pi/ECE4191-R15.
+5. Verify the clone
     <div class="highlight"><pre><span></span><code>ls
 </code></pre></div>
 You should see the project folder listed.
@@ -843,10 +867,8 @@ To pull future updates:
     <div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>~/ECE4191-R15
 git<span class="w"> </span>pull
 </code></pre></div></p>
-</li>
-</ol>
-<p><strong>Option 2 — Indirect Cloning, Manual Transfer via SCP</strong> 
-Use this method if the Raspberry Pi has no internet access or restricted network permissions.</p>
+<p><strong>Option 2 — Indirect Cloning, Manual Transfer via SCP</strong> </p>
+<p>Use this method if the Raspberry Pi has no internet access or restricted network permissions.</p>
 <ol>
 <li>On your control laptop, clone the repository locally, using git or GitHub Desktop.</li>
 <li>Naviagte to the cloned directory.</li>
@@ -866,7 +888,8 @@ ls<span class="w"> </span>/home/pi/ECE4191-R15
 </code></pre></div></p>
 </li>
 </ol>
-<h2 id="step-4-downloading-dependcies-and-libaries">Step 4 — Downloading Dependcies and Libaries<a class="headerlink" href="#step-4-downloading-dependcies-and-libaries" title="Permanent link">&para;</a></h2>
+<hr />
+<h2 id="step-4-downloading-dependencies-and-libraries">Step 4 — Downloading Dependencies and Libraries<a class="headerlink" href="#step-4-downloading-dependencies-and-libraries" title="Permanent link">&para;</a></h2>
 <p>Once the project code has been cloned onto the Raspberry Pi, the next step is to install all required dependencies and libraries needed for the onboard software to run correctly.<br />
 This includes both <strong>system packages</strong> (such as GStreamer for video streaming) and <strong>Python libraries</strong> (for processing, communication, and control).</p>
 <table>
@@ -941,6 +964,7 @@ sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> <
 <span class="c1"># Install Python audio libraries</span>
 pip<span class="w"> </span>install<span class="w"> </span>sounddevice<span class="w"> </span>numpy
 </code></pre></div></p>
+<hr />
 <h2 id="step-5-editable-code-parameters-optional">Step 5 — Editable Code Parameters (Optional)<a class="headerlink" href="#step-5-editable-code-parameters-optional" title="Permanent link">&para;</a></h2>
 <div class="admonition note">
 <p class="admonition-title">Optional Step — Editing Code Parameters</p>
@@ -965,25 +989,25 @@ You do <strong>not</strong> need to modify these values unless your hardware wir
 <td><code>"192.168.1.10"</code></td>
 </tr>
 <tr>
-<td><strong>gs_stream.py</strong></td>
+<td></td>
 <td><code>UDP_PORT</code></td>
 <td>Port number used for the UDP video stream. Must match the receiver’s GStreamer or GUI configuration.</td>
 <td><code>5000</code></td>
 </tr>
 <tr>
-<td><strong>gs_stream.py</strong></td>
+<td></td>
 <td><code>WIDTH</code></td>
 <td>Width of the video frame (in pixels). Adjust for resolution vs. performance.</td>
 <td><code>640</code></td>
 </tr>
 <tr>
-<td><strong>gs_stream.py</strong></td>
+<td></td>
 <td><code>HEIGHT</code></td>
 <td>Height of the video frame (in pixels).</td>
 <td><code>480</code></td>
 </tr>
 <tr>
-<td><strong>gs_stream.py</strong></td>
+<td></td>
 <td><code>FPS</code></td>
 <td>Frame rate of the video stream. Higher FPS increases bandwidth usage.</td>
 <td><code>30</code></td>
@@ -995,25 +1019,25 @@ You do <strong>not</strong> need to modify these values unless your hardware wir
 <td><code>"0.0.0.0"</code></td>
 </tr>
 <tr>
-<td><strong>controls_receiver.py</strong></td>
+<td></td>
 <td><code>UDP_PORT</code></td>
 <td>Port number for incoming control signals from the control laptop or GUI. Must match sender’s configuration.</td>
 <td><code>5052</code></td>
 </tr>
 <tr>
-<td><strong>controls_receiver.py</strong></td>
+<td></td>
 <td><code>PWM_PIN_LEFT</code> / <code>PWM_PIN_RIGHT</code></td>
 <td>GPIO pins controlling motor driver PWM signals. Change if your wiring differs.</td>
 <td><code>12</code>, <code>13</code></td>
 </tr>
 <tr>
-<td><strong>controls_receiver.py</strong></td>
+<td></td>
 <td><code>SERVO_PIN</code></td>
 <td>GPIO pin for camera servo tilt control.</td>
 <td><code>18</code></td>
 </tr>
 <tr>
-<td><strong>controls_receiver.py</strong></td>
+<td></td>
 <td><code>PWM_FREQ</code></td>
 <td>Frequency (Hz) for motor PWM output — higher frequency reduces audible noise.</td>
 <td><code>100</code></td>
@@ -1025,25 +1049,25 @@ You do <strong>not</strong> need to modify these values unless your hardware wir
 <td><code>"192.168.1.10"</code></td>
 </tr>
 <tr>
-<td><strong>audio_PIClient.py</strong></td>
+<td></td>
 <td><code>SERVER_PORT</code></td>
 <td>TCP port for audio streaming. Must match receiver settings.</td>
 <td><code>5051</code></td>
 </tr>
 <tr>
-<td><strong>audio_PIClient.py</strong></td>
+<td></td>
 <td><code>SAMPLE_RATE</code></td>
 <td>Audio sampling rate in Hz. Common values: <code>44100</code> or <code>48000</code>.</td>
 <td><code>44100</code></td>
 </tr>
 <tr>
-<td><strong>audio_PIClient.py</strong></td>
+<td></td>
 <td><code>CHUNK_SIZE</code></td>
 <td>Number of audio samples per packet — affects latency and CPU load.</td>
 <td><code>1024</code></td>
 </tr>
 <tr>
-<td><strong>audio_PIClient.py</strong></td>
+<td></td>
 <td><code>CHANNELS</code></td>
 <td>Number of audio channels (1 = mono, 2 = stereo).</td>
 <td><code>1</code></td>
