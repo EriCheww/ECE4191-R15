@@ -36,11 +36,12 @@ LAMP_RADIUS = 5
 
 # Convenience for array-indexed updates (arr[0] is BCM 2, arr[25] is BCM 27)
 GPIO_LAMPS_BY_BCM = {}
-MOTOR_BCMS = (26, 21)
+MOTOR_BCMS = (26, 21, 5, 6)
 
 
 _last_conn_state = None
 _last_motor_state = None
+_last_servo_angles = None  # (sg90_deg, mg90_deg)
 
 def _mk_lamp(parent, bcm):
     lamp = ctk.CTkLabel(
@@ -115,7 +116,14 @@ def create_simple_status(parent):
     status_motor = ctk.CTkLabel(frame, text="Idle")
     status_motor.grid(row=2, column=2, sticky="ew", padx=(10,10), pady=(10,0))
 
-    return frame, lamp_connection, status_connection, lamp_motor, status_motor
+    label_servo_title = ctk.CTkLabel(frame, text="Servo Motor")
+    label_servo_title.grid(row=3, column=0, sticky="ew", padx=(10,0), pady=(10,0))
+    lamp_servo = ctk.CTkLabel(frame, text="", width=LAMP_W, height=LAMP_H, corner_radius=LAMP_RADIUS, fg_color=YELLOW)
+    lamp_servo.grid(row=3, column=1, padx=(10,0), pady=(10,0))
+    status_servo = ctk.CTkLabel(frame, text="Idle")
+    status_servo.grid(row=3, column=2, sticky="ew", padx=(10,10), pady=(10,0))
+
+    return frame, lamp_connection, status_connection, lamp_motor, status_motor, lamp_servo, status_servo
 
 
 def update_connection_status(pigpio_ok, lamp=None, label=None):
@@ -161,11 +169,67 @@ def update_motor_status(states, lamp=None, label=None):
     _last_motor_state = active
 
 
+def update_servo_status(servo, lamp=None, label=None, tol=0.5):
+    """
+    Marks the servo as Active if the reported angles changed since the last packet.
+    - 'servo' comes from the UDP JSON: {"servo": {"sg90_deg": .., "mg90_deg": ..}}
+    - 'tol' is the change threshold in degrees to consider it a movement.
+    """
+    global _last_servo_angles
+
+    # read angles (may be None if not present)
+    sg = servo.get("sg90_deg") if isinstance(servo, dict) else None
+    mg = servo.get("mg90_deg") if isinstance(servo, dict) else None
+
+    # coerce to float when possible
+    def _to_float(x):
+        try:
+            return float(x)
+        except Exception:
+            return None
+    sgf, mgf = _to_float(sg), _to_float(mg)
+
+    curr = (sgf, mgf)
+    prev = _last_servo_angles
+
+    # detect "changed" by tolerance; treat None <-> number as a change
+    def _changed(a, b):
+        if a is None or b is None:
+            return a != b
+        return abs(a - b) > tol
+
+    active = False
+    if prev is None:
+        # first observation: show angles but don't flash Active unless you want to
+        active = False
+    else:
+        active = _changed(curr[0], prev[0]) or _changed(curr[1], prev[1])
+
+    color = GREEN if active else YELLOW
+    if lamp is not None:
+        lamp.configure(fg_color=color)
+
+    if label is not None:
+        if sgf is not None and mgf is not None:
+            label.configure(text=f"{'Active' if active else 'Idle'}  (SG90={sgf:.1f}°, MG90={mgf:.1f}°)")
+        elif sgf is not None:
+            label.configure(text=f"{'Active' if active else 'Idle'}  (SG90={sgf:.1f}°)")
+        elif mgf is not None:
+            label.configure(text=f"{'Active' if active else 'Idle'}  (MG90={mgf:.1f}°)")
+        else:
+            label.configure(text="Idle")
+
+    _last_servo_angles = curr
+
 def start_udp_listener(port, on_message):
     """
     Start a daemon thread that listens for UDP JSON messages:
-      { "pi_connected": true/false, "gpio": {"2":{"level":0}, ...}}
-    Calls on_message(arr, pigpio_ok, addr) on each valid packet.
+      {
+        "pi_connected": true/false,
+        "gpio": {"2":{"level":0}, ...},
+        "servo": {"sg90_deg": <float>, "mg90_deg": <float>}
+      }
+    Calls on_message(arr, pigpio_ok, servo, addr) on each valid packet.
     Returns a stop_event you can set() on shutdown.
     """
     stop_event = threading.Event()
@@ -173,7 +237,7 @@ def start_udp_listener(port, on_message):
     def run():
         s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         s.bind(("0.0.0.0", port))
-        s.settimeout(0.5)  # so we can check stop_event regularly
+        s.settimeout(0.5)
         print(f"Listening for Pi status on UDP {port}...")
 
         while not stop_event.is_set():
@@ -182,21 +246,31 @@ def start_udp_listener(port, on_message):
             except socket.timeout:
                 continue
             except OSError:
-                break  # socket closed
+                break
 
             try:
                 msg = json.loads(data.decode("utf-8"))
             except Exception:
-                continue  # ignore malformed JSON
+                continue
 
             pigpio_ok = msg.get("pi_connected")
             gpio = msg.get("gpio", {})
+            servo = msg.get("servo", {})  # <-- NEW
+
+            # build 2..27 BCM array (1 for HIGH, 0 for LOW), default LOW->0
             arr = [1 if gpio.get(str(p), {}).get("level", 0) == 1 else 0
                    for p in range(2, 28)]
+
             try:
-                on_message(arr, pigpio_ok, addr)
+                # UPDATED SIGNATURE: include servo dict
+                on_message(arr, pigpio_ok, servo, addr)
+            except TypeError:
+                # Backward-compat: if old handler still expects 3 args
+                try:
+                    on_message(arr, pigpio_ok, addr)
+                except Exception:
+                    pass
             except Exception:
-                # Never let GUI exceptions kill the listener
                 pass
 
         try:
@@ -207,3 +281,4 @@ def start_udp_listener(port, on_message):
     t = threading.Thread(target=run, daemon=True)
     t.start()
     return stop_event
+

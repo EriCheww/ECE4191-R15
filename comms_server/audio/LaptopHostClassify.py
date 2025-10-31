@@ -1,4 +1,3 @@
-
 import socket, struct
 import sounddevice as sd
 import threading
@@ -16,7 +15,7 @@ import time
 import keyboard
 import cv2
 import matplotlib.pyplot as plt
-
+p
 # from scipy.signal import get_window
 
 

@@ -47,7 +47,7 @@ HOME_URL = "http://192.168.137.1:8080/"
 
 SS_SAVE_DIRECTORY = "C:\\ECE4191\\test_photos"
 SS_USER_PREFIX = 'test'
-YOLO_MODEL_PATH = r"C:\Users\ericl\OneDrive\Documents\GitHub\ECE4191-R15\comms_server\yolo\best_v3.pt"
+YOLO_MODEL_PATH = r"C:\Users\ericl\OneDrive\Documents\GitHub\ECE4191-R15\comms_server\yolo\best_v4.pt"
 
 YOLO_FPS_LIMITER = 10
 
@@ -57,7 +57,7 @@ LOG_BUFFER = deque(maxlen=MAX_LOG_LINES)
 STATUS_PORT = 5051
 PINS = list(range(2,28))
 
-PI_IP   = "192.168.137.94" 
+PI_IP   = "192.168.137.245" 
 PI_PORT = 5005
 
 ##########################################################
@@ -76,7 +76,8 @@ def safe_navigate():
         web.navigate(fresh_url(HOME_URL))
         add_to_console("Connecting to stream...")
     except Exception as e:
-        add_to_console("Error Loading URL")
+        # add_to_console("Error Loading URL")
+        pass
 
 def on_take_screenshot():
     save_dir = cfg.settings.get("ss_save_directory")
@@ -239,11 +240,11 @@ def _dpi_scale_for_window(hwnd: int) -> float:
 
 
 # === ADD: UDP listener callback ===
-def _on_udp_message(arr, pigpio_ok, addr):
+def _on_udp_message(arr, pigpio_ok, servo, addr):
     # Called from the background thread — hop to GUI thread:
-    root.after(0, _apply_gpio_update, arr, pigpio_ok, addr)
+    root.after(0, _apply_gpio_update, arr, pigpio_ok, servo, addr)
 
-def _apply_gpio_update(arr, pigpio_ok, addr):
+def _apply_gpio_update(arr, pigpio_ok, servo, addr):
     try:
         add_to_console(f"UDP {addr[0]} pigpio={'OK' if pigpio_ok else 'DISCONNECTED'}")
     except Exception:
@@ -258,7 +259,7 @@ def _apply_gpio_update(arr, pigpio_ok, addr):
     # Update the Motor Status lamp
     update_connection_status(pigpio_ok, lamp=lamp_conn, label=label_conn)
     update_motor_status(states, lamp=lamp_motor, label=label_motor)
-
+    update_servo_status(servo, lamp=lamp_servo, label=label_servo)
 
 
 ##########################################################
@@ -319,6 +320,25 @@ try:
     add_to_console("WebView created OK")
 except Exception as e:
     add_to_console(f"WebView init failed: {e}")
+# from PIL import Image, ImageTk
+# web_frame = ctk.CTkFrame(root)
+# web_frame.grid(row=1, column=0, sticky="nsew", padx=(10,10), pady=(10,0))
+
+# try:
+#     # --- Load test image ---
+#     test_image_path = r"C:\Users\ericl\OneDrive\Documents\GitHub\ECE4191-R15\comms_server\plat_20251016_202139.png"
+#     img = Image.open(test_image_path)
+#     img_tk = ImageTk.PhotoImage(img)
+
+#     # --- Create a label to display it ---
+#     image_label = ctk.CTkLabel(web_frame, image=img_tk, text="")
+#     image_label.image = img_tk  # prevent garbage collection
+#     image_label.pack(fill="both", expand=True)
+
+#     # add_to_console(f"Test image loaded OK: {test_image_path}")
+
+# except Exception as e:
+#     add_to_console(f"Image load failed: {e}")
 
 overlay_win = ctk.CTkToplevel(root)
 overlay_win.overrideredirect(True)
@@ -356,10 +376,10 @@ toggle_btn = ctk.CTkButton(buttons_frame, text="Start Detection", command=toggle
 toggle_btn.grid(row=3, column=0, sticky="nsew", padx=(10,10), pady=(0,10)) 
 
 # gpio_frame, LAMPS = create_gpio_panel(status_frame)
-# gpio_frame.grid(row=0, column=1, sticky="n", padx=(10,0), pady=(0,10))
+# gpio_frame.grid(row=5, column=0, columnspan=3, sticky="n", padx=(10,0), pady=(0,10))
 
 # from gui_utils.status import create_simple_status, update_simple_status, update_connection_status
-simple_status_frame, lamp_conn, label_conn, lamp_motor, label_motor = create_simple_status(parent=status_frame)
+simple_status_frame, lamp_conn, label_conn, lamp_motor, label_motor, lamp_servo, label_servo = create_simple_status(parent=status_frame)
 simple_status_frame.grid(row=0, column=2, sticky="nsew", padx=(0,0), pady=(10,10))
 
 STOP_EVENT = start_udp_listener(STATUS_PORT, _on_udp_message)

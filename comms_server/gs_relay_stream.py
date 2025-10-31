@@ -15,7 +15,9 @@ STREAM_NAME = "pi-cam"
 
 # === Paths ===
 GST = shutil.which("gst-launch-1.0") or r"C:\Program Files\gstreamer\1.0\msvc_x86_64\bin\gst-launch-1.0.exe"
-WEB_DIR = "C:\\ECE4191\\main_version\\webrtcsink-webui"
+#WEB_DIR = "C:\\ECE4191\\main_version\\webrtcsink-webui"
+WEB_DIR = "C:\\Users\\ericl\\OneDrive\\Documents\\GitHub\\ECE4191-R15\\comms_server\\webrtcsink-webui"
+
 # WEB_DIR = os.path.join(os.getcwd(), "webrtcsink-webui")
 os.makedirs(WEB_DIR, exist_ok=True)
 INDEX = os.path.join(WEB_DIR, "index.html")
