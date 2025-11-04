@@ -63,6 +63,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#hardware-setup" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -444,6 +449,21 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Hardware
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
         
@@ -456,6 +476,61 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#preparation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Preparation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#chassis-assembly" class="md-nav__link">
+    <span class="md-ellipsis">
+      Chassis Assembly
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#camera-pan-tilt-assembly" class="md-nav__link">
+    <span class="md-ellipsis">
+      Camera Pan-Tilt Assembly
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#electronics-installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Electronics Installation
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -583,6 +658,52 @@
   
   
   
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#preparation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Preparation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#chassis-assembly" class="md-nav__link">
+    <span class="md-ellipsis">
+      Chassis Assembly
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#camera-pan-tilt-assembly" class="md-nav__link">
+    <span class="md-ellipsis">
+      Camera Pan-Tilt Assembly
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#electronics-installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Electronics Installation
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -598,9 +719,328 @@
 
 
 
-  <h1>Hardware</h1>
-
-
+<h1 id="hardware-setup">Hardware Setup<a class="headerlink" href="#hardware-setup" title="Permanent link">&para;</a></h1>
+<div class="admonition note">
+<p class="admonition-title">Pre-assembled Rover</p>
+<p>All necessary hardware components are already assembled in the supplied rover.<br />
+This section is only required if you plan to <strong>modify</strong>, <strong>repair</strong>, or <strong>build your own</strong> version of the robot.<br />
+The pre-assembled rover included with the kit is <strong>ready to use out of the box</strong>, with no additional mechanical work required.</p>
+</div>
+<h2 id="preparation">Preparation<a class="headerlink" href="#preparation" title="Permanent link">&para;</a></h2>
+<p>Before assembling the rover for the first time, ensure all components are printed and collected as listed in the Components List.</p>
+<p><strong>3D Print Components List</strong></p>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Qty</th>
+<th>Approx. Time/Unit (hh:mm)</th>
+<th>Used Filament per Part (g, m)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Chassis Base</td>
+<td>1</td>
+<td>01:38</td>
+<td>50.49 g, 16.93 m</td>
+</tr>
+<tr>
+<td>Chassis Lid</td>
+<td>1</td>
+<td>00:57</td>
+<td>31.45 g, 10.55 m</td>
+</tr>
+<tr>
+<td>Treads</td>
+<td>2</td>
+<td>02:37</td>
+<td>33.71 g, 11.30 m</td>
+</tr>
+<tr>
+<td>Unpowered Wheels</td>
+<td>2</td>
+<td>00:48</td>
+<td>17.47 g, 5.86 m</td>
+</tr>
+<tr>
+<td>Powered Wheels</td>
+<td>2</td>
+<td>00:44</td>
+<td>17.09 g, 5.73 m</td>
+</tr>
+<tr>
+<td>Motor Mount</td>
+<td>2</td>
+<td>00:17</td>
+<td>3.44 g, 1.15 m</td>
+</tr>
+<tr>
+<td>Tilt/Pan Camera Mount</td>
+<td>1</td>
+<td>01:37</td>
+<td>39.45 g, 13.23 m</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Total Estimated Print Time:</strong> 13 h 04 min, based on Prusa MK4 with Input Shaper and a 0.4 mm nozzle.</p>
+<p>Print duration may vary depending on machine, nozzle size, slicing profile, or material.
+All components described were printed in PLA (0.4 mm nozzle).
+Other materials may be evaluated; however, they have not been validated.</p>
+<p>Safety Notes</p>
+<ul>
+<li>
+<p>Do not power any electronics during mechanical installation.</p>
+</li>
+<li>
+<p>Avoid removing the unpowered wheels after installation, as this may damage the chassis.</p>
+</li>
+<li>
+<p>Avoid over-tightening screws to prevent thread or part damage.</p>
+</li>
+<li>
+<p>Protect the camera ribbon cable and all electronics from sharp bending or strain.</p>
+</li>
+</ul>
+<hr />
+<h2 id="chassis-assembly">Chassis Assembly<a class="headerlink" href="#chassis-assembly" title="Permanent link">&para;</a></h2>
+<ol>
+<li>
+<p><strong>Install Passive (Unpowered) Wheels</strong></p>
+<ul>
+<li>
+<p>Press the wheel onto the chassis stub.</p>
+</li>
+<li>
+<p>Some force may be required. Rotate the wheel several times to reduce initial friction.</p>
+</li>
+<li>
+<p>The wheel should rotate smoothly.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Install Motor Mounts</strong></p>
+<ul>
+<li>Secure each motor mount to the chassis using M3 hex cap screw and nut.</li>
+</ul>
+</li>
+<li>
+<p><strong>Install Motors</strong></p>
+<ul>
+<li>
+<p>Insert each motor into its mount.</p>
+</li>
+<li>
+<p>Feed the motor spindle through the corresponding chassis opening.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Install Treads and Powered Wheels</strong></p>
+<ul>
+<li>
+<p>Position the treads over the unpowered wheel.</p>
+</li>
+<li>
+<p>Position the powered wheel on the motor spindle and press until fully seated.</p>
+</li>
+<li>
+<p>Repeat on the opposite side.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Important considerations:</strong></p>
+<ul>
+<li>
+<p>The treads must be placed before the powered wheel is fully secured; they will not pass over the powered wheel lip afterward.</p>
+</li>
+<li>
+<p>Wheel fit varies depending on print tolerance. Adjust the spindle bore in future prints to achieve a snug interference fit if required.</p>
+</li>
+<li>
+<p>If adhesive is used, fit the wheel with the treads already in place. Super glue was used during prototyping.</p>
+</li>
+</ul>
+</li>
+</ol>
+<p>Chassis assembly is now complete.</p>
+<hr />
+<h2 id="camera-pan-tilt-assembly">Camera Pan-Tilt Assembly<a class="headerlink" href="#camera-pan-tilt-assembly" title="Permanent link">&para;</a></h2>
+<ol>
+<li>
+<p>Secure the pan-tilt base to the lid.</p>
+</li>
+<li>
+<p>Attach the servo horn to the MG90S 9 g servo (pan / rotational stage) and fasten with the supplied screws.</p>
+</li>
+<li>
+<p>Install the middle cam linkage onto the servo horn.</p>
+</li>
+<li>
+<p>Attach the upper camera mount; it should engage in the locating hole and raised cylinder.</p>
+</li>
+<li>
+<p>Install the FS90R servo (tilt stage) into the provided mounting position and fasten with screws.</p>
+</li>
+<li>
+<p>Mount the IR camera module to the top surface, ensuring hole alignment</p>
+</li>
+</ol>
+<hr />
+<h2 id="electronics-installation">Electronics Installation<a class="headerlink" href="#electronics-installation" title="Permanent link">&para;</a></h2>
+<p><strong>Inside Chassis:</strong></p>
+<ul>
+<li>
+<p>Install the Raspberry Pi Zero.</p>
+</li>
+<li>
+<p>Install the motor driver.</p>
+</li>
+<li>
+<p>Insert the barrel-jack connector through the rear chassis opening until it clicks into position.</p>
+</li>
+</ul>
+<p><strong>On Lid:</strong></p>
+<ul>
+<li>
+<p>Install the microphone module.</p>
+</li>
+<li>
+<p>After wiring is complete, route the camera ribbon through the lid and connect it to the IR camera module.</p>
+</li>
+<li>
+<p>Handle the ribbon carefully to prevent creasing or damage.</p>
+</li>
+</ul>
+<p><strong>Wiring Connections:</strong></p>
+<p>Follow the wiring table below to correctly connect each component to the Raspberry Pi Zero 2W.  </p>
+<p>Ensure all connections are secure and correspond to the specified GPIO pins before powering the system.  </p>
+<p>Double-check power and ground connections, particularly for the UBEC 5V regulator, to prevent voltage mismatch or damage to sensitive components.  </p>
+<p>It is recommended to complete all wiring with the power supply <strong>disconnected</strong> to avoid short circuits during installation.</p>
+<p><img alt="Raspberry Pi Pin" src="../../../assets/images/RPi02w.png" /></p>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Component Pin</th>
+<th>RPi Zero 2W Pin</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Motor Driver (L298N)</strong></td>
+<td>12V</td>
+<td><em>N/A</em> (UBEC)</td>
+</tr>
+<tr>
+<td></td>
+<td>ENA</td>
+<td>GPIO 12 (PWM)</td>
+</tr>
+<tr>
+<td></td>
+<td>ENB</td>
+<td>GPIO 13 (PWM)</td>
+</tr>
+<tr>
+<td></td>
+<td>IN1</td>
+<td>GPIO 16</td>
+</tr>
+<tr>
+<td></td>
+<td>IN2</td>
+<td>GPIO 5</td>
+</tr>
+<tr>
+<td></td>
+<td>IN3</td>
+<td>GPIO 6</td>
+</tr>
+<tr>
+<td></td>
+<td>IN4</td>
+<td>GPIO 26</td>
+</tr>
+<tr>
+<td></td>
+<td>Ground</td>
+<td>GND (UBEC)</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Servo Motor (FS90R – full rotation)</strong></td>
+<td>5V</td>
+<td><em>N/A</em> (UBEC)</td>
+</tr>
+<tr>
+<td></td>
+<td>Signal</td>
+<td>GPIO 23</td>
+</tr>
+<tr>
+<td></td>
+<td>GND</td>
+<td>GND (UBEC)</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Servo Motor (MG90S – 180°)</strong></td>
+<td>5V</td>
+<td><em>N/A</em> (UBEC)</td>
+</tr>
+<tr>
+<td></td>
+<td>Signal</td>
+<td>GPIO 24</td>
+</tr>
+<tr>
+<td></td>
+<td>GND</td>
+<td>GND (UBEC)</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Adafruit I2S MEMS (SPH0645LM4H)</strong></td>
+<td>3V</td>
+<td><em>N/A</em> (UBEC)</td>
+</tr>
+<tr>
+<td></td>
+<td>LRCL</td>
+<td>GPIO 19 (PCM_FS)</td>
+</tr>
+<tr>
+<td></td>
+<td>DOUT</td>
+<td>GPIO 20 (PCM_DIN)</td>
+</tr>
+<tr>
+<td></td>
+<td>BCLK</td>
+<td>GPIO 18 (PCM_CLK)</td>
+</tr>
+<tr>
+<td></td>
+<td>GND</td>
+<td>GND (UBEC)</td>
+</tr>
+</tbody>
+</table>
 
 
 
