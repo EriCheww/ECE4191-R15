@@ -63,6 +63,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#wifi-extender-setup-optional" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -421,6 +426,21 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Optional WiFi Extender
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
         
@@ -433,6 +453,43 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-you-need-to-adjust" class="md-nav__link">
+    <span class="md-ellipsis">
+      What You Need to Adjust
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#changes-needed" class="md-nav__link">
+    <span class="md-ellipsis">
+      Changes Needed
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -470,29 +527,6 @@
 
               
             
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../first_run/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    First Run
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
           </ul>
         </nav>
       
@@ -506,13 +540,58 @@
   
   
   
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Manuals
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Manuals
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
     <li class="md-nav__item">
       <a href="../../../operation/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Operation
+    Operation Manual
     
   </span>
   
@@ -521,9 +600,10 @@
     </li>
   
 
-    
-      
-      
+              
+            
+              
+                
   
   
   
@@ -534,7 +614,7 @@
   
   
   <span class="md-ellipsis">
-    Safety
+    Safety Manual
     
   </span>
   
@@ -543,9 +623,10 @@
     </li>
   
 
-    
-      
-      
+              
+            
+              
+                
   
   
   
@@ -556,12 +637,20 @@
   
   
   <span class="md-ellipsis">
-    Troubleshooting
+    Troubleshooting Manual
     
   </span>
   
 
       </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
     </li>
   
 
@@ -583,6 +672,34 @@
   
   
   
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-you-need-to-adjust" class="md-nav__link">
+    <span class="md-ellipsis">
+      What You Need to Adjust
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#changes-needed" class="md-nav__link">
+    <span class="md-ellipsis">
+      Changes Needed
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -598,9 +715,56 @@
 
 
 
-  <h1>Optional WiFi Extender</h1>
-
-
+<h1 id="wifi-extender-setup-optional">WiFi Extender Setup <em>(Optional)</em><a class="headerlink" href="#wifi-extender-setup-optional" title="Permanent link">&para;</a></h1>
+<p>If you choose to use a WiFi extender or portable WiFi router instead of a mobile hotspot, the software setup remains the same. However, you must update the network IP addresses used by the Raspberry Pi and the control laptop.</p>
+<p>Previously, when using a mobile hotspot, the <strong>control laptop acted as the host</strong>, and all communication was directed to its local IP address.<br />
+When switching to a WiFi router/extender, the <strong>router becomes the new network host</strong>, and each device (Raspberry Pi, control laptop, and any additional clients) will now receive a <strong>different local IP</strong> from the router.</p>
+<h3 id="what-you-need-to-adjust">What You Need to Adjust<a class="headerlink" href="#what-you-need-to-adjust" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Update any hard-coded or configuration values that reference:</li>
+<li>The Raspberry Pi's IP address</li>
+<li>The control laptop's IP address</li>
+<li>The host address used for video streaming, WebRTC, or remote control messaging</li>
+<li>Ensure all devices are connected to the same WiFi network (the extender/router).</li>
+</ul>
+<h3 id="changes-needed">Changes Needed<a class="headerlink" href="#changes-needed" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Script</th>
+<th>IP Variable That needs to change</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>audio_PIClient.py</td>
+<td>HOST = "192.168.137.1"</td>
+<td>Need to change to Control Laptop's IP</td>
+</tr>
+<tr>
+<td>gs_stream.py</td>
+<td>LAPTOP_IP = "192.168.137.1"</td>
+<td>Need to change to Control Laptop's IP</td>
+</tr>
+<tr>
+<td>gui.py</td>
+<td>PI_IP   = "192.168.137.245"</td>
+<td>Need to change to Raspberry Pi's IP</td>
+</tr>
+<tr>
+<td></td>
+<td>HOME_URL = "http://192.168.137.1:8080/"</td>
+<td>Need to change to Raspberry Pi's IP:PORT</td>
+</tr>
+<tr>
+<td>gs_relay_stream.py</td>
+<td>HOTSPOT_IP = "192.168.137.1"</td>
+<td>Need to change to the router’s gateway IP</td>
+</tr>
+</tbody>
+</table>
+<p>Once the correct IP addresses are updated in your code or configuration files, operation is the same as before. No other code or hardware changes are required.</p>
 
 
 
