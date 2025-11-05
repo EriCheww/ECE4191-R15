@@ -93,6 +93,11 @@ Chassis assembly is now complete.
 ---
 
 ## Electronics Installation
+
+!!! warning "Read the Safety Manual First!"
+    Ensure you have reviewed the safety instructions before working with power, wiring, or electronics.  
+    This helps prevent damage to components and reduces the risk of electrical hazards.
+
 **Inside Chassis:**
 
 - Install the Raspberry Pi Zero.

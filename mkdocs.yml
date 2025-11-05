@@ -30,6 +30,6 @@ nav:
       - Optional WiFi Extender: getting_started/first_time_setup/extend.md
       - Hardware: getting_started/first_time_setup/hardware_setup.md
   - Manuals:
-    - Operation Manual: operation.md
     - Safety Manual: safety.md
+    - Operation Manual: operation.md
     - Troubleshooting Manual: troubleshooting.md

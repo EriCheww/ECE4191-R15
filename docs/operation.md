@@ -9,6 +9,11 @@ The instructions here focus on powering the system, connecting to the control in
 !!! note "Ready to go!" 
     No hardware disassembly, wiring changes, or software reinstallation is required during normal operation.
 
+!!! warning "Read the Safety Manual First"
+    Before operating the rover, ensure you have reviewed the **Safety Manual**.  
+    It covers important guidelines related to safe handling, motor movement awareness, battery and power usage, and protecting electronics such as the camera ribbon cable.  
+    Operating the rover without reviewing safety considerations may result in accidental damage or injury.
+
 ## Starting Up
 ### Step 1 — Establish Connection 
 There are multiple connection methods available for operating the rover, as described earlier in this manual.  
