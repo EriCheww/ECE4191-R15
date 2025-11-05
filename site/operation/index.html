@@ -11,7 +11,7 @@
       
       
       
-        <link rel="prev" href="../getting_started/first_run/">
+        <link rel="prev" href="../getting_started/first_time_setup/hardware_setup/">
       
       
         <link rel="next" href="../safety/">
@@ -22,7 +22,7 @@
     
     
       
-        <title>Operation - R15 Rover Docs</title>
+        <title>Operation Manual - R15 Rover Docs</title>
       
     
     
@@ -63,6 +63,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#operation-manual" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -95,7 +100,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Operation
+              Operation Manual
             
           </span>
         </div>
@@ -462,29 +467,6 @@
 
               
             
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../getting_started/first_run/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    First Run
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
           </ul>
         </nav>
       
@@ -500,30 +482,227 @@
   
   
   
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Manuals
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Manuals
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
     <li class="md-nav__item md-nav__item--active">
       
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Operation Manual
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
   <span class="md-ellipsis">
-    Operation
+    Operation Manual
     
   </span>
   
 
       </a>
       
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#starting-up" class="md-nav__link">
+    <span class="md-ellipsis">
+      Starting Up
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Starting Up">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-establish-connection" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 1 — Establish Connection
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-ssh-into-the-raspberry-pi" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 2 — SSH into the Raspberry Pi
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-run-all-required-scripts-on-raspberry-pi" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 3 — Run All Required Scripts On Raspberry Pi
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-run-all-required-scripts-on-the-control-laptop" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 4 — Run All Required Scripts on the Control Laptop
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-the-gui" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using the GUI
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Using the GUI">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gui-layout" class="md-nav__link">
+    <span class="md-ellipsis">
+      GUI Layout
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quick-actions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Quick Actions
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Quick Actions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#take-screenshot" class="md-nav__link">
+    <span class="md-ellipsis">
+      Take Screenshot
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#take-advanced-screenshot" class="md-nav__link">
+    <span class="md-ellipsis">
+      Take Advanced Screenshot
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#start-detection" class="md-nav__link">
+    <span class="md-ellipsis">
+      Start Detection
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
-    
-      
-      
+              
+            
+              
+                
   
   
   
@@ -534,7 +713,7 @@
   
   
   <span class="md-ellipsis">
-    Safety
+    Safety Manual
     
   </span>
   
@@ -543,9 +722,10 @@
     </li>
   
 
-    
-      
-      
+              
+            
+              
+                
   
   
   
@@ -556,12 +736,20 @@
   
   
   <span class="md-ellipsis">
-    Troubleshooting
+    Troubleshooting Manual
     
   </span>
   
 
       </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
     </li>
   
 
@@ -583,6 +771,133 @@
   
   
   
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#starting-up" class="md-nav__link">
+    <span class="md-ellipsis">
+      Starting Up
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Starting Up">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-establish-connection" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 1 — Establish Connection
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-ssh-into-the-raspberry-pi" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 2 — SSH into the Raspberry Pi
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-run-all-required-scripts-on-raspberry-pi" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 3 — Run All Required Scripts On Raspberry Pi
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-run-all-required-scripts-on-the-control-laptop" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 4 — Run All Required Scripts on the Control Laptop
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-the-gui" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using the GUI
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Using the GUI">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gui-layout" class="md-nav__link">
+    <span class="md-ellipsis">
+      GUI Layout
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quick-actions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Quick Actions
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Quick Actions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#take-screenshot" class="md-nav__link">
+    <span class="md-ellipsis">
+      Take Screenshot
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#take-advanced-screenshot" class="md-nav__link">
+    <span class="md-ellipsis">
+      Take Advanced Screenshot
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#start-detection" class="md-nav__link">
+    <span class="md-ellipsis">
+      Start Detection
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -598,9 +913,200 @@
 
 
 
-  <h1>Operation</h1>
-
-
+<h1 id="operation-manual">Operation Manual<a class="headerlink" href="#operation-manual" title="Permanent link">&para;</a></h1>
+<p>This Operation Manual describes the steps required to run the robot <strong>after the initial setup has been completed</strong>.  </p>
+<p>Once the rover has been assembled, configured, and connected to the network for the first time, the procedures in this manual outline the <strong>routine steps you will follow every time you power on and operate the robot</strong>.</p>
+<p>The instructions here focus on powering the system, connecting to the control interface, starting the video stream, and driving the rover safely.  </p>
+<div class="admonition note">
+<p class="admonition-title">Ready to go!</p>
+<p>No hardware disassembly, wiring changes, or software reinstallation is required during normal operation.</p>
+</div>
+<h2 id="starting-up">Starting Up<a class="headerlink" href="#starting-up" title="Permanent link">&para;</a></h2>
+<h3 id="step-1-establish-connection">Step 1 — Establish Connection<a class="headerlink" href="#step-1-establish-connection" title="Permanent link">&para;</a></h3>
+<p>There are multiple connection methods available for operating the rover, as described earlier in this manual.<br />
+These include using a dedicated server, connecting through a WiFi extender or portable router, or using the recommended <strong>mobile hotspot</strong> method.<br />
+While all methods are functional, we recommend using a mobile hotspot for simplicity, portability, and ease of setup.<br />
+The following steps will demonstrate how to establish the connection using the mobile hotspot configuration.</p>
+<ol>
+<li><strong>Enable Mobile Hotspot on the Control Laptop</strong><ul>
+<li>Open your laptop’s network settings and enable <em>Mobile Hotspot</em>.</li>
+<li>If selectable, set the hotspot to <strong>2.4 GHz</strong> (recommended for Raspberry Pi WiFi compatibility).</li>
+</ul>
+</li>
+</ol>
+<div class="admonition warning">
+<p class="admonition-title">Do <strong>Not</strong> Change the SSID or Password</p>
+<p>During the First-Time Setup, you took the SSID and password <strong>directly from your Mobile Hotspot settings</strong> and used those exact values when configuring the Raspberry Pi.
+The Pi is now set to automatically reconnect to <strong>that specific hotspot</strong> every time it starts.
+If you change the SSID or password later, the Raspberry Pi will no longer connect on its own, and you would need to manually reconfigure it using a <strong>keyboard, mouse, and monitor</strong> — which is tedious.</p>
+</div>
+<ol>
+<li>
+<p><strong>Power On the Rover</strong></p>
+<ul>
+<li>Turn on the rover’s power supply.</li>
+<li>Allow the Raspberry Pi to boot up (approximately 20–30 seconds).</li>
+</ul>
+</li>
+<li>
+<p><strong>Verify the Connection</strong></p>
+<ul>
+<li>The Raspberry Pi is pre-configured to automatically connect to this hotspot.</li>
+<li>Check your Mobile Hotspot device list. You should see <strong>one connected device</strong> corresponding to the Raspberry Pi.</li>
+<li>If the Pi appears in the list, the network connection has been successfully established.</li>
+</ul>
+</li>
+</ol>
+<hr />
+<h3 id="step-2-ssh-into-the-raspberry-pi">Step 2 — SSH into the Raspberry Pi<a class="headerlink" href="#step-2-ssh-into-the-raspberry-pi" title="Permanent link">&para;</a></h3>
+<p>Once the rover is connected to the mobile hotspot, you can access the Raspberry Pi remotely using <strong>SSH</strong> (Secure Shell).<br />
+This allows you to start running the required scripts on the Raspberry Pi.</p>
+<p>SSH works <strong>exactly the same way</strong> as it did during the <strong>First Time Setup</strong>.<br />
+Refer back to the setup instructions here: <strong><a href="../getting_started/first_time_setup/onboard/">First Time Setup – Onboard</a></strong>  </p>
+<p>To connect, use the standard SSH format:</p>
+<div class="highlight"><pre><span></span><code>ssh<span class="w"> </span>&lt;USER&gt;@&lt;HOST_NAME&gt;
+</code></pre></div>
+<hr />
+<h3 id="step-3-run-all-required-scripts-on-raspberry-pi">Step 3 — Run All Required Scripts On Raspberry Pi<a class="headerlink" href="#step-3-run-all-required-scripts-on-raspberry-pi" title="Permanent link">&para;</a></h3>
+<p>Once you have successfully connected to the Raspberry Pi over SSH, the next step is to start the control and video streaming services.  </p>
+<p>These scripts were already configured during the First Time Setup.</p>
+<ol>
+<li>
+<p><strong>Navigate to the project directory</strong>
+    <div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>/home/&lt;USER&gt;/
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>Run Code</strong> 
+    <div class="highlight"><pre><span></span><code>python<span class="w"> </span>gs_stream.py
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>Run Next Script</strong></p>
+<ul>
+<li>Open a new SSH session (DO NOT CLOSE THE FISRT ONE).</li>
+<li>Navigate to the project directory.</li>
+<li>Run the next script.</li>
+</ul>
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>controls_receiver.py
+</code></pre></div>
+</li>
+<li>
+<p><strong>Repeat for Last Script</strong></p>
+<ul>
+<li>Repeat previous step for </li>
+</ul>
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>audio_PIClient.py
+</code></pre></div>
+</li>
+</ol>
+<hr />
+<h3 id="step-4-run-all-required-scripts-on-the-control-laptop">Step 4 — Run All Required Scripts on the Control Laptop<a class="headerlink" href="#step-4-run-all-required-scripts-on-the-control-laptop" title="Permanent link">&para;</a></h3>
+<p>Now that all required scripts are running on the Raspberry Pi, the final step is to start the control and viewing interfaces from the control laptop.<br />
+These scripts handle joystick input, camera viewing, WebRTC setup, and status monitoring.</p>
+<ol>
+<li>
+<p><strong>Start the live stream relay</strong></p>
+<ul>
+<li>Navigate to the project directory on your laptop.</li>
+<li>Run the stream relay script:
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>gs_relay_stream.py
+</code></pre></div></li>
+</ul>
+</li>
+<li>
+<p><strong>Start GUI</strong></p>
+<ul>
+<li>Make sure to connect your controller before running the gui.py script.</li>
+<li>In another terminal window (leave the relay running), navigate to project directory.</li>
+<li>Run the GUI scipt: 
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>gui.py
+</code></pre></div></li>
+</ul>
+</li>
+<li>
+<p><strong>Start Audio</strong></p>
+<ul>
+<li>In another terminal window, navigate to project directory into audio.</li>
+<li>Run the audio scipt: 
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>LaptopHostClassify.py
+</code></pre></div></li>
+</ul>
+</li>
+</ol>
+<hr />
+<h2 id="using-the-gui">Using the GUI<a class="headerlink" href="#using-the-gui" title="Permanent link">&para;</a></h2>
+<p>When all scripts are running correctly on both the Raspberry Pi and the control laptop, the GUI should open automatically and display the live video feed from the rover.  </p>
+<p>You should also see the motor controls, camera tilt controls, and status indicators available and responsive.</p>
+<p>If the GUI does <strong>not</strong> appear, the video feed does not load, or controls are unresponsive, refer to the <strong><a href="../troubleshooting/">Troubleshooting Manual</a></strong>   for guidance on resolving common connection and startup issues.</p>
+<h3 id="gui-layout">GUI Layout<a class="headerlink" href="#gui-layout" title="Permanent link">&para;</a></h3>
+<p><img alt="GUI Label" src="../assets/images/gui_label.png" /></p>
+<ol>
+<li>
+<p><strong>Console Button</strong><br />
+    This button toggles the system console between being <strong>embedded inside the GUI</strong> (where label 9 is) and opening as a <strong>separate external window</strong>.<br />
+    Use the embedded view for a cleaner, compact interface, or switch to the external window when you need more space to monitor logs, status messages, or debugging output.</p>
+<p><img alt="GUI POP" src="../assets/images/console_pop.png" /></p>
+</li>
+<li>
+<p><strong>Settings Button</strong> 
+    This button opens the <strong>Settings</strong> window.<br />
+    This window allows you to adjust Console Settings and Screenshot Settings.</p>
+<p><img alt="Settings Screenshot" src="../assets/images/Screenshot_settings.png" />
+<img alt="Console Screenshot" src="../assets/images/console_settings.png" /></p>
+</li>
+<li>
+<p><strong>Help Button</strong> 
+    This button takes the operator to this User Manual for quick access.</p>
+</li>
+<li>
+<p><strong>Live Video Feed</strong>
+    This is the main dispaly for the live video feed from the rover. </p>
+</li>
+<li>
+<p><strong>Controller Movement Indicator</strong>
+    This panel displays the current motor output levels, allowing the operator to visually monitor the rover’s driving speed and direction.<br />
+    It provides real-time feedback so the operator can accurately gauge how fast the rover is moving.</p>
+</li>
+<li>
+<p><strong>Camera Angle Indicator</strong><br />
+    This panel shows the current camera orientation relative to the front of the rover.<br />
+    The <strong>green dot</strong> represents the direction the camera is currently facing, allowing the operator to easily understand the camera’s pan/tilt position during operation.</p>
+</li>
+<li>
+<p><strong>Status Indicator</strong><br />
+    This panel displays the current status of the network connection, drive motors, and servo motors.<br />
+    It allows the operator to quickly verify that the rover is receiving control commands and responding correctly.</p>
+</li>
+<li>
+<p><strong>Quick Actions</strong><br />
+    This panel contains a set of quick-access control buttons.<br />
+    Each button performs a specific predefined action, which will be explained in detail in the following section.</p>
+</li>
+<li>
+<p><strong>Console Embedded Position</strong><br />
+   This is the area where the console appears when it is embedded within the GUI.<br />
+   It allows the operator to view real-time log messages and system output while driving the rover, and also provides the option to save logs if needed.</p>
+</li>
+</ol>
+<hr />
+<h3 id="quick-actions">Quick Actions<a class="headerlink" href="#quick-actions" title="Permanent link">&para;</a></h3>
+<h4 id="take-screenshot">Take Screenshot<a class="headerlink" href="#take-screenshot" title="Permanent link">&para;</a></h4>
+<p>Captures the current live video frame (from the video panel in label 4) and saves it to the configured <strong>output folder</strong> using the <strong>filename prefix</strong> specified in the Settings menu.  </p>
+<p>If <strong>detection mode is active</strong>, any detection overlays (such as bounding boxes or labels) will also be included in the screenshot.<br />
+This is useful for recording observations, documenting test runs, collecting dataset images, or saving visual evidence of detected targets.</p>
+<p><br></p>
+<h4 id="take-advanced-screenshot">Take Advanced Screenshot<a class="headerlink" href="#take-advanced-screenshot" title="Permanent link">&para;</a></h4>
+<p>Opens a dedicated screenshot editor window that captures the current video frame (from label 4), just like the standard <em>Take Screenshot</em> feature.  </p>
+<p>However, this tool additionally allows the operator to <strong>draw and adjust bounding boxes</strong>, <strong>label objects</strong>, and <strong>optionally crop the image</strong>.  </p>
+<p>When saving, both the <strong>image</strong> and the corresponding <strong>bounding box annotation file (.json)</strong> are stored together, making the output immediately ready for <strong>YOLOv8 training</strong> or dataset creation workflows.</p>
+<p><img alt="Adv Screenshot" src="../assets/images/advanced_ss.png" /></p>
+<p><br></p>
+<h4 id="start-detection">Start Detection<a class="headerlink" href="#start-detection" title="Permanent link">&para;</a></h4>
+<p>Enables the AI-based animal detection system.  </p>
+<p>When activated, the live video feed (from label 4) is continuously analysed in real time, and any detected animals are highlighted with bounding boxes and labels.  </p>
+<p>This allows the operator to visually confirm detections directly within the GUI while the rover is in operation.</p>
+<p><img alt="detection" src="../assets/images/Detection.png" /></p>
 
 
 
