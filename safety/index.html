@@ -648,6 +648,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#emergency-stop-e-stop" class="md-nav__link">
+    <span class="md-ellipsis">
+      Emergency Stop (E-Stop)
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -850,6 +859,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#emergency-stop-e-stop" class="md-nav__link">
+    <span class="md-ellipsis">
+      Emergency Stop (E-Stop)
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1034,6 +1052,25 @@ It complements the <a href="../operation/">Operator Manual</a> - see <em>Operato
 </blockquote>
 </li>
 </ol>
+<hr />
+<h3 id="emergency-stop-e-stop">Emergency Stop (E-Stop)<a class="headerlink" href="#emergency-stop-e-stop" title="Permanent link">&para;</a></h3>
+<p>The E-Stop is a dedicated control that immediately cuts motor output and halts all rover motion when pressed.<br />
+It provides a simple, fail-safe method to stop the system during unsafe or unintended behaviour.</p>
+<p><strong>Activation</strong>
+- <strong>E-Stop Button (Physical or GUI):</strong> Press once to instantly disable motor and servo outputs.<br />
+- Motion stops within ≤ 0.1 s of activation.  </p>
+<p><strong>Behaviour</strong>
+- All drive and servo channels are deactivated.<br />
+- The Raspberry Pi and control electronics remain powered for diagnostics.<br />
+- No further commands are accepted until the system is reset.</p>
+<p><strong>Reset Procedure</strong>
+1. Verify the area is safe and clear of hazards.<br />
+2. <strong>Power-cycle the rover</strong> - unplug the power supply from mains, wait five seconds, then reconnect.<br />
+3. Resume normal operation following 5 Standard Operating Procedure (Pre-Operation).</p>
+<blockquote>
+<p>Refer to <strong>Operation Manual → Quick Actions (E-Stop)</strong> for button location and usage within the GUI.</p>
+</blockquote>
+<hr />
 <hr />
 <h2 id="6-pre-use-safety-checklist">6. Pre-Use Safety Checklist<a class="headerlink" href="#6-pre-use-safety-checklist" title="Permanent link">&para;</a></h2>
 <p>Before every operation, ensure <strong>all items below are completed and verified</strong>.</p>
