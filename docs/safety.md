@@ -111,7 +111,7 @@ Before every operation, ensure **all items below are completed and verified**.
 | **Mechanical entrapment** | Press E-Stop; manually release if safe | Inspect system before re-energising |
 | **Software freeze / runaway** | Use GUI kill command or disconnect tether | Review software behaviour before next use |
 | **Trip or tether entanglement** | Halt robot; unplug supply if needed; secure tether loops | Review tether routing protocol |
-+> For information on GUI-based emergency stop actions, see **Operation Manual → Quick Actions**.
+> For information on GUI-based emergency stop actions, see **Operation Manual → Quick Actions**.
 
 ---
 
@@ -124,17 +124,18 @@ Operators must:
 
 ## 9. Cross-Reference Summary
 
-+| Topic | Safety Manual § | Operation Manual path |
+| Topic | Safety Manual § | Operation Manual path |
 |--------|---------------------------|
-+| Power & Wiring Procedure | 2 | Starting Up → Step 1 (item 2) Power On the Rover |
-+| Network Setup | 5 (Pre-Operation) | Starting Up → Step 1 — Establish Connection |
-+| GUI Setup & Control | 5 (Operation) | Using the GUI |
-+| E-Stop / Safe Stop | 3 & 5 | Quick Actions (E-Stop) |
-+| Emergency Response | 7 | Quick Actions |
-+| Operator Training | 8 | Read the Safety Manual First (intro warning) |
+| Power & Wiring Procedure | 2 | Starting Up → Step 1 (item 2) Power On the Rover |
+| Network Setup | 5 (Pre-Operation) | Starting Up → Step 1 - Establish Connection |
+| GUI Setup & Control | 5 (Operation) | Using the GUI |
+| E-Stop / Safe Stop | 3 & 5 | Quick Actions (E-Stop) |
+| Emergency Response | 7 | Quick Actions |
+| Operator Training | 8 | Read the Safety Manual First (intro warning) |
 
 
 ---
+
 
 
 
