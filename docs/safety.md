@@ -84,6 +84,37 @@ For GUI overview and controls, see **Operation Manual → Using the GUI** and **
 
 ---
 
+---
+
+---
+
+### Emergency Stop (E-Stop)
+
+The E-Stop is a dedicated control that immediately cuts motor output and halts all rover motion when pressed.  
+It provides a simple, fail-safe method to stop the system during unsafe or unintended behaviour.
+
+**Activation**
+- **E-Stop Button (Physical or GUI):** Press once to instantly disable motor and servo outputs.  
+- Motion stops within ≤ 0.1 s of activation.  
+
+**Behaviour**
+- All drive and servo channels are deactivated.  
+- The Raspberry Pi and control electronics remain powered for diagnostics.  
+- No further commands are accepted until the system is reset.
+
+**Reset Procedure**
+1. Verify the area is safe and clear of hazards.  
+2. **Power-cycle the rover** - unplug the power supply from mains, wait five seconds, then reconnect.  
+3. Resume normal operation following 5 Standard Operating Procedure (Pre-Operation).
+
+> Refer to **Operation Manual → Quick Actions (E-Stop)** for button location and usage within the GUI.
+
+---
+
+
+---
+
+
 ## 6. Pre-Use Safety Checklist
 
 Before every operation, ensure **all items below are completed and verified**.
@@ -135,6 +166,7 @@ Operators must:
 
 
 ---
+
 
 
 
