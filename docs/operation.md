@@ -1,6 +1,7 @@
 # Operation Manual 
 
 This Operation Manual describes the steps required to run the robot **after the initial setup has been completed**.  
+> Before operating, ensure all pre-use and hazard checks are complete - see **Safety Manual → 1 Purpose and Scope** and **3 Identified Hazards and Controls**.
 
 Once the rover has been assembled, configured, and connected to the network for the first time, the procedures in this manual outline the **routine steps you will follow every time you power on and operate the robot**.
 
@@ -38,6 +39,7 @@ The following steps will demonstrate how to establish the connection using the m
     - The Raspberry Pi is pre-configured to automatically connect to this hotspot.
     - Check your Mobile Hotspot device list. You should see **one connected device** corresponding to the Raspberry Pi.
     - If the Pi appears in the list, the network connection has been successfully established.
+> Refer to **Safety Manual → 5 Pre-Operation** for safe connection handling and tether management before powering the system.
 
 ---
 
@@ -61,6 +63,7 @@ ssh <USER>@<HOST_NAME>
 Once you have successfully connected to the Raspberry Pi over SSH, the next step is to start the control and video streaming services.  
 
 These scripts were already configured during the First Time Setup.
+> Ensure all items in **Safety Manual → 6 Pre-Use Safety Checklist** are completed before running any scripts.
 
 1. **Navigate to the project directory**
     ``` bash
@@ -126,6 +129,8 @@ When all scripts are running correctly on both the Raspberry Pi and the control 
 You should also see the motor controls, camera tilt controls, and status indicators available and responsive.
 
 If the GUI does **not** appear, the video feed does not load, or controls are unresponsive, refer to the **[Troubleshooting Manual](troubleshooting.md)**   for guidance on resolving common connection and startup issues.
+> If movement becomes unsafe or erratic, immediately activate the **E-Stop** - see **Safety Manual → 5 Standard Operating Procedure (Operation)** and **7 Emergency Procedures**.
+
 
 ### GUI Layout
 ![GUI Label](assets/images/gui_label.png)
@@ -199,3 +204,18 @@ When activated, the live video feed (from label 4) is continuously analysed in r
 This allows the operator to visually confirm detections directly within the GUI while the rover is in operation.
 
 ![detection](assets/images/Detection.png)
+
+> Full emergency responses and safe-stop logic are detailed in **Safety Manual → 7 Emergency Procedures**.
+>
+> ---
+
+## Cross-Reference Summary (Operator ↔ Safety Manual)
+
+| **Topic** | **Operator Manual Section** | **Safety Manual Reference** |
+|------------|-----------------------------|------------------------------|
+| Power On Sequence | Starting Up → Step 2 — Power On the Rover | §2 System Overview · §3 Electrical Hazards |
+| Network Setup | Starting Up → Step 1 — Establish Connection | §5 Pre-Operation |
+| GUI Operation | Using the GUI | §5 (Operation) · §6 Checklist |
+| E-Stop / Emergency | Quick Actions | §5 (Operation) · §7 Emergency Procedures |
+| Operator Training | Read the Safety Manual First | §8 Training and Authorisation |
+
