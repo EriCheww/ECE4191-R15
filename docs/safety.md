@@ -25,9 +25,9 @@ The R15 system is a **tele-operated tracked robot** designed for non-invasive wi
 - **Vision Subsystem:** Panning/Tilting camera with IR illumination for low-light operation.  
 - **Operator Interface:** GUI for real-time control, live video feed, and system feedback.  
 
-+> For detailed startup timing and power-on steps, refer to *Operator Manual Step 1 – Power On the Rover.*
-+
- Refer to: `Operator Manual §2.0 – System Description`
+For detailed startup timing and power-on steps, refer to *Operator Manual Step 1 – Power On the Rover.*
+
+Refer to: `Operator Manual §2.0 – System Description`
 
 ---
 
@@ -125,5 +125,6 @@ Operators must:
 | E-Stop compliance | Proposal FU1.2.4 – Software Emergency Stop System |
 
 ---
+
 
 
