@@ -1,4 +1,4 @@
-# Safety Manual  
+a# Safety Manual  
 **ECE4191 – Integrated Design Robotics Project**  
 **Team R15 | Mobile Wildlife Monitoring Platform**
 
@@ -25,21 +25,22 @@ The R15 system is a **tele-operated tracked robot** designed for non-invasive wi
 - **Vision Subsystem:** Panning/Tilting camera with IR illumination for low-light operation.  
 - **Operator Interface:** GUI for real-time control, live video feed, and system feedback.  
 
-+> For detailed startup timing and power-on steps, see **Operation Manual → Starting Up → Step 1 — Establish Connection → item 2 “Power On the Rover.”**
-+> For GUI overview and controls, see **Operation Manual → Using the GUI** and **Operation Manual → Quick Actions**.
+For detailed startup timing and power-on steps, see **Operation Manual → Starting Up → Step 1 — Establish Connection → item 2 “Power On the Rover.”**
+
+For GUI overview and controls, see **Operation Manual → Using the GUI** and **Operation Manual → Quick Actions**.
 
 ---
 
 ## 3. Identified Hazards and Controls
 
-| Hazard Type | Description | Control / Mitigation | Cross-Reference |
+| Hazard Type | Description | Control / Mitigation | Operating Manual Link |
 |--------------|-------------|----------------------|----------------|
 | **Electrical** | Power supply energises instantly on connection, exposing live 12 V and 5 V rails. | Plug in only after verifying all connections are secure. Keep hands clear of exposed terminals. Disconnect from mains before handling. | **Operation Manual → Starting Up → Step 1 (item 2) “Power On the Rover.”** |
-| **Thermal** | Motor driver may warm under sustained load. | Ensure ventilation around control board; do not obstruct air gaps. | **Operation Manual → Starting Up → Step 4 — Run All Required Scripts on the Control Laptop** (shutdown/cooldown context) |
+| **Thermal** | Motor driver may warm under sustained load. | Ensure ventilation around control board; do not obstruct air gaps. | **Operation Manual → Starting Up → Step 4 - Run All Required Scripts on the Control Laptop** (shutdown/cooldown context) |
 | **Mechanical** | Pinch injury from moving treads or servo mechanisms. | Keep hands clear when powered; elevate chassis during testing. | **Operation Manual → Using the GUI → Controller Movement Indicator** |
 | **Software / Control** | Unintended motion due to code or network fault. | Software E-Stop; onboard safe-stop logic (≤ 100 ms). | **Operation Manual → Quick Actions → (E-Stop note at top)** |
-| **Environmental** | Slips or cable entanglement during tethered operation. | Manage tether with loops and maintain a clear, dry work area. | **Operation Manual → Starting Up → Step 1 — Establish Connection** (tether/cable handling) |
-diff
+| **Environmental** | Slips or cable entanglement during tethered operation. | Manage tether with loops and maintain a clear, dry work area. | **Operation Manual → Starting Up → Step 1 - Establish Connection** (tether/cable handling) |
+
 
 ---
 
@@ -132,6 +133,7 @@ Operators must:
 
 
 ---
+
 
 
 
