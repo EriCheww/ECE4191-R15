@@ -87,16 +87,18 @@ For GUI overview and controls, see **Operation Manual → Using the GUI** and **
 ## 6. Pre-Use Safety Checklist
 
 Before every operation, ensure **all items below are completed and verified**.
-| Checklist Item | Operation Manual Reference |
 
-| Power supply unplugged during setup | Starting Up → Step 1 — Establish Connection |
-| All connectors secure; polarity correct | Starting Up → Step 1 — Establish Connection |
-| Power cables intact, no exposed wire | Starting Up → Step 1 — Establish Connection |
+| **Checklist Item** | **Operation Manual Reference** |
+|---------------------|--------------------------------|
+| Power supply unplugged during setup | Starting Up → Step 1 - Establish Connection |
+| All connectors secure; polarity correct | Starting Up → Step 1 - Establish Connection |
+| Power cables intact, no exposed wire | Starting Up → Step 1 - Establish Connection |
 | Motors respond evenly to jog commands | Using the GUI → Controller Movement Indicator |
 | Camera tilt range −30° → +90° verified | Using the GUI |
 | Software E-Stop halts motors ≤ 0.1 s from activation | Quick Actions (E-Stop note at top) |
 | GUI displays live video feed | Using the GUI → Live Video Feed |
 | Work area clear of liquids, trip hazards, and tether slack | Starting Up → Step 1 - Establish Connection |
+
 
 ---
 
@@ -133,6 +135,7 @@ Operators must:
 
 
 ---
+
 
 
 
