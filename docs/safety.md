@@ -25,7 +25,7 @@ The R15 system is a **tele-operated tracked robot** designed for non-invasive wi
 - **Vision Subsystem:** Panning/Tilting camera with IR illumination for low-light operation.  
 - **Operator Interface:** GUI for real-time control, live video feed, and system feedback.  
 
-> ⚠️ **Power behaviour:** The robot’s power supply energises automatically when plugged into mains. There is **no manual power switch**. Treat all power rails as live immediately upon connection.
+> **Power behaviour:** The robot’s power supply energises automatically when plugged into mains. There is **no manual power switch**. Treat all power rails as live immediately upon connection.
 
 Refer to: `Operator Manual §2.0 – System Description`
 
@@ -56,23 +56,22 @@ Refer to: `Operator Manual §2.0 – System Description`
 
 ## 5. Standard Operating Procedure (SOP)
 
-### ⚙️ Pre-Operation
+### Pre-Operation
 1. **Do not plug in the power supply yet.**  
    Inspect the system visually first.  
 2. Complete the **Pre-Use Safety Checklist** below.  
 3. Verify all connectors are locked, polarity correct, and strain-relieved.  
 4. Confirm controller laptop and robot are on the same Wi-Fi network.  
 5. Once all checks are complete, **plug in the power supply** to energise the system.  
-   > ⚠️ The system powers on immediately when plugged in—motors and electronics become live.
 
-### 🧭 Operation
+### Operation
 1. Once power is connected, wait for the Raspberry Pi boot sequence (≈ 20 s).  
 2. Open the GUI and confirm control responsiveness (motion and camera feed).  
 3. Conduct a short (≤ 1 m) motion test before arena entry.  
 4. Maintain a **1 m exclusion zone** around the robot during motion.  
 5. Use **E-Stop** immediately if movement becomes unsafe or erratic.  
 
-### ⏹ Shutdown
+### Shutdown
 1. Stop the robot and ensure motors are idle.  
 2. Use GUI “Power Down” command if available, or safely disconnect Wi-Fi.  
 3. **Unplug the power supply from mains** to remove all power (no switch).  
@@ -93,8 +92,6 @@ Before every operation, ensure **all items below are completed and verified**.
 - [ ] GUI displays live video feed  
 - [ ] Work area clear of liquids, trip hazards, and tether slack  
 
-**Operator Sign-off:** `___________________`  **Date:** `_____________`
-
 ---
 
 ## 7. Emergency Procedures
@@ -114,8 +111,6 @@ Only authorised operators may power or control the R15 system.
 Operators must:
 - Read this Safety Manual and the [Operator Manual](operation.md)  
 - Complete a supervised pre-use demonstration  
-- Record authorisation in the team’s training register (`/docs/training_log.md`)  
-
 ---
 
 ## 9. Cross-Reference Summary
@@ -130,7 +125,4 @@ Operators must:
 | E-Stop compliance | Proposal FU1.2.4 – Software Emergency Stop System |
 
 ---
-
-> **Note:** This Safety Manual is version-controlled under `/docs/safety.md`.  
-> Edits must be reviewed and approved via pull request by the **Team Captain** or **Safety Officer** before merging into `main`.
 
