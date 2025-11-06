@@ -4,7 +4,7 @@
 
 ---
 
-## 1. Purpose and Scope TEST
+## 1. Purpose and Scope
 This Safety Manual defines safe operating procedures, personal protective equipment (PPE), and emergency response requirements for the **R15 Mobile Wildlife Monitoring Platform**.  
 It complements the [Operator Manual](operation.md) — see *Operator Manual “Read the Safety Manual First”* — and must be read **before any assembly, testing, or operation** of the system.
 
@@ -132,6 +132,7 @@ Operators must:
 
 
 ---
+
 
 
 
