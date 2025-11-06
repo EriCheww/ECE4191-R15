@@ -215,7 +215,7 @@ This allows the operator to visually confirm detections directly within the GUI 
 |------------|-----------------------------|------------------------------|
 | Power On Sequence | Starting Up → Step 2 - Power On the Rover | 2 System Overview · 3 Electrical Hazards |
 | Network Setup | Starting Up → Step 1 - Establish Connection | 5 Pre-Operation |
-| GUI Operation | Using the GUI | §5 (Operation) · 6 Checklist |
-| E-Stop / Emergency | Quick Actions | §5 (Operation) · 7 Emergency Procedures |
+| GUI Operation | Using the GUI | 5 (Operation) · 6 Checklist |
+| E-Stop / Emergency | Quick Actions | 5 (Operation) · 7 Emergency Procedures |
 | Operator Training | Read the Safety Manual First | 8 Training and Authorisation |
 
