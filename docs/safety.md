@@ -1,12 +1,12 @@
 # Safety Manual  
-**ECE4191 – Integrated Design Robotics Project**  
+**ECE4191 - Integrated Design Robotics Project**  
 **Team R15 | Mobile Wildlife Monitoring Platform**
 
 ---
 
 ## 1. Purpose and Scope
 This Safety Manual defines safe operating procedures, personal protective equipment (PPE), and emergency response requirements for the **R15 Mobile Wildlife Monitoring Platform**.  
-It complements the [Operator Manual](operation.md) — see *Operator Manual “Read the Safety Manual First”* — and must be read **before any assembly, testing, or operation** of the system.
+It complements the [Operator Manual](operation.md) - see *Operator Manual “Read the Safety Manual First”* - and must be read **before any assembly, testing, or operation** of the system.
 
 The manual applies to all team members during:
 - System assembly and testing  
@@ -135,6 +135,7 @@ Operators must:
 
 
 ---
+
 
 
 
