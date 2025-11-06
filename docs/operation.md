@@ -205,6 +205,12 @@ This allows the operator to visually confirm detections directly within the GUI 
 
 ![detection](assets/images/Detection.png)
 
+
+> **Emergency Stop (E-Stop)** - Press the **E-Stop button** at any time to immediately halt all motor and servo motion.  
+> The system will ignore further control inputs until it is power-cycled.  
+> For full safety details, see **Safety Manual → 5 Emergency Stop (E-Stop)**.
+
+
 > Full emergency responses and safe-stop logic are detailed in **Safety Manual → 7 Emergency Procedures**.
 >
 > ---
