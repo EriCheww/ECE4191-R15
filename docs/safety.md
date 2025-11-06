@@ -81,11 +81,6 @@ For GUI overview and controls, see **Operation Manual → Using the GUI** and **
 4. Allow components to cool before handling.  
 > Follow the shutdown sequence outlined in **Operation Manual → Starting Up → Step 4 - Run All Required Scripts on the Control Laptop** before disconnecting power.
 
-
----
-
----
-
 ---
 
 ### Emergency Stop (E-Stop)
@@ -166,6 +161,7 @@ Operators must:
 
 
 ---
+
 
 
 
