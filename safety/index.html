@@ -576,9 +576,9 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1-purpose-and-scope-test" class="md-nav__link">
+  <a href="#1-purpose-and-scope" class="md-nav__link">
     <span class="md-ellipsis">
-      1. Purpose and Scope TEST
+      1. Purpose and Scope
     </span>
   </a>
   
@@ -778,9 +778,9 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1-purpose-and-scope-test" class="md-nav__link">
+  <a href="#1-purpose-and-scope" class="md-nav__link">
     <span class="md-ellipsis">
-      1. Purpose and Scope TEST
+      1. Purpose and Scope
     </span>
   </a>
   
@@ -908,12 +908,12 @@
 
 
 <h1 id="safety-manual">Safety Manual<a class="headerlink" href="#safety-manual" title="Permanent link">&para;</a></h1>
-<p><strong>ECE4191 – Integrated Design Robotics Project</strong><br />
+<p><strong>ECE4191 - Integrated Design Robotics Project</strong><br />
 <strong>Team R15 | Mobile Wildlife Monitoring Platform</strong></p>
 <hr />
-<h2 id="1-purpose-and-scope-test">1. Purpose and Scope TEST<a class="headerlink" href="#1-purpose-and-scope-test" title="Permanent link">&para;</a></h2>
+<h2 id="1-purpose-and-scope">1. Purpose and Scope<a class="headerlink" href="#1-purpose-and-scope" title="Permanent link">&para;</a></h2>
 <p>This Safety Manual defines safe operating procedures, personal protective equipment (PPE), and emergency response requirements for the <strong>R15 Mobile Wildlife Monitoring Platform</strong>.<br />
-It complements the <a href="../operation/">Operator Manual</a>  and must be read <strong>before any assembly, testing, or operation</strong> of the system.</p>
+It complements the <a href="../operation/">Operator Manual</a> - see <em>Operator Manual “Read the Safety Manual First”</em> - and must be read <strong>before any assembly, testing, or operation</strong> of the system.</p>
 <p>The manual applies to all team members during:
 - System assembly and testing<br />
 - Operation within the arena<br />
@@ -927,10 +927,8 @@ It complements the <a href="../operation/">Operator Manual</a>  and must be read
 - <strong>Control Module:</strong> Raspberry Pi Zero 2 W managing navigation, communication, and motion control.<br />
 - <strong>Vision Subsystem:</strong> Panning/Tilting camera with IR illumination for low-light operation.<br />
 - <strong>Operator Interface:</strong> GUI for real-time control, live video feed, and system feedback.  </p>
-<blockquote>
-<p><strong>Power behaviour:</strong> The robot’s power supply energises automatically when plugged into mains. There is <strong>no manual power switch</strong>. Treat all power rails as live immediately upon connection.</p>
-</blockquote>
-<p>Refer to: <code>Operator Manual §2.0 – System Description</code></p>
+<p>For detailed startup timing and power-on steps, see <strong>Operation Manual → Starting Up → Step 1 — Establish Connection → item 2 “Power On the Rover.”</strong></p>
+<p>For GUI overview and controls, see <strong>Operation Manual → Using the GUI</strong> and <strong>Operation Manual → Quick Actions</strong>.</p>
 <hr />
 <h2 id="3-identified-hazards-and-controls">3. Identified Hazards and Controls<a class="headerlink" href="#3-identified-hazards-and-controls" title="Permanent link">&para;</a></h2>
 <table>
@@ -939,7 +937,7 @@ It complements the <a href="../operation/">Operator Manual</a>  and must be read
 <th>Hazard Type</th>
 <th>Description</th>
 <th>Control / Mitigation</th>
-<th>Cross-Reference</th>
+<th>Operating Manual Link</th>
 </tr>
 </thead>
 <tbody>
@@ -947,31 +945,31 @@ It complements the <a href="../operation/">Operator Manual</a>  and must be read
 <td><strong>Electrical</strong></td>
 <td>Power supply energises instantly on connection, exposing live 12 V and 5 V rails.</td>
 <td>Plug in only after verifying all connections are secure. Keep hands clear of exposed terminals. Disconnect from mains before handling.</td>
-<td>Operator Manual §3.1</td>
+<td><strong>Operation Manual → Starting Up → Step 1 (item 2) “Power On the Rover.”</strong></td>
 </tr>
 <tr>
 <td><strong>Thermal</strong></td>
 <td>Motor driver may warm under sustained load.</td>
 <td>Ensure ventilation around control board; do not obstruct air gaps.</td>
-<td>Operator Manual §3.2</td>
+<td><strong>Operation Manual → Starting Up → Step 4 - Run All Required Scripts on the Control Laptop</strong> (shutdown/cooldown context)</td>
 </tr>
 <tr>
 <td><strong>Mechanical</strong></td>
 <td>Pinch injury from moving treads or servo mechanisms.</td>
 <td>Keep hands clear when powered; elevate chassis during testing.</td>
-<td>Operator Manual §4.1</td>
+<td><strong>Operation Manual → Using the GUI → Controller Movement Indicator</strong></td>
 </tr>
 <tr>
 <td><strong>Software / Control</strong></td>
 <td>Unintended motion due to code or network fault.</td>
 <td>Software E-Stop; onboard safe-stop logic (≤ 100 ms).</td>
-<td>Operator Manual §5.3</td>
+<td><strong>Operation Manual → Quick Actions → (E-Stop note at top)</strong></td>
 </tr>
 <tr>
 <td><strong>Environmental</strong></td>
 <td>Slips or cable entanglement during tethered operation.</td>
 <td>Manage tether with loops and maintain a clear, dry work area.</td>
-<td>Operator Manual §6.1</td>
+<td><strong>Operation Manual → Starting Up → Step 1 - Establish Connection</strong> (tether/cable handling)</td>
 </tr>
 </tbody>
 </table>
@@ -1011,7 +1009,10 @@ It complements the <a href="../operation/">Operator Manual</a>  and must be read
    Inspect the system visually first.  </li>
 <li>Complete the <strong>Pre-Use Safety Checklist</strong> below.  </li>
 <li>Verify all connectors are locked, polarity correct, and strain-relieved.  </li>
-<li>Confirm controller laptop and robot are on the same Wi-Fi network.  </li>
+<li>Confirm controller laptop and robot are on the same Wi-Fi network.<blockquote>
+<p>Detailed connection setup and hotspot configuration are described in <strong>Operation Manual → Starting Up → Step 1 — Establish Connection.</strong></p>
+</blockquote>
+</li>
 <li>Once all checks are complete, <strong>plug in the power supply</strong> to energise the system.  </li>
 </ol>
 <h3 id="operation">Operation<a class="headerlink" href="#operation" title="Permanent link">&para;</a></h3>
@@ -1019,7 +1020,8 @@ It complements the <a href="../operation/">Operator Manual</a>  and must be read
 <li>Once power is connected, wait for the Raspberry Pi boot sequence (≈ 20 s).  </li>
 <li>Open the GUI and confirm control responsiveness (motion and camera feed).  </li>
 <li>Conduct a short (≤ 1 m) motion test before arena entry.  </li>
-<li>Maintain a <strong>1 m exclusion zone</strong> around the robot during motion.  </li>
+<li>Maintain a <strong>1 m exclusion zone</strong> around the robot during motion.
+    &gt; For GUI control layout and status indicator meanings, see <strong>Operation Manual → Using the GUI</strong>. </li>
 <li>Use <strong>E-Stop</strong> immediately if movement becomes unsafe or erratic.  </li>
 </ol>
 <h3 id="shutdown">Shutdown<a class="headerlink" href="#shutdown" title="Permanent link">&para;</a></h3>
@@ -1027,21 +1029,56 @@ It complements the <a href="../operation/">Operator Manual</a>  and must be read
 <li>Stop the robot and ensure motors are idle.  </li>
 <li>Use GUI “Power Down” command if available, or safely disconnect Wi-Fi.  </li>
 <li><strong>Unplug the power supply from mains</strong> to remove all power (no switch).  </li>
-<li>Allow components to cool before handling.  </li>
+<li>Allow components to cool before handling.  <blockquote>
+<p>Follow the shutdown sequence outlined in <strong>Operation Manual → Starting Up → Step 4 - Run All Required Scripts on the Control Laptop</strong> before disconnecting power.</p>
+</blockquote>
+</li>
 </ol>
 <hr />
 <h2 id="6-pre-use-safety-checklist">6. Pre-Use Safety Checklist<a class="headerlink" href="#6-pre-use-safety-checklist" title="Permanent link">&para;</a></h2>
 <p>Before every operation, ensure <strong>all items below are completed and verified</strong>.</p>
-<ul class="task-list">
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Power supply unplugged during setup  </li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> All connectors secure; polarity correct  </li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Power cables intact, no exposed wire  </li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Motors respond evenly to jog commands  </li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Camera tilt range −30° → +90° verified  </li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Software E-Stop halts motors ≤ 0.1 s from activation  </li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> GUI displays live video feed  </li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Work area clear of liquids, trip hazards, and tether slack  </li>
-</ul>
+<table>
+<thead>
+<tr>
+<th><strong>Checklist Item</strong></th>
+<th><strong>Operation Manual Reference</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Power supply unplugged during setup</td>
+<td>Starting Up → Step 1 - Establish Connection</td>
+</tr>
+<tr>
+<td>All connectors secure; polarity correct</td>
+<td>Starting Up → Step 1 - Establish Connection</td>
+</tr>
+<tr>
+<td>Power cables intact, no exposed wire</td>
+<td>Starting Up → Step 1 - Establish Connection</td>
+</tr>
+<tr>
+<td>Motors respond evenly to jog commands</td>
+<td>Using the GUI → Controller Movement Indicator</td>
+</tr>
+<tr>
+<td>Camera tilt range −30° → +90° verified</td>
+<td>Using the GUI</td>
+</tr>
+<tr>
+<td>Software E-Stop halts motors ≤ 0.1 s from activation</td>
+<td>Quick Actions (E-Stop note at top)</td>
+</tr>
+<tr>
+<td>GUI displays live video feed</td>
+<td>Using the GUI → Live Video Feed</td>
+</tr>
+<tr>
+<td>Work area clear of liquids, trip hazards, and tether slack</td>
+<td>Starting Up → Step 1 - Establish Connection</td>
+</tr>
+</tbody>
+</table>
 <hr />
 <h2 id="7-emergency-procedures">7. Emergency Procedures<a class="headerlink" href="#7-emergency-procedures" title="Permanent link">&para;</a></h2>
 <table>
@@ -1078,6 +1115,11 @@ It complements the <a href="../operation/">Operator Manual</a>  and must be read
 <td>Halt robot; unplug supply if needed; secure tether loops</td>
 <td>Review tether routing protocol</td>
 </tr>
+<tr>
+<td>&gt; For information on GUI-based emergency stop actions, see <strong>Operation Manual → Quick Actions</strong>.</td>
+<td></td>
+<td></td>
+</tr>
 </tbody>
 </table>
 <hr />
@@ -1091,34 +1133,41 @@ Operators must:
 <table>
 <thead>
 <tr>
-<th>Topic</th>
-<th>Linked Document / Section</th>
+<th><strong>Topic</strong></th>
+<th><strong>Safety Manual Section</strong></th>
+<th><strong>Operation Manual Path</strong></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Power &amp; wiring procedure</td>
-<td>Operator Manual §3.1</td>
+<td>Power &amp; Wiring Procedure</td>
+<td>2</td>
+<td>Starting Up → Step 1 (item 2) Power On the Rover</td>
 </tr>
 <tr>
-<td>GUI setup &amp; control</td>
-<td>Operator Manual §4.0</td>
+<td>Network Setup</td>
+<td>5 (Pre-Operation)</td>
+<td>Starting Up → Step 1 — Establish Connection</td>
 </tr>
 <tr>
-<td>Motor &amp; servo testing</td>
-<td>Operator Manual §4.2</td>
+<td>GUI Setup &amp; Control</td>
+<td>5 (Operation)</td>
+<td>Using the GUI</td>
 </tr>
 <tr>
-<td>Communication / latency check</td>
-<td>Proposal FU0.1.1 – FU0.2.2</td>
+<td>E-Stop / Safe Stop</td>
+<td>3 &amp; 5</td>
+<td>Quick Actions (E-Stop)</td>
 </tr>
 <tr>
-<td>Risk matrix</td>
-<td>Proposal §6.c (R1.0 – R3.7)</td>
+<td>Emergency Response</td>
+<td>7</td>
+<td>Quick Actions</td>
 </tr>
 <tr>
-<td>E-Stop compliance</td>
-<td>Proposal FU1.2.4 – Software Emergency Stop System</td>
+<td>Operator Training</td>
+<td>8</td>
+<td>Read the Safety Manual First (intro warning)</td>
 </tr>
 </tbody>
 </table>

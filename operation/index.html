@@ -715,6 +715,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#cross-reference-summary-operator-safety-manual" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cross-Reference Summary (Operator ↔ Safety Manual)
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -897,6 +906,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#cross-reference-summary-operator-safety-manual" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cross-Reference Summary (Operator ↔ Safety Manual)
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -915,6 +933,9 @@
 
 <h1 id="operation-manual">Operation Manual<a class="headerlink" href="#operation-manual" title="Permanent link">&para;</a></h1>
 <p>This Operation Manual describes the steps required to run the robot <strong>after the initial setup has been completed</strong>.  </p>
+<blockquote>
+<p>Before operating, ensure all pre-use and hazard checks are complete - see <strong>Safety Manual → 1 Purpose and Scope</strong> and <strong>3 Identified Hazards and Controls</strong>.</p>
+</blockquote>
 <p>Once the rover has been assembled, configured, and connected to the network for the first time, the procedures in this manual outline the <strong>routine steps you will follow every time you power on and operate the robot</strong>.</p>
 <p>The instructions here focus on powering the system, connecting to the control interface, starting the video stream, and driving the rover safely.  </p>
 <div class="admonition note">
@@ -959,7 +980,10 @@ If you change the SSID or password later, the Raspberry Pi will no longer connec
 <ul>
 <li>The Raspberry Pi is pre-configured to automatically connect to this hotspot.</li>
 <li>Check your Mobile Hotspot device list. You should see <strong>one connected device</strong> corresponding to the Raspberry Pi.</li>
-<li>If the Pi appears in the list, the network connection has been successfully established.</li>
+<li>If the Pi appears in the list, the network connection has been successfully established.<blockquote>
+<p>Refer to <strong>Safety Manual → 5 Pre-Operation</strong> for safe connection handling and tether management before powering the system.</p>
+</blockquote>
+</li>
 </ul>
 </li>
 </ol>
@@ -976,6 +1000,9 @@ Refer back to the setup instructions here: <strong><a href="../getting_started/f
 <h3 id="step-3-run-all-required-scripts-on-raspberry-pi">Step 3 — Run All Required Scripts On Raspberry Pi<a class="headerlink" href="#step-3-run-all-required-scripts-on-raspberry-pi" title="Permanent link">&para;</a></h3>
 <p>Once you have successfully connected to the Raspberry Pi over SSH, the next step is to start the control and video streaming services.  </p>
 <p>These scripts were already configured during the First Time Setup.</p>
+<blockquote>
+<p>Ensure all items in <strong>Safety Manual → 6 Pre-Use Safety Checklist</strong> are completed before running any scripts.</p>
+</blockquote>
 <ol>
 <li>
 <p><strong>Navigate to the project directory</strong>
@@ -1045,6 +1072,9 @@ These scripts handle joystick input, camera viewing, WebRTC setup, and status mo
 <p>When all scripts are running correctly on both the Raspberry Pi and the control laptop, the GUI should open automatically and display the live video feed from the rover.  </p>
 <p>You should also see the motor controls, camera tilt controls, and status indicators available and responsive.</p>
 <p>If the GUI does <strong>not</strong> appear, the video feed does not load, or controls are unresponsive, refer to the <strong><a href="../troubleshooting/">Troubleshooting Manual</a></strong>   for guidance on resolving common connection and startup issues.</p>
+<blockquote>
+<p>If movement becomes unsafe or erratic, immediately activate the <strong>E-Stop</strong> - see <strong>Safety Manual → 5 Standard Operating Procedure (Operation)</strong> and <strong>7 Emergency Procedures</strong>.</p>
+</blockquote>
 <h3 id="gui-layout">GUI Layout<a class="headerlink" href="#gui-layout" title="Permanent link">&para;</a></h3>
 <p><img alt="GUI Label" src="../assets/images/gui_label.png" /></p>
 <ol>
@@ -1113,6 +1143,47 @@ This is useful for recording observations, documenting test runs, collecting dat
 <p>When activated, the live video feed (from label 4) is continuously analysed in real time, and any detected animals are highlighted with bounding boxes and labels.  </p>
 <p>This allows the operator to visually confirm detections directly within the GUI while the rover is in operation.</p>
 <p><img alt="detection" src="../assets/images/Detection.png" /></p>
+<blockquote>
+<p>Full emergency responses and safe-stop logic are detailed in <strong>Safety Manual → 7 Emergency Procedures</strong>.</p>
+<hr />
+</blockquote>
+<h2 id="cross-reference-summary-operator-safety-manual">Cross-Reference Summary (Operator ↔ Safety Manual)<a class="headerlink" href="#cross-reference-summary-operator-safety-manual" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th><strong>Topic</strong></th>
+<th><strong>Operator Manual Section</strong></th>
+<th><strong>Safety Manual Reference</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Power On Sequence</td>
+<td>Starting Up → Step 2 - Power On the Rover</td>
+<td>2 System Overview · 3 Electrical Hazards</td>
+</tr>
+<tr>
+<td>Network Setup</td>
+<td>Starting Up → Step 1 - Establish Connection</td>
+<td>5 Pre-Operation</td>
+</tr>
+<tr>
+<td>GUI Operation</td>
+<td>Using the GUI</td>
+<td>5 (Operation) · 6 Checklist</td>
+</tr>
+<tr>
+<td>E-Stop / Emergency</td>
+<td>Quick Actions</td>
+<td>5 (Operation) · 7 Emergency Procedures</td>
+</tr>
+<tr>
+<td>Operator Training</td>
+<td>Read the Safety Manual First</td>
+<td>8 Training and Authorisation</td>
+</tr>
+</tbody>
+</table>
 
 
 
