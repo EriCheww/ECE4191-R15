@@ -6,7 +6,7 @@
 
 ## 1. Purpose and Scope TEST
 This Safety Manual defines safe operating procedures, personal protective equipment (PPE), and emergency response requirements for the **R15 Mobile Wildlife Monitoring Platform**.  
-It complements the [Operator Manual](operation.md)  and must be read **before any assembly, testing, or operation** of the system.
+It complements the [Operator Manual](operation.md) — see *Operator Manual “Read the Safety Manual First”* — and must be read **before any assembly, testing, or operation** of the system.
 
 The manual applies to all team members during:
 - System assembly and testing  
@@ -25,9 +25,9 @@ The R15 system is a **tele-operated tracked robot** designed for non-invasive wi
 - **Vision Subsystem:** Panning/Tilting camera with IR illumination for low-light operation.  
 - **Operator Interface:** GUI for real-time control, live video feed, and system feedback.  
 
-> **Power behaviour:** The robot’s power supply energises automatically when plugged into mains. There is **no manual power switch**. Treat all power rails as live immediately upon connection.
-
-Refer to: `Operator Manual §2.0 – System Description`
++> For detailed startup timing and power-on steps, refer to *Operator Manual Step 1 – Power On the Rover.*
++
+ Refer to: `Operator Manual §2.0 – System Description`
 
 ---
 
@@ -125,4 +125,5 @@ Operators must:
 | E-Stop compliance | Proposal FU1.2.4 – Software Emergency Stop System |
 
 ---
+
 
