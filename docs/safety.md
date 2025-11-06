@@ -1,4 +1,4 @@
-a# Safety Manual  
+# Safety Manual  
 **ECE4191 – Integrated Design Robotics Project**  
 **Team R15 | Mobile Wildlife Monitoring Platform**
 
@@ -124,7 +124,7 @@ Operators must:
 
 ## 9. Cross-Reference Summary
 
-| **Topic** | **Safety Manual §** | **Operation Manual Path** |
+| **Topic** | **Safety Manual Section** | **Operation Manual Path** |
 |------------|---------------------|----------------------------|
 | Power & Wiring Procedure | 2 | Starting Up → Step 1 (item 2) Power On the Rover |
 | Network Setup | 5 (Pre-Operation) | Starting Up → Step 1 — Establish Connection |
@@ -135,6 +135,7 @@ Operators must:
 
 
 ---
+
 
 
 
