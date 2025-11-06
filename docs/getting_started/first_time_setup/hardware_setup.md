@@ -39,6 +39,9 @@ Safety Notes
 ---
 
 ## Chassis Assembly
+
+![Top View Open](../../assets/images/top_view_open.PNG)
+
 1. **Install Passive (Unpowered) Wheels**
 
     - Press the wheel onto the chassis stub.
@@ -78,6 +81,9 @@ Chassis assembly is now complete.
 ---
 
 ## Camera Pan-Tilt Assembly
+
+![Top View Closed](../../assets/images/topview.png)
+
 1. Secure the pan-tilt base to the lid.
 
 2. Attach the servo horn to the MG90S 9 g servo (pan / rotational stage) and fasten with the supplied screws.

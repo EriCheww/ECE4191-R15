@@ -576,9 +576,9 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1-purpose-and-scope" class="md-nav__link">
+  <a href="#1-purpose-and-scope-test" class="md-nav__link">
     <span class="md-ellipsis">
-      1. Purpose and Scope
+      1. Purpose and Scope TEST
     </span>
   </a>
   
@@ -624,7 +624,7 @@
           <li class="md-nav__item">
   <a href="#pre-operation" class="md-nav__link">
     <span class="md-ellipsis">
-      ⚙️ Pre-Operation
+      Pre-Operation
     </span>
   </a>
   
@@ -633,7 +633,7 @@
           <li class="md-nav__item">
   <a href="#operation" class="md-nav__link">
     <span class="md-ellipsis">
-      🧭 Operation
+      Operation
     </span>
   </a>
   
@@ -642,7 +642,7 @@
           <li class="md-nav__item">
   <a href="#shutdown" class="md-nav__link">
     <span class="md-ellipsis">
-      ⏹ Shutdown
+      Shutdown
     </span>
   </a>
   
@@ -778,9 +778,9 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1-purpose-and-scope" class="md-nav__link">
+  <a href="#1-purpose-and-scope-test" class="md-nav__link">
     <span class="md-ellipsis">
-      1. Purpose and Scope
+      1. Purpose and Scope TEST
     </span>
   </a>
   
@@ -826,7 +826,7 @@
           <li class="md-nav__item">
   <a href="#pre-operation" class="md-nav__link">
     <span class="md-ellipsis">
-      ⚙️ Pre-Operation
+      Pre-Operation
     </span>
   </a>
   
@@ -835,7 +835,7 @@
           <li class="md-nav__item">
   <a href="#operation" class="md-nav__link">
     <span class="md-ellipsis">
-      🧭 Operation
+      Operation
     </span>
   </a>
   
@@ -844,7 +844,7 @@
           <li class="md-nav__item">
   <a href="#shutdown" class="md-nav__link">
     <span class="md-ellipsis">
-      ⏹ Shutdown
+      Shutdown
     </span>
   </a>
   
@@ -911,7 +911,7 @@
 <p><strong>ECE4191 – Integrated Design Robotics Project</strong><br />
 <strong>Team R15 | Mobile Wildlife Monitoring Platform</strong></p>
 <hr />
-<h2 id="1-purpose-and-scope">1. Purpose and Scope<a class="headerlink" href="#1-purpose-and-scope" title="Permanent link">&para;</a></h2>
+<h2 id="1-purpose-and-scope-test">1. Purpose and Scope TEST<a class="headerlink" href="#1-purpose-and-scope-test" title="Permanent link">&para;</a></h2>
 <p>This Safety Manual defines safe operating procedures, personal protective equipment (PPE), and emergency response requirements for the <strong>R15 Mobile Wildlife Monitoring Platform</strong>.<br />
 It complements the <a href="../operation/">Operator Manual</a>  and must be read <strong>before any assembly, testing, or operation</strong> of the system.</p>
 <p>The manual applies to all team members during:
@@ -928,7 +928,7 @@ It complements the <a href="../operation/">Operator Manual</a>  and must be read
 - <strong>Vision Subsystem:</strong> Panning/Tilting camera with IR illumination for low-light operation.<br />
 - <strong>Operator Interface:</strong> GUI for real-time control, live video feed, and system feedback.  </p>
 <blockquote>
-<p>⚠️ <strong>Power behaviour:</strong> The robot’s power supply energises automatically when plugged into mains. There is <strong>no manual power switch</strong>. Treat all power rails as live immediately upon connection.</p>
+<p><strong>Power behaviour:</strong> The robot’s power supply energises automatically when plugged into mains. There is <strong>no manual power switch</strong>. Treat all power rails as live immediately upon connection.</p>
 </blockquote>
 <p>Refer to: <code>Operator Manual §2.0 – System Description</code></p>
 <hr />
@@ -1005,19 +1005,16 @@ It complements the <a href="../operation/">Operator Manual</a>  and must be read
 </table>
 <hr />
 <h2 id="5-standard-operating-procedure-sop">5. Standard Operating Procedure (SOP)<a class="headerlink" href="#5-standard-operating-procedure-sop" title="Permanent link">&para;</a></h2>
-<h3 id="pre-operation">⚙️ Pre-Operation<a class="headerlink" href="#pre-operation" title="Permanent link">&para;</a></h3>
+<h3 id="pre-operation">Pre-Operation<a class="headerlink" href="#pre-operation" title="Permanent link">&para;</a></h3>
 <ol>
 <li><strong>Do not plug in the power supply yet.</strong><br />
    Inspect the system visually first.  </li>
 <li>Complete the <strong>Pre-Use Safety Checklist</strong> below.  </li>
 <li>Verify all connectors are locked, polarity correct, and strain-relieved.  </li>
 <li>Confirm controller laptop and robot are on the same Wi-Fi network.  </li>
-<li>Once all checks are complete, <strong>plug in the power supply</strong> to energise the system.  <blockquote>
-<p>⚠️ The system powers on immediately when plugged in—motors and electronics become live.</p>
-</blockquote>
-</li>
+<li>Once all checks are complete, <strong>plug in the power supply</strong> to energise the system.  </li>
 </ol>
-<h3 id="operation">🧭 Operation<a class="headerlink" href="#operation" title="Permanent link">&para;</a></h3>
+<h3 id="operation">Operation<a class="headerlink" href="#operation" title="Permanent link">&para;</a></h3>
 <ol>
 <li>Once power is connected, wait for the Raspberry Pi boot sequence (≈ 20 s).  </li>
 <li>Open the GUI and confirm control responsiveness (motion and camera feed).  </li>
@@ -1025,7 +1022,7 @@ It complements the <a href="../operation/">Operator Manual</a>  and must be read
 <li>Maintain a <strong>1 m exclusion zone</strong> around the robot during motion.  </li>
 <li>Use <strong>E-Stop</strong> immediately if movement becomes unsafe or erratic.  </li>
 </ol>
-<h3 id="shutdown">⏹ Shutdown<a class="headerlink" href="#shutdown" title="Permanent link">&para;</a></h3>
+<h3 id="shutdown">Shutdown<a class="headerlink" href="#shutdown" title="Permanent link">&para;</a></h3>
 <ol>
 <li>Stop the robot and ensure motors are idle.  </li>
 <li>Use GUI “Power Down” command if available, or safely disconnect Wi-Fi.  </li>
@@ -1045,7 +1042,6 @@ It complements the <a href="../operation/">Operator Manual</a>  and must be read
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> GUI displays live video feed  </li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Work area clear of liquids, trip hazards, and tether slack  </li>
 </ul>
-<p><strong>Operator Sign-off:</strong> <code>___________________</code>  <strong>Date:</strong> <code>_____________</code></p>
 <hr />
 <h2 id="7-emergency-procedures">7. Emergency Procedures<a class="headerlink" href="#7-emergency-procedures" title="Permanent link">&para;</a></h2>
 <table>
@@ -1089,8 +1085,7 @@ It complements the <a href="../operation/">Operator Manual</a>  and must be read
 <p>Only authorised operators may power or control the R15 system.<br />
 Operators must:
 - Read this Safety Manual and the <a href="../operation/">Operator Manual</a><br />
-- Complete a supervised pre-use demonstration<br />
-- Record authorisation in the team’s training register (<code>/docs/training_log.md</code>)  </p>
+- Complete a supervised pre-use demonstration  </p>
 <hr />
 <h2 id="9-cross-reference-summary">9. Cross-Reference Summary<a class="headerlink" href="#9-cross-reference-summary" title="Permanent link">&para;</a></h2>
 <table>
@@ -1128,10 +1123,6 @@ Operators must:
 </tbody>
 </table>
 <hr />
-<blockquote>
-<p><strong>Note:</strong> This Safety Manual is version-controlled under <code>/docs/safety.md</code>.<br />
-Edits must be reviewed and approved via pull request by the <strong>Team Captain</strong> or <strong>Safety Officer</strong> before merging into <code>main</code>.</p>
-</blockquote>
 
 
 

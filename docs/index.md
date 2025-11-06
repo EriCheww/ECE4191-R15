@@ -1,5 +1,7 @@
 # R15 Wildlife Monitoring Rover
- 
+
+![iso](assets/images/isometricleaf.png)
+
 Welcome to the **R15 Wildlife Monitoring Rover User and Safety Manual**.
 This document provides detailed guidance on the setup, operation, and maintenance of the R15 mobile robotic platform, a compact, remotely operated system designed for non-invasive wildlife observation in natural habitats.
 
