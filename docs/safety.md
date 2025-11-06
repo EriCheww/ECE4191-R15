@@ -25,9 +25,8 @@ The R15 system is a **tele-operated tracked robot** designed for non-invasive wi
 - **Vision Subsystem:** Panning/Tilting camera with IR illumination for low-light operation.  
 - **Operator Interface:** GUI for real-time control, live video feed, and system feedback.  
 
-For detailed startup timing and power-on steps, refer to *Operator Manual Step 1 – Power On the Rover.*
-
-Refer to: `Operator Manual §2.0 – System Description`
++> For detailed startup timing and power-on steps, see **Operation Manual → Starting Up → Step 1 — Establish Connection → item 2 “Power On the Rover.”**
++> For GUI overview and controls, see **Operation Manual → Using the GUI** and **Operation Manual → Quick Actions**.
 
 ---
 
@@ -35,11 +34,12 @@ Refer to: `Operator Manual §2.0 – System Description`
 
 | Hazard Type | Description | Control / Mitigation | Cross-Reference |
 |--------------|-------------|----------------------|----------------|
-| **Electrical** | Power supply energises instantly on connection, exposing live 12 V and 5 V rails. | Plug in only after verifying all connections are secure. Keep hands clear of exposed terminals. Disconnect from mains before handling. | Operator Manual §3.1 |
-| **Thermal** | Motor driver may warm under sustained load. | Ensure ventilation around control board; do not obstruct air gaps. | Operator Manual §3.2 |
-| **Mechanical** | Pinch injury from moving treads or servo mechanisms. | Keep hands clear when powered; elevate chassis during testing. | Operator Manual §4.1 |
-| **Software / Control** | Unintended motion due to code or network fault. | Software E-Stop; onboard safe-stop logic (≤ 100 ms). | Operator Manual §5.3 |
-| **Environmental** | Slips or cable entanglement during tethered operation. | Manage tether with loops and maintain a clear, dry work area. | Operator Manual §6.1 |
+| **Electrical** | Power supply energises instantly on connection, exposing live 12 V and 5 V rails. | Plug in only after verifying all connections are secure. Keep hands clear of exposed terminals. Disconnect from mains before handling. | **Operation Manual → Starting Up → Step 1 (item 2) “Power On the Rover.”** |
+| **Thermal** | Motor driver may warm under sustained load. | Ensure ventilation around control board; do not obstruct air gaps. | **Operation Manual → Starting Up → Step 4 — Run All Required Scripts on the Control Laptop** (shutdown/cooldown context) |
+| **Mechanical** | Pinch injury from moving treads or servo mechanisms. | Keep hands clear when powered; elevate chassis during testing. | **Operation Manual → Using the GUI → Controller Movement Indicator** |
+| **Software / Control** | Unintended motion due to code or network fault. | Software E-Stop; onboard safe-stop logic (≤ 100 ms). | **Operation Manual → Quick Actions → (E-Stop note at top)** |
+| **Environmental** | Slips or cable entanglement during tethered operation. | Manage tether with loops and maintain a clear, dry work area. | **Operation Manual → Starting Up → Step 1 — Establish Connection** (tether/cable handling) |
+diff
 
 ---
 
@@ -61,14 +61,16 @@ Refer to: `Operator Manual §2.0 – System Description`
    Inspect the system visually first.  
 2. Complete the **Pre-Use Safety Checklist** below.  
 3. Verify all connectors are locked, polarity correct, and strain-relieved.  
-4. Confirm controller laptop and robot are on the same Wi-Fi network.  
+4. Confirm controller laptop and robot are on the same Wi-Fi network.
+> Detailed connection setup and hotspot configuration are described in **Operation Manual → Starting Up → Step 1 — Establish Connection.**
 5. Once all checks are complete, **plug in the power supply** to energise the system.  
 
 ### Operation
 1. Once power is connected, wait for the Raspberry Pi boot sequence (≈ 20 s).  
 2. Open the GUI and confirm control responsiveness (motion and camera feed).  
 3. Conduct a short (≤ 1 m) motion test before arena entry.  
-4. Maintain a **1 m exclusion zone** around the robot during motion.  
+4. Maintain a **1 m exclusion zone** around the robot during motion.
+    > For GUI control layout and status indicator meanings, see **Operation Manual → Using the GUI**. 
 5. Use **E-Stop** immediately if movement becomes unsafe or erratic.  
 
 ### Shutdown
@@ -76,21 +78,24 @@ Refer to: `Operator Manual §2.0 – System Description`
 2. Use GUI “Power Down” command if available, or safely disconnect Wi-Fi.  
 3. **Unplug the power supply from mains** to remove all power (no switch).  
 4. Allow components to cool before handling.  
++> Follow the shutdown sequence outlined in **Operation Manual → Starting Up → Step 4 — Run All Required Scripts on the Control Laptop** before disconnecting power.
+
 
 ---
 
 ## 6. Pre-Use Safety Checklist
 
 Before every operation, ensure **all items below are completed and verified**.
++| Checklist Item | Operation Manual Reference |
 
-- [ ] Power supply unplugged during setup  
-- [ ] All connectors secure; polarity correct  
-- [ ] Power cables intact, no exposed wire  
-- [ ] Motors respond evenly to jog commands  
-- [ ] Camera tilt range −30° → +90° verified  
-- [ ] Software E-Stop halts motors ≤ 0.1 s from activation  
-- [ ] GUI displays live video feed  
-- [ ] Work area clear of liquids, trip hazards, and tether slack  
++| Power supply unplugged during setup | Starting Up → Step 1 — Establish Connection |
++| All connectors secure; polarity correct | Starting Up → Step 1 — Establish Connection |
++| Power cables intact, no exposed wire | Starting Up → Step 1 — Establish Connection |
++| Motors respond evenly to jog commands | Using the GUI → Controller Movement Indicator |
++| Camera tilt range −30° → +90° verified | Using the GUI |
++| Software E-Stop halts motors ≤ 0.1 s from activation | Quick Actions (E-Stop note at top) |
++| GUI displays live video feed | Using the GUI → Live Video Feed |
++| Work area clear of liquids, trip hazards, and tether slack | Starting Up → Step 1 — Establish Connection |
 
 ---
 
@@ -103,6 +108,7 @@ Before every operation, ensure **all items below are completed and verified**.
 | **Mechanical entrapment** | Press E-Stop; manually release if safe | Inspect system before re-energising |
 | **Software freeze / runaway** | Use GUI kill command or disconnect tether | Review software behaviour before next use |
 | **Trip or tether entanglement** | Halt robot; unplug supply if needed; secure tether loops | Review tether routing protocol |
++> For information on GUI-based emergency stop actions, see **Operation Manual → Quick Actions**.
 
 ---
 
@@ -115,16 +121,18 @@ Operators must:
 
 ## 9. Cross-Reference Summary
 
-| Topic | Linked Document / Section |
++| Topic | Safety Manual § | Operation Manual path |
 |--------|---------------------------|
-| Power & wiring procedure | Operator Manual §3.1 |
-| GUI setup & control | Operator Manual §4.0 |
-| Motor & servo testing | Operator Manual §4.2 |
-| Communication / latency check | Proposal FU0.1.1 – FU0.2.2 |
-| Risk matrix | Proposal §6.c (R1.0 – R3.7) |
-| E-Stop compliance | Proposal FU1.2.4 – Software Emergency Stop System |
++| Power & Wiring Procedure | 2 | Starting Up → Step 1 (item 2) Power On the Rover |
++| Network Setup | 5 (Pre-Operation) | Starting Up → Step 1 — Establish Connection |
++| GUI Setup & Control | 5 (Operation) | Using the GUI |
++| E-Stop / Safe Stop | 3 & 5 | Quick Actions (E-Stop) |
++| Emergency Response | 7 | Quick Actions |
++| Operator Training | 8 | Read the Safety Manual First (intro warning) |
+
 
 ---
+
 
 
 
