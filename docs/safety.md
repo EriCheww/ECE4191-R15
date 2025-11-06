@@ -124,10 +124,10 @@ Operators must:
 
 ## 9. Cross-Reference Summary
 
-| Topic | Safety Manual § | Operation Manual path |
-|--------|---------------------------|
+| **Topic** | **Safety Manual §** | **Operation Manual Path** |
+|------------|---------------------|----------------------------|
 | Power & Wiring Procedure | 2 | Starting Up → Step 1 (item 2) Power On the Rover |
-| Network Setup | 5 (Pre-Operation) | Starting Up → Step 1 - Establish Connection |
+| Network Setup | 5 (Pre-Operation) | Starting Up → Step 1 — Establish Connection |
 | GUI Setup & Control | 5 (Operation) | Using the GUI |
 | E-Stop / Safe Stop | 3 & 5 | Quick Actions (E-Stop) |
 | Emergency Response | 7 | Quick Actions |
@@ -135,6 +135,7 @@ Operators must:
 
 
 ---
+
 
 
 
