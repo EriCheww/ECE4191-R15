@@ -131,7 +131,7 @@ Double-check power and ground connections, particularly for the UBEC 5V regulato
 It is recommended to complete all wiring with the power supply **disconnected** to avoid short circuits during installation.
 
 ![Raspberry Pi Pin](../../assets/images/RPi02w.png)
-![Raspberry Circuit](../../assets/images/wiring_guide.png)
+![Raspberry Circuit](../../assets/images/circuit_diagram.png)
 
 | Component                               | Component Pin | RPi Zero 2W Pin   | 
 |-----------------------------------------|---------------|-------------------|
